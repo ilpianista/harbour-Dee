@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Categories=Network;
+Icon=harbour-dee
+Exec=harbour-dee
+Name=Dee
+
+[X-Sailjail]
+OrganizationName=dev.scarpino
+ApplicationName=harbour-dee
+Permissions=Internet;Secrets

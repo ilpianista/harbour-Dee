@@ -1,0 +1,23 @@
+[package]
+name = "lemmy-bridge"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "lemmy_bridge"
+crate-type = ["staticlib"]
+
+[dependencies]
+lemmy-client = { version = "1.0", default-features = false, features = ["native-tls"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+libc = "0.2"
+
+[build-dependencies]
+cbindgen = "0.27"
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = true

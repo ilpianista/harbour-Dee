@@ -1,0 +1,8 @@
+*~
+*.pro.user
+*.pro.user.*
+*.autosave
+RPMS
+
+# Rust build artifacts
+rust/target/

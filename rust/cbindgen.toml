@@ -1,0 +1,14 @@
+language = "C"
+include_guard = "LEMMY_BRIDGE_H"
+no_includes = true
+sys_includes = ["stdbool.h"]
+tab_width = 4
+
+[parse]
+parse_deps = false
+
+[export]
+include = []
+
+[fn]
+args = "horizontal"
