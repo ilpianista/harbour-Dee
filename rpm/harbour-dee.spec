@@ -75,6 +75,7 @@ desktop-file-install --delete-original         --dir %{buildroot}%{_datadir}/app
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
+%{_libdir}/liblemmy_bridge.so
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png

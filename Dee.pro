@@ -76,12 +76,16 @@ LIBS += -lssl -lcrypto -lpthread -ldl -lm
 INCLUDEPATH += $$SOURCE_DIR/src
 
 # Build Rust library automatically before linking
-rust_cargo.target = $$RUST_TARGET_DIR/liblemmy_bridge.a
+rust_cargo.target = $$RUST_TARGET_DIR/liblemmy_bridge.so
 rust_cargo.commands = cd $$SOURCE_DIR && cargo build --release --target-dir rust/target --manifest-path rust/Cargo.toml --locked
 !isEmpty(TARGET_TRIPLE): rust_cargo.commands += --target $$TARGET_TRIPLE
 rust_cargo.depends = $$SOURCE_DIR/rust/Cargo.toml $$SOURCE_DIR/rust/src/lib.rs $$SOURCE_DIR/rust/build.rs
 QMAKE_EXTRA_TARGETS += rust_cargo
-PRE_TARGETDEPS += $$RUST_TARGET_DIR/liblemmy_bridge.a
+PRE_TARGETDEPS += $$RUST_TARGET_DIR/liblemmy_bridge.so
+
+library.path = /usr/lib
+library.files = $$RUST_TARGET_DIR/liblemmy_bridge.so
+INSTALLS += library
 
 # ---------------------------------------------------------------------------
 # Translations

@@ -5,7 +5,7 @@ edition = "2021"
 
 [lib]
 name = "lemmy_bridge"
-crate-type = ["staticlib"]
+crate-type = ["cdylib"]
 
 [dependencies]
 lemmy-client = { version = "1.0", default-features = false, features = ["native-tls"] }
