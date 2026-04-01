@@ -6,7 +6,12 @@
 #include <QEventLoop>
 #include <QJsonDocument>
 #include <QJsonParseError>
+#include <QList>
+#include <QMap>
 #include <QUrl>
+#include <QVariant>
+#include <algorithm>
+#include <functional>
 
 // ===================================================================
 // LemmyWorker implementation
@@ -37,7 +42,6 @@ void LemmyWorker::setJwt(const QString &jwt) {
   lemmy_client_set_jwt(m_handle, jwtUtf8.constData());
 }
 
-// Helper: call a Rust FFI function that takes (handle, json) and emit signal
 static QString callRust(LemmyClientHandle *handle,
                         char *(*fn)(LemmyClientHandle *, const char *),
                         const QString &jsonParams) {
@@ -142,9 +146,8 @@ void LemmyWorker::doFollowCommunity(const QString &jsonParams) {
 LemmyAPI::LemmyAPI(QObject *parent)
     : QObject(parent), m_loggedIn(false), m_busy(false), m_postsPage(1),
       m_loadingMore(false), m_communitiesPage(1),
-      m_loadingMoreCommunities(false), m_communitiesFilter(), m_commentsPage(1),
-      m_loadingMoreComments(false), m_currentCommentsPostId(0),
-      m_currentCommentsSort(),
+      m_loadingMoreCommunities(false), m_commentsPage(1),
+      m_loadingMoreComments(false),
       m_worker(new LemmyWorker), // no parent – will be moved to thread
       m_secureStorage(new SecureStorage(this)) {
   // Initialize secure storage and wait for it to be ready
@@ -208,10 +211,6 @@ LemmyAPI::~LemmyAPI() {
   m_workerThread.wait();
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 void LemmyAPI::appendPosts(const QJsonArray &newPosts) {
   for (const auto &post : newPosts) {
     m_posts.append(post);
@@ -226,11 +225,83 @@ void LemmyAPI::appendCommunities(const QJsonArray &newCommunities) {
   emit communitiesChanged();
 }
 
-void LemmyAPI::appendComments(const QJsonArray &newComments) {
-  for (const auto &comment : newComments) {
-    m_comments.append(comment);
+void LemmyAPI::buildCommentTree(const QJsonArray &comments) {
+  struct CommentNode {
+    QJsonObject commentObj;
+    QJsonObject creatorObj;
+    QJsonObject counts;
+    QString path;
+    int depth;
+    int score;
+    QList<int> children;
+  };
+
+  QMap<QString, int> pathToIndex;
+  QList<CommentNode> allNodes;
+
+  // First pass: create all nodes
+  for (const auto &item : comments) {
+    QJsonObject itemObj = item.toObject();
+    QJsonObject comment =
+        itemObj.contains("comment") ? itemObj["comment"].toObject() : itemObj;
+    QString path = comment.contains("path") ? comment["path"].toString() : "";
+    int depth = path.isEmpty() ? 1 : path.split('.').length();
+
+    int score = 0;
+    if (itemObj.contains("counts")) {
+      score = itemObj["counts"].toObject().value("score").toInt(0);
+    }
+
+    CommentNode node;
+    node.commentObj = comment;
+    node.creatorObj = itemObj.contains("creator")
+                          ? itemObj["creator"].toObject()
+                          : QJsonObject();
+    node.counts = itemObj.contains("counts") ? itemObj["counts"].toObject()
+                                             : QJsonObject();
+    node.path = path;
+    node.depth = depth;
+    node.score = score;
+
+    pathToIndex[path] = allNodes.size();
+    allNodes.append(node);
   }
-  emit commentsChanged();
+
+  // Second pass: link children to parents by index
+  QList<int> rootIndices;
+  for (int i = 0; i < allNodes.size(); ++i) {
+    if (allNodes[i].depth == 1) {
+      rootIndices.append(i);
+    } else {
+      QString parentPath =
+          allNodes[i].path.left(allNodes[i].path.lastIndexOf('.'));
+      if (pathToIndex.contains(parentPath)) {
+        allNodes[pathToIndex[parentPath]].children.append(i);
+      } else {
+        rootIndices.append(i);
+      }
+    }
+  }
+
+  // Flatten tree into threaded comments with depth info
+  std::function<void(int, int)> flatten = [&](int nodeIdx, int depth) {
+    const CommentNode &node = allNodes[nodeIdx];
+    QVariantMap entry;
+    entry["commentData"] = QVariant(node.commentObj);
+    entry["creator"] = QVariant(node.creatorObj);
+    entry["counts"] = QVariant(node.counts);
+    entry["depth"] = depth;
+    entry["score"] = node.score;
+    m_comments.append(entry);
+
+    for (int childIdx : node.children) {
+      flatten(childIdx, depth + 1);
+    }
+  };
+
+  for (int rootIdx : rootIndices) {
+    flatten(rootIdx, 1);
+  }
 }
 
 void LemmyAPI::ensureClient() {
@@ -292,10 +363,6 @@ void LemmyAPI::setError(const QString &error) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Property setters
-// ---------------------------------------------------------------------------
-
 void LemmyAPI::setInstanceUrl(const QString &url) {
   if (m_instanceUrl != url) {
     m_instanceUrl = url;
@@ -326,24 +393,6 @@ void LemmyAPI::setPostsPage(int page) {
   }
 }
 
-void LemmyAPI::setCommunitiesPage(int page) {
-  if (m_communitiesPage != page) {
-    m_communitiesPage = page;
-    emit communitiesPageChanged();
-  }
-}
-
-void LemmyAPI::setCommentsPage(int page) {
-  if (m_commentsPage != page) {
-    m_commentsPage = page;
-    emit commentsPageChanged();
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Auth actions (invokable from QML)
-// ---------------------------------------------------------------------------
-
 void LemmyAPI::login() {
   if (m_busy)
     return;
@@ -369,10 +418,6 @@ void LemmyAPI::logout() {
 }
 
 void LemmyAPI::clearError() { setError(QString()); }
-
-// ---------------------------------------------------------------------------
-// Data actions (invokable from QML)
-// ---------------------------------------------------------------------------
 
 void LemmyAPI::getSite() {
   setBusy(true);
@@ -415,43 +460,32 @@ void LemmyAPI::loadMoreComments() {
     return;
   m_commentsPage++;
   m_loadingMoreComments = true;
-  // Build params with page, post_id, and sort to maintain context
-  QJsonObject paramsObj;
-  paramsObj["page"] = m_commentsPage;
-  if (m_currentCommentsPostId > 0) {
-    paramsObj["post_id"] = m_currentCommentsPostId;
-  }
-  if (!m_currentCommentsSort.isEmpty()) {
-    paramsObj["sort"] = m_currentCommentsSort;
-  }
-  QString params = QJsonDocument(paramsObj).toJson(QJsonDocument::Compact);
+  // Build params: stored filter + page
+  QJsonObject params = m_commentsFilter;
+  params["page"] = m_commentsPage;
+  QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
   QMetaObject::invokeMethod(m_worker, "doListComments", Qt::QueuedConnection,
-                            Q_ARG(QString, params));
-}
-
-void LemmyAPI::getPost(int postId) {
-  setBusy(true);
-  QString params = QStringLiteral("{\"id\":%1}").arg(postId);
-  QMetaObject::invokeMethod(m_worker, "doGetPost", Qt::QueuedConnection,
-                            Q_ARG(QString, params));
-}
-
-void LemmyAPI::likePost(int postId, int score) {
-  setBusy(true);
-  QString params =
-      QStringLiteral("{\"post_id\":%1,\"score\":%2}").arg(postId).arg(score);
-  QMetaObject::invokeMethod(m_worker, "doLikePost", Qt::QueuedConnection,
-                            Q_ARG(QString, params));
+                            Q_ARG(QString, paramsStr));
 }
 
 void LemmyAPI::listComments(const QString &jsonParams) {
   setBusy(true);
   m_commentsPage = 1;
   m_loadingMoreComments = false;
-  // Extract and store post_id and sort for subsequent pagination
-  QJsonObject paramsObj = QJsonDocument::fromJson(jsonParams.toUtf8()).object();
-  m_currentCommentsPostId = paramsObj.value("post_id").toInt(0);
-  m_currentCommentsSort = paramsObj.value("sort").toString();
+  m_allCommentItems = QJsonArray();
+
+  // Store base filter (without page) for pagination
+  QJsonDocument doc = QJsonDocument::fromJson(jsonParams.toUtf8());
+  if (doc.isObject()) {
+    QJsonObject obj = doc.object();
+    obj.remove("page");
+    m_commentsFilter = obj;
+  } else {
+    m_commentsFilter = QJsonObject();
+  }
+
+  m_comments.clear();
+  emit commentsChanged();
   QMetaObject::invokeMethod(m_worker, "doListComments", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
@@ -473,6 +507,21 @@ void LemmyAPI::listCommunities(const QString &jsonParams) {
 
   QMetaObject::invokeMethod(m_worker, "doListCommunities", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
+}
+
+void LemmyAPI::getPost(int postId) {
+  setBusy(true);
+  QString params = QStringLiteral("{\"id\":%1}").arg(postId);
+  QMetaObject::invokeMethod(m_worker, "doGetPost", Qt::QueuedConnection,
+                            Q_ARG(QString, params));
+}
+
+void LemmyAPI::likePost(int postId, int score) {
+  setBusy(true);
+  QString params =
+      QStringLiteral("{\"post_id\":%1,\"score\":%2}").arg(postId).arg(score);
+  QMetaObject::invokeMethod(m_worker, "doLikePost", Qt::QueuedConnection,
+                            Q_ARG(QString, params));
 }
 
 void LemmyAPI::getCommunity(const QString &jsonParams) {
@@ -499,13 +548,8 @@ void LemmyAPI::followCommunity(const QString &jsonParams) {
                             Q_ARG(QString, jsonParams));
 }
 
-// ---------------------------------------------------------------------------
-// Worker result handlers (called back on the main thread via queued connection)
-// ---------------------------------------------------------------------------
-
 void LemmyAPI::onLoginFinished(const QString &json) {
   QJsonObject obj = parseJson(json);
-
   if (obj.contains(QStringLiteral("error"))) {
     QString msg = obj[QStringLiteral("error")].toString();
     setError(msg);
@@ -563,7 +607,8 @@ void LemmyAPI::onLogoutFinished(const QString &json) {
   emit postsChanged();
   m_communities = QJsonArray();
   emit communitiesChanged();
-  m_comments = QJsonArray();
+  m_comments.clear();
+  m_allCommentItems = QJsonArray();
   emit commentsChanged();
 }
 
@@ -636,12 +681,22 @@ void LemmyAPI::onListCommentsFinished(const QString &json) {
     return;
   }
   QJsonArray newComments = obj.value(QStringLiteral("comments")).toArray();
+
   if (m_loadingMoreComments) {
-    appendComments(newComments);
+    // Append new items to accumulated list
+    for (const QJsonValue &val : newComments) {
+      m_allCommentItems.append(val);
+    }
   } else {
-    m_comments = newComments;
-    emit commentsChanged();
+    // Initial load: replace accumulated items
+    m_allCommentItems = newComments;
   }
+
+  // Rebuild the entire comment tree from all accumulated raw items
+  m_comments.clear();
+  buildCommentTree(m_allCommentItems);
+
+  emit commentsChanged();
   setBusy(false);
   m_loadingMoreComments = false;
   emit requestFinished(QStringLiteral("listComments"), obj);

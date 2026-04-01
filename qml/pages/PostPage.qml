@@ -21,7 +21,7 @@ Page {
         if (api && postId > 0) {
             var params = JSON.stringify({
                 "post_id": postId,
-                "sort": "Hot"
+                "limit": 50
             });
             api.listComments(params);
         }
@@ -39,10 +39,8 @@ Page {
     }
 
     onPostIdChanged: {
-        if (postId > 0) {
-            loadPostDetails();
-            loadComments();
-        }
+        loadPostDetails();
+        loadComments();
     }
 
     SilicaFlickable {
@@ -170,19 +168,17 @@ Page {
                 model: api ? api.comments : []
 
                 delegate: BackgroundItem {
-                    property var commentData: modelData.comment || modelData
-                    property int depth: {
-                        var path = commentData.path || "";
-                        return path ? path.split('.').length : 1;
-                    }
+                    property var commentData: modelData.commentData
+                    property var counts: modelData.counts
+                    property int depth: modelData.depth
 
                     height: commentColumn.height + 2 * Theme.paddingMedium
 
                     Column {
                         id: commentColumn
 
-                        x: Theme.horizontalPageMargin + (depth > 1 ? (depth - 1) * Theme.paddingLarge : 0)
-                        width: parent.width - 2 * Theme.horizontalPageMargin - (depth > 1 ? (depth - 1) * Theme.paddingLarge : 0)
+                        x: (depth > 1 ? (depth - 1) * Theme.horizontalPageMargin : 0)
+                        width: parent.width - (depth > 1 ? (depth - 1) * Theme.horizontalPageMargin : 0)
                         spacing: Theme.paddingSmall
 
                         Label {
@@ -196,8 +192,7 @@ Page {
                         Label {
                             width: parent.width
                             text: {
-                                var creator = commentData.creator || modelData.creator || {};
-                                var counts = modelData.counts || {};
+                                var creator = modelData.creator || {};
                                 var actorId = creator.actor_id || "";
                                 var username = "";
                                 var domain = "";

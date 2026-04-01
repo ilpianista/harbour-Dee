@@ -77,20 +77,14 @@ class LemmyAPI : public QObject {
   Q_PROPERTY(
       QString password READ password WRITE setPassword NOTIFY passwordChanged)
   Q_PROPERTY(bool loggedIn READ loggedIn NOTIFY loggedInChanged)
-  Q_PROPERTY(QString error READ error NOTIFY errorChanged)
-  Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
+  Q_PROPERTY(QString error READ error WRITE setError NOTIFY errorChanged)
+  Q_PROPERTY(bool busy READ busy WRITE setBusy NOTIFY busyChanged)
 
   // Data properties (populated after API calls)
   Q_PROPERTY(QJsonArray posts READ posts NOTIFY postsChanged)
   Q_PROPERTY(QJsonArray communities READ communities NOTIFY communitiesChanged)
-  Q_PROPERTY(QJsonArray comments READ comments NOTIFY commentsChanged)
+  Q_PROPERTY(QVariantList comments READ comments NOTIFY commentsChanged)
   Q_PROPERTY(QJsonObject siteInfo READ siteInfo NOTIFY siteInfoChanged)
-  Q_PROPERTY(
-      int postsPage READ postsPage WRITE setPostsPage NOTIFY postsPageChanged)
-  Q_PROPERTY(int communitiesPage READ communitiesPage WRITE setCommunitiesPage
-                 NOTIFY communitiesPageChanged)
-  Q_PROPERTY(int commentsPage READ commentsPage WRITE setCommentsPage NOTIFY
-                 commentsPageChanged)
 
 public:
   explicit LemmyAPI(QObject *parent = nullptr);
@@ -105,11 +99,10 @@ public:
   bool busy() const { return m_busy; }
   QJsonArray posts() const { return m_posts; }
   QJsonArray communities() const { return m_communities; }
-  QJsonArray comments() const { return m_comments; }
+  QVariantList comments() const { return m_comments; }
   QJsonObject siteInfo() const { return m_siteInfo; }
   int postsPage() const { return m_postsPage; }
   int communitiesPage() const { return m_communitiesPage; }
-  int commentsPage() const { return m_commentsPage; }
 
   // Property setters
   void setInstanceUrl(const QString &url);
@@ -117,7 +110,6 @@ public:
   void setPassword(const QString &password);
   void setPostsPage(int page);
   void setCommunitiesPage(int page);
-  void setCommentsPage(int page);
 
   // Invokable from QML
   Q_INVOKABLE void login();
@@ -149,14 +141,13 @@ signals:
   void communitiesChanged();
   void commentsChanged();
   void siteInfoChanged();
+  void commentsPageChanged();
 
   void loginSuccess();
   void loginFailed(const QString &message);
   void requestFinished(const QString &method, const QJsonObject &result);
   void requestFailed(const QString &method, const QString &message);
   void postsPageChanged();
-  void communitiesPageChanged();
-  void commentsPageChanged();
 
 private slots:
   void onLoginFinished(const QString &json);
@@ -180,7 +171,7 @@ private:
   QJsonObject parseJson(const QString &json);
   void appendPosts(const QJsonArray &newPosts);
   void appendCommunities(const QJsonArray &newCommunities);
-  void appendComments(const QJsonArray &newComments);
+  void buildCommentTree(const QJsonArray &comments);
 
   // Persisted state
   QSettings *m_settings;
@@ -195,17 +186,17 @@ private:
   // Data caches
   QJsonArray m_posts;
   QJsonArray m_communities;
-  QJsonArray m_comments;
+  QVariantList m_comments;
   QJsonObject m_siteInfo;
+  QJsonArray m_allCommentItems; // Accumulates raw comment data for pagination
   int m_postsPage;
   bool m_loadingMore;
   int m_communitiesPage;
   bool m_loadingMoreCommunities;
+  QJsonObject m_communitiesFilter;
   int m_commentsPage;
   bool m_loadingMoreComments;
-  int m_currentCommentsPostId;
-  QString m_currentCommentsSort;
-  QJsonObject m_communitiesFilter;
+  QJsonObject m_commentsFilter;
 
   // Worker thread
   QThread m_workerThread;

@@ -65,10 +65,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Load more</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No comments</source>
         <translation type="unfinished"></translation>
     </message>
@@ -90,6 +86,10 @@
     </message>
     <message>
         <source>Share url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load more</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
