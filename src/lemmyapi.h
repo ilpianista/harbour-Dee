@@ -42,6 +42,7 @@ public slots:
   void doGetCommunity(const QString &jsonParams);
   void doGetPerson(const QString &jsonParams);
   void doSearch(const QString &jsonParams);
+  void doFollowCommunity(const QString &jsonParams);
 
 signals:
   void loginFinished(const QString &json);
@@ -55,6 +56,7 @@ signals:
   void getCommunityFinished(const QString &json);
   void getPersonFinished(const QString &json);
   void searchFinished(const QString &json);
+  void followCommunityFinished(const QString &json);
 
 private:
   LemmyClientHandle *m_handle;
@@ -134,6 +136,7 @@ public:
   Q_INVOKABLE void getCommunity(const QString &jsonParams);
   Q_INVOKABLE void getPerson(const QString &jsonParams = QString());
   Q_INVOKABLE void search(const QString &jsonParams);
+  Q_INVOKABLE void followCommunity(const QString &jsonParams);
 
 signals:
   void instanceUrlChanged();
@@ -167,6 +170,7 @@ private slots:
   void onGetCommunityFinished(const QString &json);
   void onGetPersonFinished(const QString &json);
   void onSearchFinished(const QString &json);
+  void onFollowCommunityFinished(const QString &json);
 
 private:
   void setBusy(bool busy);
@@ -199,6 +203,9 @@ private:
   bool m_loadingMoreCommunities;
   int m_commentsPage;
   bool m_loadingMoreComments;
+  int m_currentCommentsPostId;
+  QString m_currentCommentsSort;
+  QJsonObject m_communitiesFilter;
 
   // Worker thread
   QThread m_workerThread;

@@ -104,6 +104,13 @@ char *lemmy_get_person(struct LemmyClientHandle *handle,
  */
 char *lemmy_search(struct LemmyClientHandle *handle, const char *json_params);
 
+/**
+ * Follow/unfollow a community. `json_params` is a JSON-serialised object with
+ * `community_id` (i64) and `follow` (bool).
+ */
+char *lemmy_follow_community(struct LemmyClientHandle *handle,
+                             const char *json_params);
+
 #ifdef __cplusplus
 }
 #endif

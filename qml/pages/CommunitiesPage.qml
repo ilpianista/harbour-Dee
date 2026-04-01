@@ -9,6 +9,12 @@ Page {
 
     allowedOrientations: Orientation.All
 
+    Component.onCompleted: {
+        api.listCommunities(JSON.stringify({
+            "type_": "Subscribed"
+        }));
+    }
+
     SilicaListView {
         id: listView
 
@@ -19,7 +25,9 @@ Page {
             MenuItem {
                 text: qsTr("Refresh")
                 onClicked: {
-                    api.listCommunities("");
+                    api.listCommunities(JSON.stringify({
+                        "type_": "Subscribed"
+                    }));
                 }
             }
         }
@@ -34,7 +42,7 @@ Page {
 
         ViewPlaceholder {
             enabled: (!api || api.communities.length === 0) && (!api || !api.busy)
-            text: qsTr("No communities")
+            text: qsTr("You aren't following any communities")
             hintText: qsTr("Pull down to refresh")
         }
 
@@ -46,42 +54,53 @@ Page {
 
         VerticalScrollDecorator {}
 
-        header: PageHeader {
-            title: qsTr("Communities")
+        header: Column {
+            width: parent.width
+
+            PageHeader {
+                title: qsTr("Communities")
+            }
         }
 
         delegate: BackgroundItem {
             id: delegate
 
-            height: contentColumn.height + 2 * Theme.paddingMedium
+            height: contentRow.height + 2 * Theme.paddingMedium
 
-            Column {
-                id: contentColumn
+            Row {
+                id: contentRow
 
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: Theme.paddingMedium
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * Theme.horizontalPageMargin
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: Theme.paddingSmall
 
-                Label {
-                    width: parent.width
-                    text: {
-                        var community = modelData.community || {};
-                        return community.title || community.name || "";
-                    }
-                    font.pixelSize: Theme.fontSizeSmall
-                    color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
-                }
+                Column {
+                    id: contentColumn
 
-                Label {
-                    width: parent.width
-                    text: {
-                        var counts = modelData.counts || {};
-                        return (counts.subscribers || 0) + " subscribers, " + (counts.posts || 0) + " posts";
+                    width: parent.width - Theme.itemSizeExtraSmall - Theme.paddingMedium
+                    spacing: Theme.paddingSmall
+
+                    Label {
+                        width: parent.width
+                        text: {
+                            var community = modelData.community || {};
+                            return community.title || community.name || "";
+                        }
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
                     }
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
-                    truncationMode: TruncationMode.Fade
+
+                    Label {
+                        width: parent.width
+                        text: {
+                            var counts = modelData.counts || {};
+                            return (counts.subscribers || 0) + " subscribers, " + (counts.posts || 0) + " posts";
+                        }
+                        font.pixelSize: Theme.fontSizeExtraSmall
+                        color: Theme.secondaryColor
+                        truncationMode: TruncationMode.Fade
+                    }
                 }
             }
         }

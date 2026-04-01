@@ -12,15 +12,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No communities</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Pull down to refresh</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Load more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You aren&apos;t following any communities</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -80,11 +80,23 @@
         <source>Comments</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Copy external URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Share url</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SubscribedPage</name>
     <message>
-        <source>Subscribed</source>
+        <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -93,10 +105,6 @@
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -109,6 +117,10 @@
     </message>
     <message>
         <source>Pull down to refresh</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscribed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

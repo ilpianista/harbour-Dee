@@ -11,7 +11,7 @@ use std::sync::OnceLock;
 
 use lemmy_client::lemmy_api_common::{
     comment::GetComments,
-    community::{GetCommunity, ListCommunities},
+    community::{FollowCommunity, GetCommunity, ListCommunities},
     person::{GetPersonDetails, Login},
     post::{CreatePostLike, GetPost, GetPosts},
     site::Search,
@@ -380,5 +380,27 @@ pub unsafe extern "C" fn lemmy_search(
         None => return to_c_string(r#"{"error":"params required"}"#),
     };
     let res = runtime().block_on(h.client.search(params));
+    result_to_c(res)
+}
+
+/// Follow/unfollow a community. `json_params` is a JSON-serialised object with
+/// `community_id` (i64) and `follow` (bool).
+#[no_mangle]
+pub unsafe extern "C" fn lemmy_follow_community(
+    handle: *mut LemmyClientHandle,
+    json_params: *const c_char,
+) -> *mut c_char {
+    if handle.is_null() {
+        return to_c_string(r#"{"error":"null handle"}"#);
+    }
+    let h = &*handle;
+    let params: FollowCommunity = match cstr_to_str(json_params) {
+        Some(s) => match serde_json::from_str(s) {
+            Ok(p) => p,
+            Err(e) => return to_c_string(&format!(r#"{{"error":"bad params: {}"}}"#, e)),
+        },
+        None => return to_c_string(r#"{"error":"params required"}"#),
+    };
+    let res = runtime().block_on(h.client.follow_community(params));
     result_to_c(res)
 }

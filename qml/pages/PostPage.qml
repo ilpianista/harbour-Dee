@@ -20,7 +20,8 @@ Page {
     function loadComments() {
         if (api && postId > 0) {
             var params = JSON.stringify({
-                "post_id": postId
+                "post_id": postId,
+                "sort": "Hot"
             });
             api.listComments(params);
         }
@@ -35,6 +36,13 @@ Page {
         loadPostDetails();
         loadComments();
         appWindow.postTitle = postTitle;
+    }
+
+    onPostIdChanged: {
+        if (postId > 0) {
+            loadPostDetails();
+            loadComments();
+        }
     }
 
     SilicaFlickable {
@@ -68,7 +76,7 @@ Page {
         PushUpMenu {
             MenuItem {
                 text: qsTr("Load more")
-                enabled: !api.busy
+                enabled: !api.busy && api.comments.length < postComments
                 onClicked: api.loadMoreComments()
             }
         }
@@ -136,7 +144,22 @@ Page {
                 color: Theme.secondaryHighlightColor
                 font.pixelSize: Theme.fontSizeSmall
                 horizontalAlignment: Text.AlignRight
-                text: postAuthor + " - " + Qt.formatDateTime(postDate, "ddd, hh:mm")
+                text: {
+                    var actorId = postAuthor || "";
+                    var username = "";
+                    var domain = "";
+                    if (actorId) {
+                        var parts = actorId.split("/u/");
+                        if (parts.length >= 2) {
+                            username = parts[1];
+                            var urlParts = actorId.split("://");
+                            if (urlParts.length >= 2) {
+                                domain = urlParts[1].split("/")[0];
+                            }
+                        }
+                    }
+                    return (username + "@" + domain) + " - " + Qt.formatDateTime(postDate, "ddd, hh:mm");
+                }
             }
 
             SectionHeader {
@@ -175,7 +198,20 @@ Page {
                             text: {
                                 var creator = commentData.creator || modelData.creator || {};
                                 var counts = modelData.counts || {};
-                                return (creator.name || "") + " - " + (counts.score || 0) + " pts";
+                                var actorId = creator.actor_id || "";
+                                var username = "";
+                                var domain = "";
+                                if (actorId) {
+                                    var parts = actorId.split("/u/");
+                                    if (parts.length >= 2) {
+                                        username = parts[1];
+                                        var urlParts = actorId.split("://");
+                                        if (urlParts.length >= 2) {
+                                            domain = urlParts[1].split("/")[0];
+                                        }
+                                    }
+                                }
+                                return (username + "@" + domain) + " - " + (counts.score || 0) + " pts";
                             }
                             font.pixelSize: Theme.fontSizeExtraSmall
                             color: Theme.secondaryColor

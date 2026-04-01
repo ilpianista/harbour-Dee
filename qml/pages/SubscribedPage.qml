@@ -34,7 +34,6 @@ Page {
             MenuItem {
                 text: qsTr("Communities")
                 onClicked: {
-                    api.listCommunities("");
                     pageStack.animatorPush(Qt.resolvedUrl("CommunitiesPage.qml"), {
                         "api": api
                     });
@@ -88,7 +87,7 @@ Page {
                         "postTitle": post.name,
                         "postBody": post.body,
                         "postUrl": post.url,
-                        "postAuthor": modelData.creator.name,
+                        "postAuthor": modelData.creator.actor_id,
                         "postScore": modelData.counts.score,
                         "postDate": post.published,
                         "postComments": modelData.counts.comments

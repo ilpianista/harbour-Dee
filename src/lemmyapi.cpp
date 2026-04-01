@@ -130,6 +130,11 @@ void LemmyWorker::doSearch(const QString &jsonParams) {
   emit searchFinished(callRust(m_handle, lemmy_search, jsonParams));
 }
 
+void LemmyWorker::doFollowCommunity(const QString &jsonParams) {
+  emit followCommunityFinished(
+      callRust(m_handle, lemmy_follow_community, jsonParams));
+}
+
 // ===================================================================
 // LemmyAPI implementation
 // ===================================================================
@@ -137,8 +142,9 @@ void LemmyWorker::doSearch(const QString &jsonParams) {
 LemmyAPI::LemmyAPI(QObject *parent)
     : QObject(parent), m_loggedIn(false), m_busy(false), m_postsPage(1),
       m_loadingMore(false), m_communitiesPage(1),
-      m_loadingMoreCommunities(false), m_commentsPage(1),
-      m_loadingMoreComments(false),
+      m_loadingMoreCommunities(false), m_communitiesFilter(), m_commentsPage(1),
+      m_loadingMoreComments(false), m_currentCommentsPostId(0),
+      m_currentCommentsSort(),
       m_worker(new LemmyWorker), // no parent – will be moved to thread
       m_secureStorage(new SecureStorage(this)) {
   // Initialize secure storage and wait for it to be ready
@@ -186,6 +192,8 @@ LemmyAPI::LemmyAPI(QObject *parent)
           &LemmyAPI::onGetPersonFinished);
   connect(m_worker, &LemmyWorker::searchFinished, this,
           &LemmyAPI::onSearchFinished);
+  connect(m_worker, &LemmyWorker::followCommunityFinished, this,
+          &LemmyAPI::onFollowCommunityFinished);
 
   m_workerThread.start();
 
@@ -394,9 +402,12 @@ void LemmyAPI::loadMoreCommunities() {
     return;
   m_communitiesPage++;
   m_loadingMoreCommunities = true;
-  QString params = QStringLiteral("{\"page\":%1}").arg(m_communitiesPage);
+  // Build params: stored filter + page
+  QJsonObject params = m_communitiesFilter;
+  params["page"] = m_communitiesPage;
+  QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
   QMetaObject::invokeMethod(m_worker, "doListCommunities", Qt::QueuedConnection,
-                            Q_ARG(QString, params));
+                            Q_ARG(QString, paramsStr));
 }
 
 void LemmyAPI::loadMoreComments() {
@@ -404,7 +415,16 @@ void LemmyAPI::loadMoreComments() {
     return;
   m_commentsPage++;
   m_loadingMoreComments = true;
-  QString params = QStringLiteral("{\"page\":%1}").arg(m_commentsPage);
+  // Build params with page, post_id, and sort to maintain context
+  QJsonObject paramsObj;
+  paramsObj["page"] = m_commentsPage;
+  if (m_currentCommentsPostId > 0) {
+    paramsObj["post_id"] = m_currentCommentsPostId;
+  }
+  if (!m_currentCommentsSort.isEmpty()) {
+    paramsObj["sort"] = m_currentCommentsSort;
+  }
+  QString params = QJsonDocument(paramsObj).toJson(QJsonDocument::Compact);
   QMetaObject::invokeMethod(m_worker, "doListComments", Qt::QueuedConnection,
                             Q_ARG(QString, params));
 }
@@ -428,6 +448,10 @@ void LemmyAPI::listComments(const QString &jsonParams) {
   setBusy(true);
   m_commentsPage = 1;
   m_loadingMoreComments = false;
+  // Extract and store post_id and sort for subsequent pagination
+  QJsonObject paramsObj = QJsonDocument::fromJson(jsonParams.toUtf8()).object();
+  m_currentCommentsPostId = paramsObj.value("post_id").toInt(0);
+  m_currentCommentsSort = paramsObj.value("sort").toString();
   QMetaObject::invokeMethod(m_worker, "doListComments", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
@@ -436,6 +460,17 @@ void LemmyAPI::listCommunities(const QString &jsonParams) {
   setBusy(true);
   m_communitiesPage = 1;
   m_loadingMoreCommunities = false;
+
+  // Store base filter (without page) for pagination
+  QJsonDocument doc = QJsonDocument::fromJson(jsonParams.toUtf8());
+  if (doc.isObject()) {
+    QJsonObject obj = doc.object();
+    obj.remove("page");
+    m_communitiesFilter = obj;
+  } else {
+    m_communitiesFilter = QJsonObject();
+  }
+
   QMetaObject::invokeMethod(m_worker, "doListCommunities", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
@@ -455,6 +490,12 @@ void LemmyAPI::getPerson(const QString &jsonParams) {
 void LemmyAPI::search(const QString &jsonParams) {
   setBusy(true);
   QMetaObject::invokeMethod(m_worker, "doSearch", Qt::QueuedConnection,
+                            Q_ARG(QString, jsonParams));
+}
+
+void LemmyAPI::followCommunity(const QString &jsonParams) {
+  setBusy(true);
+  QMetaObject::invokeMethod(m_worker, "doFollowCommunity", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
 
@@ -662,4 +703,16 @@ void LemmyAPI::onSearchFinished(const QString &json) {
   }
   setBusy(false);
   emit requestFinished(QStringLiteral("search"), obj);
+}
+
+void LemmyAPI::onFollowCommunityFinished(const QString &json) {
+  QJsonObject obj = parseJson(json);
+  if (obj.contains(QStringLiteral("error"))) {
+    setError(obj[QStringLiteral("error")].toString());
+    setBusy(false);
+    emit requestFailed(QStringLiteral("followCommunity"), m_error);
+    return;
+  }
+  setBusy(false);
+  emit requestFinished(QStringLiteral("followCommunity"), obj);
 }
