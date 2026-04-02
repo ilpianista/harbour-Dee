@@ -3,6 +3,7 @@ include_guard = "LEMMY_BRIDGE_H"
 no_includes = true
 sys_includes = ["stdbool.h"]
 tab_width = 4
+cpp_compat = true
 
 [parse]
 parse_deps = false
