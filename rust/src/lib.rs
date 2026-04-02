@@ -10,7 +10,7 @@ use std::ptr;
 use std::sync::OnceLock;
 
 use lemmy_client::lemmy_api_common::{
-    comment::GetComments,
+    comment::{CreateCommentLike, GetComments},
     community::{FollowCommunity, GetCommunity, ListCommunities},
     person::{GetPersonDetails, Login},
     post::{CreatePostLike, GetPost, GetPosts},
@@ -284,6 +284,27 @@ pub unsafe extern "C" fn lemmy_list_comments(
         None => GetComments::default(),
     };
     let res = runtime().block_on(h.client.list_comments(params));
+    result_to_c(res)
+}
+
+/// Vote on a comment. `json_params` is a JSON-serialised `CreateCommentLike`.
+#[no_mangle]
+pub unsafe extern "C" fn lemmy_like_comment(
+    handle: *mut LemmyClientHandle,
+    json_params: *const c_char,
+) -> *mut c_char {
+    if handle.is_null() {
+        return to_c_string(r#"{"error":"null handle"}"#);
+    }
+    let h = &*handle;
+    let params: CreateCommentLike = match cstr_to_str(json_params) {
+        Some(s) => match serde_json::from_str(s) {
+            Ok(p) => p,
+            Err(e) => return to_c_string(&format!(r#"{{"error":"bad params: {}"}}"#, e)),
+        },
+        None => return to_c_string(r#"{"error":"params required"}"#),
+    };
+    let res = runtime().block_on(h.client.like_comment(params));
     result_to_c(res)
 }
 

@@ -16,6 +16,7 @@ Page {
     property string postAuthor
     property int postScore
     property int postComments
+    property int postMyVote
 
     function loadComments() {
         if (api && postId > 0) {
@@ -58,13 +59,6 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Copy external URL")
-                onClicked: {
-                    Clipboard.text = postUrl;
-                }
-            }
-
-            MenuItem {
                 text: qsTr("Share")
                 onClicked: {
                     share.trigger();
@@ -77,6 +71,18 @@ Page {
                     loadPostDetails();
                     loadComments();
                 }
+            }
+
+            MenuItem {
+                text: postMyVote === 0 ? qsTr("Upvote") : qsTr("Undo upvote")
+                onClicked: api.likePost(postId, postMyVote === 0 ? 1 : 0)
+                enabled: postMyVote >= 0
+            }
+
+            MenuItem {
+                text: postMyVote === 0 ? qsTr("Downvote") : qsTr("Undo downvote")
+                onClicked: api.likePost(postId, postMyVote === 0 ? -1 : 0)
+                enabled: postMyVote <= 0
             }
         }
 
@@ -176,12 +182,15 @@ Page {
             Repeater {
                 model: api ? api.comments : []
 
-                delegate: BackgroundItem {
+                delegate: ListItem {
                     property var commentData: modelData.commentData
                     property var counts: modelData.counts
                     property int depth: modelData.depth
+                    property int myVote: modelData.myVote
 
-                    height: commentColumn.height + 2 * Theme.paddingMedium
+                    menu: contextMenu
+
+                    contentHeight: commentColumn.height + 2 * Theme.paddingMedium
 
                     Column {
                         id: commentColumn
@@ -220,6 +229,24 @@ Page {
                             font.pixelSize: Theme.fontSizeExtraSmall
                             color: Theme.secondaryColor
                             truncationMode: TruncationMode.Fade
+                        }
+                    }
+
+                    Component {
+                        id: contextMenu
+
+                        ContextMenu {
+                            MenuItem {
+                                text: myVote === 0 ? qsTr("Upvote") : qsTr("Undo upvote")
+                                onClicked: api.likeComment(commentData.id, myVote === 0 ? 1 : 0)
+                                enabled: myVote >= 0
+                            }
+
+                            MenuItem {
+                                text: myVote === 0 ? qsTr("Downvote") : qsTr("Undo downvote")
+                                onClicked: api.likeComment(commentData.id, myVote === 0 ? -1 : 0)
+                                enabled: myVote <= 0
+                            }
                         }
                     }
                 }

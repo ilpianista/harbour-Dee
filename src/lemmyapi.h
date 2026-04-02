@@ -38,6 +38,7 @@ public slots:
   void doGetPost(const QString &jsonParams);
   void doLikePost(const QString &jsonParams);
   void doListComments(const QString &jsonParams);
+  void doLikeComment(const QString &jsonParams);
   void doListCommunities(const QString &jsonParams);
   void doGetCommunity(const QString &jsonParams);
   void doGetPerson(const QString &jsonParams);
@@ -52,6 +53,7 @@ signals:
   void getPostFinished(const QString &json);
   void likePostFinished(const QString &json);
   void listCommentsFinished(const QString &json);
+  void likeCommentFinished(const QString &json);
   void listCommunitiesFinished(const QString &json);
   void getCommunityFinished(const QString &json);
   void getPersonFinished(const QString &json);
@@ -122,6 +124,7 @@ public:
   Q_INVOKABLE void getPost(int postId);
   Q_INVOKABLE void likePost(int postId, int score);
   Q_INVOKABLE void listComments(const QString &jsonParams = QString());
+  Q_INVOKABLE void likeComment(int commentId, int score);
   Q_INVOKABLE void loadMoreComments();
   Q_INVOKABLE void listCommunities(const QString &jsonParams = QString());
   Q_INVOKABLE void loadMoreCommunities();
@@ -157,6 +160,7 @@ private slots:
   void onGetPostFinished(const QString &json);
   void onLikePostFinished(const QString &json);
   void onListCommentsFinished(const QString &json);
+  void onLikeCommentFinished(const QString &json);
   void onListCommunitiesFinished(const QString &json);
   void onGetCommunityFinished(const QString &json);
   void onGetPersonFinished(const QString &json);
@@ -191,6 +195,7 @@ private:
   QJsonArray m_allCommentItems; // Accumulates raw comment data for pagination
   int m_postsPage;
   bool m_loadingMore;
+  QJsonObject m_postsFilter;
   int m_communitiesPage;
   bool m_loadingMoreCommunities;
   QJsonObject m_communitiesFilter;

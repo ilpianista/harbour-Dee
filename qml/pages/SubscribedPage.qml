@@ -11,8 +11,10 @@ Page {
         id: api
 
         Component.onCompleted: {
-            // Fetch front-page posts on load
-            api.listPosts("");
+            var params = JSON.stringify({
+                "limit": 50
+            });
+            api.listPosts(params);
         }
     }
 
@@ -74,12 +76,16 @@ Page {
             title: qsTr("Subscribed")
         }
 
-        delegate: BackgroundItem {
+        delegate: ListItem {
             id: delegate
 
-            height: contentColumn.height + 2 * Theme.paddingMedium
+            property var post: modelData.post
+            property int myVote: modelData.my_vote ? modelData.my_vote : 0
+
+            menu: contextMenu
+
+            contentHeight: contentColumn.height + 2 * Theme.paddingMedium
             onClicked: {
-                var post = modelData.post;
                 if (post.id)
                     pageStack.animatorPush(Qt.resolvedUrl("PostPage.qml"), {
                         "api": api,
@@ -90,7 +96,8 @@ Page {
                         "postAuthor": modelData.creator.actor_id,
                         "postScore": modelData.counts.score,
                         "postDate": post.published,
-                        "postComments": modelData.counts.comments
+                        "postComments": modelData.counts.comments,
+                        "postMyVote": modelData.my_vote ? modelData.my_vote : 0
                     });
             }
 
@@ -99,15 +106,11 @@ Page {
 
                 x: Theme.horizontalPageMargin
                 width: parent.width - 2 * Theme.horizontalPageMargin
-                anchors.verticalCenter: parent.verticalCenter
                 spacing: Theme.paddingSmall
 
                 Label {
                     width: parent.width
-                    text: {
-                        var post = modelData.post || {};
-                        return post.name || "";
-                    }
+                    text: post.name
                     font.pixelSize: Theme.fontSizeSmall
                     wrapMode: Text.Wrap
                     color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
@@ -123,6 +126,24 @@ Page {
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: Theme.secondaryColor
                     truncationMode: TruncationMode.Fade
+                }
+            }
+
+            Component {
+                id: contextMenu
+
+                ContextMenu {
+                    MenuItem {
+                        text: myVote === 0 ? qsTr("Upvote") : qsTr("Undo upvote")
+                        onClicked: api.likePost(post.id, myVote === 0 ? 1 : 0)
+                        enabled: myVote >= 0
+                    }
+
+                    MenuItem {
+                        text: myVote === 0 ? qsTr("Downvote") : qsTr("Undo downvote")
+                        onClicked: api.likePost(post.id, myVote === 0 ? -1 : 0)
+                        enabled: myVote <= 0
+                    }
                 }
             }
         }

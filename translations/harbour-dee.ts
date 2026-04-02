@@ -77,10 +77,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy external URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Share</source>
         <translation type="unfinished"></translation>
     </message>
@@ -90,6 +86,22 @@
     </message>
     <message>
         <source>Load more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upvote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo upvote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downvote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo downvote</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -129,6 +141,22 @@
     </message>
     <message>
         <source>comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upvote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo upvote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downvote</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo downvote</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
