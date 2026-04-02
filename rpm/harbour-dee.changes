@@ -1,0 +1,5 @@
+* Thu Apr 02 2026 Andrea Scarpino <andrea@scarpino.dev> 0.0.1-1
+- Requires login.
+- Show subscribed posts and their comments.
+- Allow to vote/downvote posts.
+- Show subscribed communities.
