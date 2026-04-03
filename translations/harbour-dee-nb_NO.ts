@@ -5,11 +5,11 @@
     <name>CommunitiesPage</name>
     <message>
         <source>Communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Nettsamfunn</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Last på nytt</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
@@ -17,7 +17,7 @@
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Last inn mer</translation>
     </message>
     <message>
         <source>You aren&apos;t following any communities</source>
@@ -28,7 +28,7 @@
     <name>LemmyAPI</name>
     <message>
         <source>Please fill in all fields</source>
-        <translation type="unfinished"></translation>
+        <translation>Vennligst fyll ut alle feltene</translation>
     </message>
     <message>
         <source>Login succeeded but no token received</source>
@@ -43,11 +43,11 @@
     </message>
     <message>
         <source>https://lemmy.world</source>
-        <translation type="unfinished"></translation>
+        <translation>https://lemmy.world</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passord</translation>
     </message>
     <message>
         <source>Logging in...</source>
@@ -55,18 +55,18 @@
     </message>
     <message>
         <source>Email or Username</source>
-        <translation type="unfinished"></translation>
+        <translation>E-post eller brukernavn</translation>
     </message>
 </context>
 <context>
     <name>PostPage</name>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Last på nytt</translation>
     </message>
     <message>
         <source>No comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen kommentarer</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
@@ -74,58 +74,58 @@
     </message>
     <message>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentarer</translation>
     </message>
     <message>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Dele</translation>
     </message>
     <message>
         <source>Share url</source>
-        <translation type="unfinished"></translation>
+        <translation>Dele url</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Last inn mer</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Stem opp</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Angre oppstemming</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Stem ned</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Angre nedstemming</translation>
     </message>
 </context>
 <context>
     <name>SubscribedPage</name>
     <message>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Logg ut</translation>
     </message>
     <message>
         <source>Communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Nettsamfunn</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Last på nytt</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Last inn mer</translation>
     </message>
     <message>
         <source>No posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen innlegg</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
@@ -141,11 +141,11 @@
     </message>
     <message>
         <source>comments</source>
-        <translation type="unfinished"></translation>
+        <translation>kommentarer</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Stem opp</translation>
     </message>
     <message>
         <source>Undo upvote</source>
@@ -153,7 +153,7 @@
     </message>
     <message>
         <source>Downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Stem ned</translation>
     </message>
     <message>
         <source>Undo downvote</source>
