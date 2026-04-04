@@ -61,7 +61,7 @@ Page {
                 placeholderText: qsTr("Email or Username")
                 text: _api.username
                 onTextChanged: _api.username = text
-                EnterKey.enabled: text.length > 0 && passwordField.text.length > 0
+                EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
                 EnterKey.onClicked: passwordField.focus = true
             }
