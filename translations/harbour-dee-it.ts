@@ -23,6 +23,10 @@
         <source>You aren&apos;t following any communities</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Subscribed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LemmyAPI</name>
@@ -62,7 +66,7 @@
     <name>PostPage</name>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aggiorna</translation>
     </message>
     <message>
         <source>No comments</source>
@@ -113,11 +117,11 @@
     </message>
     <message>
         <source>Communities</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Comunità</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aggiorna</translation>
     </message>
     <message>
         <source>Load more</source>

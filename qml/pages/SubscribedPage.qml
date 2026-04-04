@@ -5,16 +5,22 @@ import harbour.dee 1.0
 Page {
     id: page
 
+    property int communityId: 0
+    property string pageTitle: ""
+
     allowedOrientations: Orientation.All
 
     LemmyAPI {
         id: api
 
         Component.onCompleted: {
-            var params = JSON.stringify({
+            var params = {
                 "limit": 50
-            });
-            api.listPosts(params);
+            };
+            if (communityId > 0) {
+                params.community_id = communityId;
+            }
+            api.listPosts(JSON.stringify(params));
         }
     }
 
@@ -34,18 +40,28 @@ Page {
             }
 
             MenuItem {
-                text: qsTr("Communities")
+                text: communityId > 0 ? qsTr("Subscribed") : qsTr("Communities")
                 onClicked: {
-                    pageStack.animatorPush(Qt.resolvedUrl("CommunitiesPage.qml"), {
-                        "api": api
-                    });
+                    if (communityId > 0) {
+                        pageStack.animatorPush(Qt.resolvedUrl("SubscribedPage.qml"));
+                    } else {
+                        pageStack.animatorPush(Qt.resolvedUrl("CommunitiesPage.qml"), {
+                            "api": api
+                        });
+                    }
                 }
             }
 
             MenuItem {
                 text: qsTr("Refresh")
                 onClicked: {
-                    api.listPosts("");
+                    var params = {
+                        "limit": 50
+                    };
+                    if (communityId > 0) {
+                        params.community_id = communityId;
+                    }
+                    api.listPosts(JSON.stringify(params));
                 }
             }
         }
@@ -73,7 +89,7 @@ Page {
         VerticalScrollDecorator {}
 
         header: PageHeader {
-            title: qsTr("Subscribed")
+            title: pageTitle ? pageTitle : qsTr("Subscribed")
         }
 
         delegate: ListItem {
@@ -119,9 +135,13 @@ Page {
                 Label {
                     width: parent.width
                     text: {
-                        var community = modelData.community || {};
                         var counts = modelData.counts || {};
-                        return "c/" + (community.name || "") + " - " + (counts.score || 0) + " " + qsTr("points") + " - " + (counts.comments || 0) + " " + qsTr("comments");
+                        if (page.communityId > 0) {
+                            return (counts.score || 0) + " " + qsTr("points") + " - " + (counts.comments || 0) + " " + qsTr("comments");
+                        } else {
+                            var community = modelData.community || {};
+                            return "c/" + (community.name || "") + " - " + (counts.score || 0) + " " + qsTr("points") + " - " + (counts.comments || 0) + " " + qsTr("comments");
+                        }
                     }
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: Theme.secondaryColor

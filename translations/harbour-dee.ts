@@ -23,6 +23,10 @@
         <source>You aren&apos;t following any communities</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Subscribed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LemmyAPI</name>

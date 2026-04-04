@@ -23,6 +23,10 @@
         <source>You aren&apos;t following any communities</source>
         <translation>Du følger ingen nettsamfunn</translation>
     </message>
+    <message>
+        <source>Subscribed</source>
+        <translation type="unfinished">Abonnerer</translation>
+    </message>
 </context>
 <context>
     <name>LemmyAPI</name>

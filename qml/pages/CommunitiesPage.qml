@@ -11,7 +11,8 @@ Page {
 
     Component.onCompleted: {
         api.listCommunities(JSON.stringify({
-            "type_": "Subscribed"
+            "type_": "Subscribed",
+            "limit": 50
         }));
     }
 
@@ -22,6 +23,13 @@ Page {
         model: api ? api.communities : []
 
         PullDownMenu {
+            MenuItem {
+                text: qsTr("Subscribed")
+                onClicked: {
+                    pageStack.animatorPush(Qt.resolvedUrl("SubscribedPage.qml"));
+                }
+            }
+
             MenuItem {
                 text: qsTr("Refresh")
                 onClicked: {
@@ -102,6 +110,13 @@ Page {
                         truncationMode: TruncationMode.Fade
                     }
                 }
+            }
+            onClicked: {
+                var community = modelData.community || {};
+                pageStack.animatorPush(Qt.resolvedUrl("SubscribedPage.qml"), {
+                    "communityId": community.id,
+                    "pageTitle": community.title || community.name
+                });
             }
         }
     }

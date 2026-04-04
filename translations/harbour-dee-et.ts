@@ -23,6 +23,10 @@
         <source>You aren&apos;t following any communities</source>
         <translation>Sa veel ei jälgi ühtegi kogukonda</translation>
     </message>
+    <message>
+        <source>Subscribed</source>
+        <translation type="unfinished">Tellitud</translation>
+    </message>
 </context>
 <context>
     <name>LemmyAPI</name>
