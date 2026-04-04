@@ -139,11 +139,11 @@ Page {
                         var text = "";
 
                         if (page.communityId === 0) {
-                            text += "c/" + (modelData.community.name);
+                            text += "c/" + (modelData.community.name) + " - ";
                         }
 
                         var counts = modelData.counts || {};
-                        text += " - " + (counts.score || 0) + " " + qsTr("points");
+                        text += (counts.score || 0) + " " + qsTr("points");
                         text += " - " + (counts.comments || 0) + " " + qsTr("comments");
                         text += " - " + Utils.getRelativeTime(modelData.post.published);
 
