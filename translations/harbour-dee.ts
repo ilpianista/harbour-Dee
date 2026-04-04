@@ -164,4 +164,23 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>utils</name>
+    <message>
+        <source>just now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>min ago</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>h ago</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>d ago</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

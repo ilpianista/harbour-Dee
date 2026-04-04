@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import harbour.dee 1.0
+import "utils.js" as Utils
 
 Page {
     id: page
@@ -135,13 +136,18 @@ Page {
                 Label {
                     width: parent.width
                     text: {
-                        var counts = modelData.counts || {};
-                        if (page.communityId > 0) {
-                            return (counts.score || 0) + " " + qsTr("points") + " - " + (counts.comments || 0) + " " + qsTr("comments");
-                        } else {
-                            var community = modelData.community || {};
-                            return "c/" + (community.name || "") + " - " + (counts.score || 0) + " " + qsTr("points") + " - " + (counts.comments || 0) + " " + qsTr("comments");
+                        var text = "";
+
+                        if (page.communityId === 0) {
+                            text += "c/" + (modelData.community.name);
                         }
+
+                        var counts = modelData.counts || {};
+                        text += " - " + (counts.score || 0) + " " + qsTr("points");
+                        text += " - " + (counts.comments || 0) + " " + qsTr("comments");
+                        text += " - " + Utils.getRelativeTime(modelData.post.published);
+
+                        return text;
                     }
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: Theme.secondaryColor

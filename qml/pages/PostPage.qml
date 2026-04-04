@@ -171,7 +171,7 @@ Page {
                             }
                         }
                     }
-                    return (username + "@" + domain) + " - " + Qt.formatDateTime(postDate, "ddd, hh:mm");
+                    return (username + "@" + domain) + " - " + Qt.formatDateTime(postDate);
                 }
             }
 
