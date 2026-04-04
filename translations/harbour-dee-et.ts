@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="et">
 <context>
     <name>CommunitiesPage</name>
     <message>
         <source>Communities</source>
-        <translation>Comunità</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Aggiorna</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
@@ -50,11 +50,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Email or Username</source>
+        <source>Logging in...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Logging in…</source>
+        <source>Email or Username</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
