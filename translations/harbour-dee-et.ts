@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished">Tellitud</translation>
+        <translation>Tellitud</translation>
     </message>
 </context>
 <context>
@@ -168,19 +168,19 @@
     <name>utils</name>
     <message>
         <source>just now</source>
-        <translation type="unfinished"></translation>
+        <translation>äsja</translation>
     </message>
     <message>
         <source>min ago</source>
-        <translation type="unfinished"></translation>
+        <translation>min tagasi</translation>
     </message>
     <message>
         <source>h ago</source>
-        <translation type="unfinished"></translation>
+        <translation>t tagasi</translation>
     </message>
     <message>
         <source>d ago</source>
-        <translation type="unfinished"></translation>
+        <translation>p tagasi</translation>
     </message>
 </context>
 </TS>
