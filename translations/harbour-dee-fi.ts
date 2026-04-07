@@ -1,186 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="nb_NO">
+<TS version="2.1" language="fi">
 <context>
     <name>CommunitiesPage</name>
     <message>
         <source>Communities</source>
-        <translation>Nettsamfunn</translation>
+        <translation>Yhteisöt</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Last på nytt</translation>
+        <translation>Päivitä</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation>Dra ned for å oppdatere</translation>
+        <translation>Päivitä vetämällä alaspäin</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation>Last inn mer</translation>
+        <translation>Lataa lisää</translation>
     </message>
     <message>
         <source>You aren&apos;t following any communities</source>
-        <translation>Du følger ingen nettsamfunn</translation>
+        <translation>Et seuraa yhtään yhteisöä</translation>
     </message>
     <message>
         <source>Subscribed</source>
-        <translation>Abonnerer</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>LemmyAPI</name>
     <message>
         <source>Please fill in all fields</source>
-        <translation>Vennligst fyll ut alle feltene</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Login succeeded but no token received</source>
-        <translation>Vellykket innlogging, men ingen token ble mottatt</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Login</source>
-        <translation>Innlogging</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>https://lemmy.world</source>
-        <translation>https://lemmy.world</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Passord</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Logging in…</source>
-        <translation>Logger inn…</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Email or Username</source>
-        <translation>E-post eller brukernavn</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PostPage</name>
     <message>
         <source>Refresh</source>
-        <translation>Last på nytt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No comments</source>
-        <translation>Ingen kommentarer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation>Dra ned for å oppdatere</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation>Kommentarer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Share</source>
-        <translation>Dele</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Share url</source>
-        <translation>Dele url</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation>Last inn mer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation>Stem opp</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation>Fjern stemme</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation>Stem ned</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation>Fjern nedstemme</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SubscribedPage</name>
     <message>
         <source>Logout</source>
-        <translation>Logg ut</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Communities</source>
-        <translation>Nettsamfunn</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Last på nytt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation>Last inn mer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No posts</source>
-        <translation>Ingen innlegg</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation>Dra ned for å oppdatere</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Subscribed</source>
-        <translation>Abonnerer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>points</source>
-        <translation>Poeng</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>comments</source>
-        <translation>kommentarer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation>Stem opp</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation>Fjern stemme</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation>Stem ned</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation>Fjern nedstemme</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>utils</name>
     <message>
         <source>just now</source>
-        <translation>akkurat nå</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>min ago</source>
-        <translation>min siden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>h ago</source>
-        <translation>t siden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>d ago</source>
-        <translation>d siden</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
