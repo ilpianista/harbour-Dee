@@ -9,41 +9,41 @@
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum Aktualisieren herunter ziehen</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Mehr laden</translation>
     </message>
     <message>
         <source>You aren&apos;t following any communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Du folgst keinen Communities</translation>
     </message>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonniert</translation>
     </message>
 </context>
 <context>
     <name>LemmyAPI</name>
     <message>
         <source>Please fill in all fields</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte fülle alle Felder aus</translation>
     </message>
     <message>
         <source>Login succeeded but no token received</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmeldung erfolgreich, aber kein Token empfangen</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmelden</translation>
     </message>
     <message>
         <source>https://lemmy.world</source>
@@ -51,69 +51,69 @@
     </message>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwort</translation>
     </message>
     <message>
         <source>Logging in…</source>
-        <translation type="unfinished"></translation>
+        <translation>Melde an…</translation>
     </message>
     <message>
         <source>Email or Username</source>
-        <translation type="unfinished"></translation>
+        <translation>E-Mail oder Nutzername</translation>
     </message>
 </context>
 <context>
     <name>PostPage</name>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <source>No comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Kommentare</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum Aktualisieren herunter ziehen</translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentare</translation>
     </message>
     <message>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Teilen</translation>
     </message>
     <message>
         <source>Share url</source>
-        <translation type="unfinished"></translation>
+        <translation>URL teilen</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Mehr laden</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Hochwählen</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Hochwählen rückgängig machen</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Herunterwählen</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Herunterwählen rückgängig machen</translation>
     </message>
 </context>
 <context>
     <name>SubscribedPage</name>
     <message>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
+        <translation>Abmelden</translation>
     </message>
     <message>
         <source>Communities</source>
@@ -121,54 +121,54 @@
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Mehr laden</translation>
     </message>
     <message>
         <source>No posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Beiträge</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum Aktualisieren herunter ziehen</translation>
     </message>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonniert</translation>
     </message>
     <message>
         <source>points</source>
-        <translation type="unfinished"></translation>
+        <translation>Punkte</translation>
     </message>
     <message>
         <source>comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentare</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Hochwählen</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Hochwählen rückgängig machen</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Herunterwählen</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Herunterwählen rückgängig machen</translation>
     </message>
 </context>
 <context>
     <name>utils</name>
     <message>
         <source>just now</source>
-        <translation type="unfinished"></translation>
+        <translation>Jetzt gerade</translation>
     </message>
     <message>
         <source>min ago</source>
