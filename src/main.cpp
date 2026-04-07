@@ -11,8 +11,8 @@ int main(int argc, char *argv[]) {
   QCoreApplication::setApplicationName(QStringLiteral("harbour-dee"));
   QCoreApplication::setOrganizationName(QStringLiteral("scarpino.dev"));
 
-  // Register LemmyAPI type with QML
   qmlRegisterType<LemmyAPI>("harbour.dee", 1, 0, "LemmyAPI");
+  qmlRegisterType<PostsModel>("harbour.dee", 1, 0, "PostsModel");
 
   view->setSource(SailfishApp::pathTo("qml/Dee.qml"));
   view->show();

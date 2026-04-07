@@ -1,6 +1,7 @@
 #ifndef LEMMYAPI_H
 #define LEMMYAPI_H
 
+#include "postsmodel.h"
 #include "securestorage.h"
 #include <QJsonArray>
 #include <QJsonObject>
@@ -83,7 +84,7 @@ class LemmyAPI : public QObject {
   Q_PROPERTY(bool busy READ busy WRITE setBusy NOTIFY busyChanged)
 
   // Data properties (populated after API calls)
-  Q_PROPERTY(QJsonArray posts READ posts NOTIFY postsChanged)
+  Q_PROPERTY(PostsModel *posts READ posts NOTIFY postsChanged)
   Q_PROPERTY(QJsonArray communities READ communities NOTIFY communitiesChanged)
   Q_PROPERTY(QVariantList comments READ comments NOTIFY commentsChanged)
   Q_PROPERTY(QJsonObject siteInfo READ siteInfo NOTIFY siteInfoChanged)
@@ -99,7 +100,7 @@ public:
   bool loggedIn() const { return m_loggedIn; }
   QString error() const { return m_error; }
   bool busy() const { return m_busy; }
-  QJsonArray posts() const { return m_posts; }
+  PostsModel *posts() const { return m_posts; }
   QJsonArray communities() const { return m_communities; }
   QVariantList comments() const { return m_comments; }
   QJsonObject siteInfo() const { return m_siteInfo; }
@@ -117,6 +118,7 @@ public:
   Q_INVOKABLE void login();
   Q_INVOKABLE void logout();
   Q_INVOKABLE void clearError();
+  Q_INVOKABLE void setPostsModel(PostsModel *model);
 
   Q_INVOKABLE void getSite();
   Q_INVOKABLE void listPosts(const QString &jsonParams = QString());
@@ -173,7 +175,6 @@ private:
   void setError(const QString &error);
   void ensureClient();
   QJsonObject parseJson(const QString &json);
-  void appendPosts(const QJsonArray &newPosts);
   void appendCommunities(const QJsonArray &newCommunities);
   void buildCommentTree(const QJsonArray &comments);
 
@@ -188,7 +189,7 @@ private:
   bool m_busy;
 
   // Data caches
-  QJsonArray m_posts;
+  PostsModel *m_posts;
   QJsonArray m_communities;
   QVariantList m_comments;
   QJsonObject m_siteInfo;
@@ -203,11 +204,8 @@ private:
   bool m_loadingMoreComments;
   QJsonObject m_commentsFilter;
 
-  // Worker thread
   QThread m_workerThread;
   LemmyWorker *m_worker;
-
-  // Secure storage
   SecureStorage *m_secureStorage;
 };
 

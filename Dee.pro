@@ -10,10 +10,12 @@ INCLUDEPATH += /usr/include/Sailfish
 
 SOURCES += src/main.cpp \
     src/lemmyapi.cpp \
+    src/postsmodel.cpp \
     src/securestorage.cpp
 
 HEADERS += src/lemmyapi.h \
     src/lemmy_bridge.h \
+    src/postsmodel.h \
     src/securestorage.h
 
 DISTFILES += qml/Dee.qml \

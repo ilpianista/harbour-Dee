@@ -116,16 +116,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Subscribed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Communities</source>
         <translation type="unfinished">Comunità</translation>
     </message>
     <message>
         <source>Refresh</source>
         <translation type="unfinished">Aggiorna</translation>
-    </message>
-    <message>
-        <source>Load more</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No posts</source>
@@ -136,7 +136,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Subscribed</source>
+        <source>Loading more…</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

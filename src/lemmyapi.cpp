@@ -1,5 +1,6 @@
 #include "lemmyapi.h"
 #include "lemmy_bridge.h"
+#include "postsmodel.h"
 #include "securestorage.h"
 #include <QCoreApplication>
 #include <QDebug>
@@ -10,7 +11,6 @@
 #include <QMap>
 #include <QUrl>
 #include <QVariant>
-#include <algorithm>
 #include <functional>
 
 // ===================================================================
@@ -148,8 +148,8 @@ void LemmyWorker::doFollowCommunity(const QString &jsonParams) {
 // ===================================================================
 
 LemmyAPI::LemmyAPI(QObject *parent)
-    : QObject(parent), m_loggedIn(false), m_busy(false), m_postsPage(1),
-      m_loadingMore(false), m_communitiesPage(1),
+    : QObject(parent), m_loggedIn(false), m_busy(false), m_posts(0),
+      m_postsPage(1), m_loadingMore(false), m_communitiesPage(1),
       m_loadingMoreCommunities(false), m_commentsPage(1),
       m_loadingMoreComments(false),
       m_worker(new LemmyWorker), // no parent – will be moved to thread
@@ -215,13 +215,6 @@ LemmyAPI::LemmyAPI(QObject *parent)
 LemmyAPI::~LemmyAPI() {
   m_workerThread.quit();
   m_workerThread.wait();
-}
-
-void LemmyAPI::appendPosts(const QJsonArray &newPosts) {
-  for (const auto &post : newPosts) {
-    m_posts.append(post);
-  }
-  emit postsChanged();
 }
 
 void LemmyAPI::appendCommunities(const QJsonArray &newCommunities) {
@@ -407,6 +400,13 @@ void LemmyAPI::setPostsPage(int page) {
   }
 }
 
+void LemmyAPI::setPostsModel(PostsModel *model) {
+  if (m_posts != model) {
+    m_posts = model;
+    emit postsChanged();
+  }
+}
+
 void LemmyAPI::login() {
   if (m_busy)
     return;
@@ -458,8 +458,7 @@ void LemmyAPI::listPosts(const QString &jsonParams) {
 }
 
 void LemmyAPI::loadMorePosts() {
-  if (m_busy)
-    return;
+  setBusy(true);
   m_postsPage++;
   m_loadingMore = true;
   // Build params: stored filter + page
@@ -471,8 +470,7 @@ void LemmyAPI::loadMorePosts() {
 }
 
 void LemmyAPI::loadMoreCommunities() {
-  if (m_busy)
-    return;
+  setBusy(true);
   m_communitiesPage++;
   m_loadingMoreCommunities = true;
   // Build params: stored filter + page
@@ -484,8 +482,7 @@ void LemmyAPI::loadMoreCommunities() {
 }
 
 void LemmyAPI::loadMoreComments() {
-  if (m_busy)
-    return;
+  setBusy(true);
   m_commentsPage++;
   m_loadingMoreComments = true;
   // Build params: stored filter + page
@@ -640,8 +637,9 @@ void LemmyAPI::onLogoutFinished(const QString &json) {
   setBusy(false);
 
   // Clear cached data
-  m_posts = QJsonArray();
-  emit postsChanged();
+  if (m_posts) {
+    m_posts->clear();
+  }
   m_communities = QJsonArray();
   emit communitiesChanged();
   m_comments.clear();
@@ -672,12 +670,12 @@ void LemmyAPI::onListPostsFinished(const QString &json) {
     emit requestFailed(QStringLiteral("listPosts"), m_error);
     return;
   }
+  if (!m_loadingMore && m_posts) {
+    m_posts->clear();
+  }
   QJsonArray newPosts = obj.value(QStringLiteral("posts")).toArray();
-  if (m_loadingMore) {
-    appendPosts(newPosts);
-  } else {
-    m_posts = newPosts;
-    emit postsChanged();
+  if (m_posts) {
+    m_posts->append(newPosts);
   }
   setBusy(false);
   m_loadingMore = false;

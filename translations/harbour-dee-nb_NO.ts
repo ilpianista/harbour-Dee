@@ -113,55 +113,55 @@
     <name>SubscribedPage</name>
     <message>
         <source>Logout</source>
-        <translation>Logg ut</translation>
-    </message>
-    <message>
-        <source>Communities</source>
-        <translation>Nettsamfunn</translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <translation>Last på nytt</translation>
-    </message>
-    <message>
-        <source>Load more</source>
-        <translation>Last inn mer</translation>
-    </message>
-    <message>
-        <source>No posts</source>
-        <translation>Ingen innlegg</translation>
-    </message>
-    <message>
-        <source>Pull down to refresh</source>
-        <translation>Dra ned for å oppdatere</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Subscribed</source>
-        <translation>Abonnerer</translation>
+        <translation type="unfinished">Abonnerer</translation>
+    </message>
+    <message>
+        <source>Communities</source>
+        <translation type="unfinished">Nettsamfunn</translation>
+    </message>
+    <message>
+        <source>Refresh</source>
+        <translation type="unfinished">Last på nytt</translation>
+    </message>
+    <message>
+        <source>No posts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pull down to refresh</source>
+        <translation type="unfinished">Dra ned for å oppdatere</translation>
+    </message>
+    <message>
+        <source>Loading more…</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>points</source>
-        <translation>Poeng</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>comments</source>
-        <translation>kommentarer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation>Stem opp</translation>
+        <translation type="unfinished">Stem opp</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation>Fjern stemme</translation>
+        <translation type="unfinished">Fjern stemme</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation>Stem ned</translation>
+        <translation type="unfinished">Stem ned</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation>Fjern nedstemme</translation>
+        <translation type="unfinished">Fjern nedstemme</translation>
     </message>
 </context>
 <context>

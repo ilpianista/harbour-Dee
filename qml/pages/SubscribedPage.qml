@@ -11,10 +11,15 @@ Page {
 
     allowedOrientations: Orientation.All
 
+    PostsModel {
+        id: posts
+    }
+
     LemmyAPI {
         id: api
 
         Component.onCompleted: {
+            api.setPostsModel(posts);
             var params = {
                 "limit": 50
             };
@@ -35,7 +40,7 @@ Page {
         id: listView
 
         anchors.fill: parent
-        model: api.posts
+        model: posts
 
         PullDownMenu {
             MenuItem {
@@ -73,16 +78,8 @@ Page {
             }
         }
 
-        PushUpMenu {
-            MenuItem {
-                text: qsTr("Load more")
-                enabled: !api.busy
-                onClicked: api.loadMorePosts()
-            }
-        }
-
         ViewPlaceholder {
-            enabled: api.posts.length === 0 && !api.busy
+            enabled: posts.count === 0 && !api.busy
             text: qsTr("No posts")
             hintText: qsTr("Pull down to refresh")
         }
@@ -90,7 +87,7 @@ Page {
         BusyIndicator {
             anchors.centerIn: parent
             size: BusyIndicatorSize.Large
-            running: api.busy
+            running: api.busy && posts.count === 0
         }
 
         VerticalScrollDecorator {}
@@ -99,11 +96,35 @@ Page {
             title: pageTitle ? pageTitle : qsTr("Subscribed")
         }
 
+        footer: Column {
+            width: parent.width
+            visible: api.busy && posts.count > 0
+
+            BusyIndicator {
+                anchors.horizontalCenter: parent.horizontalCenter
+                size: BusyIndicatorSize.Small
+                running: api.busy
+            }
+
+            Label {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Loading more…")
+                font.pixelSize: Theme.fontSizeExtraSmall
+                color: Theme.secondaryColor
+            }
+        }
+
+        onAtYEndChanged: {
+            if (atYEnd && !api.busy && posts.count > 0) {
+                api.loadMorePosts();
+            }
+        }
+
         delegate: ListItem {
             id: delegate
 
-            property var post: modelData.post
-            property int myVote: modelData.my_vote ? modelData.my_vote : 0
+            property var post: postData.post
+            property int myVote: postData.my_vote ? postData.my_vote : 0
 
             menu: contextMenu
 
@@ -116,11 +137,11 @@ Page {
                         "postTitle": post.name,
                         "postBody": post.body,
                         "postUrl": post.url,
-                        "postAuthor": modelData.creator.actor_id,
-                        "postScore": modelData.counts.score,
+                        "postAuthor": postData.creator.actor_id,
+                        "postScore": postData.counts.score,
                         "postDate": post.published,
-                        "postComments": modelData.counts.comments,
-                        "postMyVote": modelData.my_vote ? modelData.my_vote : 0
+                        "postComments": postData.counts.comments,
+                        "postMyVote": postData.my_vote ? postData.my_vote : 0
                     });
             }
 
@@ -145,13 +166,13 @@ Page {
                         var text = "";
 
                         if (page.communityId === 0) {
-                            text += "c/" + (modelData.community.name) + " - ";
+                            text += "c/" + (postData.community.name) + " - ";
                         }
 
-                        var counts = modelData.counts || {};
+                        var counts = postData.counts || {};
                         text += (counts.score || 0) + " " + qsTr("points");
                         text += " - " + (counts.comments || 0) + " " + qsTr("comments");
-                        text += " - " + Utils.getRelativeTime(modelData.post.published);
+                        text += " - " + Utils.getRelativeTime(postData.post.published);
 
                         return text;
                     }
