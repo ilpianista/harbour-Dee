@@ -1,182 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="et">
+<TS version="2.1" language="de">
 <context>
     <name>CommunitiesPage</name>
     <message>
         <source>Communities</source>
-        <translation>Kogukonnad</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Laadi uuesti</translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation>Värskendamiseks viipa ülevalt alla</translation>
+        <translation>Zum Aktualisieren herunter ziehen</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation>Laadi veel</translation>
+        <translation>Mehr laden</translation>
     </message>
     <message>
         <source>You aren&apos;t following any communities</source>
-        <translation>Sa veel ei jälgi ühtegi kogukonda</translation>
+        <translation>Du folgst keinen Communities</translation>
     </message>
     <message>
         <source>Subscribed</source>
-        <translation>Tellitud</translation>
+        <translation>Abonniert</translation>
     </message>
 </context>
 <context>
     <name>LemmyAPI</name>
     <message>
         <source>Please fill in all fields</source>
-        <translation>Palun täida kõik väljad</translation>
+        <translation>Bitte fülle alle Felder aus</translation>
     </message>
     <message>
         <source>Login succeeded but no token received</source>
-        <translation>Sisselogimine õnnestus, aga tunnusluba polnud võimalik laadida</translation>
+        <translation>Anmeldung erfolgreich, aber kein Token empfangen</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Login</source>
-        <translation>Logi sisse</translation>
+        <translation>Anmelden</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation>Salasõna</translation>
+        <translation>Passwort</translation>
     </message>
     <message>
         <source>Logging in…</source>
-        <translation>Login sisse…</translation>
+        <translation>Melde an…</translation>
     </message>
     <message>
         <source>Email or Username</source>
-        <translation>E-posti aadress või kasutajanimi</translation>
+        <translation>E-Mail oder Nutzername</translation>
     </message>
 </context>
 <context>
     <name>PostPage</name>
     <message>
         <source>Refresh</source>
-        <translation>Värskenda andmeid</translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <source>No comments</source>
-        <translation>Kommentaare pole</translation>
+        <translation>Keine Kommentare</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation>Värskendamiseks viipa ülevalt alla</translation>
+        <translation>Zum Aktualisieren herunter ziehen</translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation>Kommentaarid</translation>
+        <translation>Kommentare</translation>
     </message>
     <message>
         <source>Share</source>
-        <translation>Jaga</translation>
+        <translation>Teilen</translation>
     </message>
     <message>
         <source>Share url</source>
-        <translation>Jaga võrguaadressi</translation>
+        <translation>URL teilen</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation>Laadi veel</translation>
+        <translation>Mehr laden</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation>Hääleta pooldavalt</translation>
+        <translation>Hochwählen</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation>Võta pooldav hääletus tagasi</translation>
+        <translation>Hochwählen rückgängig machen</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation>Hääleta eitavalt</translation>
+        <translation>Herunterwählen</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation>Võta eitav hääletus tagasi</translation>
+        <translation>Herunterwählen rückgängig machen</translation>
     </message>
 </context>
 <context>
     <name>SubscribedPage</name>
     <message>
         <source>Logout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Subscribed</source>
-        <translation type="unfinished">Tellitud</translation>
+        <translation>Abmelden</translation>
     </message>
     <message>
         <source>Communities</source>
-        <translation type="unfinished">Kogukonnad</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <source>No posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Beiträge</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished">Värskendamiseks viipa ülevalt alla</translation>
+        <translation>Zum Aktualisieren herunter ziehen</translation>
+    </message>
+    <message>
+        <source>Subscribed</source>
+        <translation>Abonniert</translation>
+    </message>
+    <message>
+        <source>points</source>
+        <translation>Punkte</translation>
+    </message>
+    <message>
+        <source>comments</source>
+        <translation>Kommentare</translation>
+    </message>
+    <message>
+        <source>Upvote</source>
+        <translation>Hochwählen</translation>
+    </message>
+    <message>
+        <source>Undo upvote</source>
+        <translation>Hochwählen rückgängig machen</translation>
+    </message>
+    <message>
+        <source>Downvote</source>
+        <translation>Herunterwählen</translation>
+    </message>
+    <message>
+        <source>Undo downvote</source>
+        <translation>Herunterwählen rückgängig machen</translation>
     </message>
     <message>
         <source>Loading more…</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>comments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Upvote</source>
-        <translation type="unfinished">Hääleta pooldavalt</translation>
-    </message>
-    <message>
-        <source>Undo upvote</source>
-        <translation type="unfinished">Võta pooldav hääletus tagasi</translation>
-    </message>
-    <message>
-        <source>Downvote</source>
-        <translation type="unfinished">Hääleta eitavalt</translation>
-    </message>
-    <message>
-        <source>Undo downvote</source>
-        <translation type="unfinished">Võta eitav hääletus tagasi</translation>
     </message>
 </context>
 <context>
     <name>utils</name>
     <message>
         <source>just now</source>
-        <translation>äsja</translation>
+        <translation>Jetzt gerade</translation>
     </message>
     <message>
         <source>min ago</source>
-        <translation>min tagasi</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>h ago</source>
-        <translation>t tagasi</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>d ago</source>
-        <translation>p tagasi</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
