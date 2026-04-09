@@ -46,10 +46,6 @@
         <translation>Anmelden</translation>
     </message>
     <message>
-        <source>https://lemmy.world</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Password</source>
         <translation>Passwort</translation>
     </message>
@@ -124,10 +120,6 @@
         <translation>Aktualisieren</translation>
     </message>
     <message>
-        <source>Load more</source>
-        <translation>Mehr laden</translation>
-    </message>
-    <message>
         <source>No posts</source>
         <translation>Keine Beiträge</translation>
     </message>
@@ -162,6 +154,10 @@
     <message>
         <source>Undo downvote</source>
         <translation>Herunterwählen rückgängig machen</translation>
+    </message>
+    <message>
+        <source>Loading more…</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

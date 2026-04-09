@@ -113,7 +113,7 @@
     </message>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tilaukset</translation>
     </message>
     <message>
         <source>Communities</source>
@@ -124,24 +124,12 @@
         <translation>Päivitä</translation>
     </message>
     <message>
-        <source>Load more</source>
-        <translation>Lataa lisää</translation>
-    </message>
-    <message>
-        <source>Load more</source>
-        <translation type="unfinished">Päivitä</translation>
-    </message>
-    <message>
         <source>No posts</source>
         <translation>Ei julkaisuja</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
         <translation type="unfinished">Päivitä vetämällä alaspäin</translation>
-    </message>
-    <message>
-        <source>Subscribed</source>
-        <translation>Tilaukset</translation>
     </message>
     <message>
         <source>Loading more…</source>
