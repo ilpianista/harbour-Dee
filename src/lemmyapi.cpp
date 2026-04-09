@@ -4,11 +4,14 @@
 #include "securestorage.h"
 #include <QCoreApplication>
 #include <QDebug>
+#include <QDir>
 #include <QEventLoop>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QList>
 #include <QMap>
+#include <QSettings>
+#include <QStandardPaths>
 #include <QUrl>
 #include <QVariant>
 #include <functional>
@@ -161,8 +164,25 @@ LemmyAPI::LemmyAPI(QObject *parent)
   connect(m_secureStorage, &SecureStorage::error, &initLoop, &QEventLoop::quit);
   m_secureStorage->initialize();
   initLoop.exec();
-  m_settings = new QSettings(QCoreApplication::applicationName(),
-                             QCoreApplication::applicationName(), this);
+
+  const QString settingsPath =
+      QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) +
+      QDir::separator() + QCoreApplication::applicationName() + ".conf";
+  m_settings = new QSettings(settingsPath, QSettings::NativeFormat, this);
+
+  if (!m_settings->contains("migrated")) {
+    QSettings oldSettings(QCoreApplication::applicationName(),
+                          QCoreApplication::applicationName(), this);
+
+    for (const QString &key : oldSettings.childKeys())
+      m_settings->setValue(key, oldSettings.value(key));
+
+    oldSettings.clear();
+
+    m_settings->setValue("migrated", "true");
+  }
+
+  m_username = m_settings->value(QStringLiteral("username")).toString();
   m_instanceUrl = m_settings->value(QStringLiteral("instanceUrl")).toString();
 
   // Retrieve JWT from secure storage
@@ -629,10 +649,12 @@ void LemmyAPI::onLogoutFinished(const QString &json) {
   m_jwt.clear();
   // Remove JWT from secure storage
   m_secureStorage->clearAll();
-  // Remove username from QSettings
+  // Remove user details from QSettings
   m_settings->remove(QStringLiteral("username"));
+  m_settings->remove(QStringLiteral("instanceUrl"));
   m_username.clear();
   m_password.clear();
+  m_instanceUrl.clear();
   setLoggedIn(false);
   setBusy(false);
 

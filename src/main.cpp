@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
   QScopedPointer<QQuickView> view(SailfishApp::createView());
 
   QCoreApplication::setApplicationName(QStringLiteral("harbour-dee"));
-  QCoreApplication::setOrganizationName(QStringLiteral("scarpino.dev"));
+  QCoreApplication::setOrganizationName(QStringLiteral("dev.scarpino"));
 
   qmlRegisterType<LemmyAPI>("harbour.dee", 1, 0, "LemmyAPI");
   qmlRegisterType<PostsModel>("harbour.dee", 1, 0, "PostsModel");

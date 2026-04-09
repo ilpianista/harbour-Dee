@@ -6,6 +6,9 @@ Icon=harbour-dee
 Exec=harbour-dee
 Name=Dee
 
+[X-HarbourBackup]
+BackupPathList=.config/dev.scarpino/harbour-dee/
+
 [X-Sailjail]
 OrganizationName=dev.scarpino
 ApplicationName=harbour-dee

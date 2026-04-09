@@ -54,11 +54,10 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Logout")
-                onClicked: {
-                    api.logout();
-                    pageStack.replace(Qt.resolvedUrl("LoginPage.qml"));
-                }
+                text: qsTr("Settings")
+                onClicked: pageStack.animatorPush(Qt.resolvedUrl("SettingsPage.qml"), {
+                    "api": api
+                })
             }
 
             MenuItem {

@@ -24,6 +24,7 @@ DISTFILES += qml/Dee.qml \
     qml/pages/CommunitiesPage.qml \
     qml/pages/PostPage.qml \
     qml/pages/PostWebView.qml \
+    qml/pages/SettingsPage.qml \
     qml/pages/SubscribedPage.qml \
     qml/pages/utils.js \
     rpm/harbour-dee.changes \

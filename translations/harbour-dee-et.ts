@@ -27,6 +27,10 @@
         <source>Subscribed</source>
         <translation>Tellitud</translation>
     </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LemmyAPI</name>
@@ -106,11 +110,30 @@
     </message>
 </context>
 <context>
-    <name>SubscribedPage</name>
+    <name>SettingsPage</name>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Instance</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Logout</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>SubscribedPage</name>
     <message>
         <source>Subscribed</source>
         <translation type="unfinished">Tellitud</translation>
@@ -158,6 +181,10 @@
     <message>
         <source>Undo downvote</source>
         <translation type="unfinished">Võta eitav hääletus tagasi</translation>
+    </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

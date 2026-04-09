@@ -24,6 +24,13 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: qsTr("Settings")
+                onClicked: pageStack.animatorPush(Qt.resolvedUrl("SettingsPage.qml"), {
+                    "api": api
+                })
+            }
+
+            MenuItem {
                 text: qsTr("Subscribed")
                 onClicked: {
                     pageStack.animatorPush(Qt.resolvedUrl("SubscribedPage.qml"));

@@ -27,6 +27,10 @@
         <source>Subscribed</source>
         <translation>Abonniert</translation>
     </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LemmyAPI</name>
@@ -106,11 +110,30 @@
     </message>
 </context>
 <context>
-    <name>SubscribedPage</name>
+    <name>SettingsPage</name>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Username</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Instance</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Logout</source>
-        <translation>Abmelden</translation>
+        <translation type="unfinished">Abmelden</translation>
     </message>
+</context>
+<context>
+    <name>SubscribedPage</name>
     <message>
         <source>Communities</source>
         <translation type="unfinished"></translation>
@@ -157,6 +180,10 @@
     </message>
     <message>
         <source>Loading more…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
