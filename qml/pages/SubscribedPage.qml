@@ -4,8 +4,6 @@ import harbour.dee 1.0
 import "utils.js" as Utils
 
 Page {
-    id: page
-
     property int communityId: 0
     property string pageTitle: ""
 

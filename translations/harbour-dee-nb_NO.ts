@@ -112,6 +112,37 @@
         <source>Undo downvote</source>
         <translation>Fjern nedstemme</translation>
     </message>
+    <message>
+        <source>Reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In reply to &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ReplyPage</name>
+    <message>
+        <source>Reply to comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reply to post</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type here to comment…</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Post</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reply</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SettingsPage</name>

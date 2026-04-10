@@ -3,8 +3,6 @@ import Sailfish.Silica 1.0
 import harbour.dee 1.0
 
 Page {
-    id: page
-
     property var api
 
     allowedOrientations: Orientation.All

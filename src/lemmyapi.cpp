@@ -123,6 +123,11 @@ void LemmyWorker::doLikeComment(const QString &jsonParams) {
   emit likeCommentFinished(callRust(m_handle, lemmy_like_comment, jsonParams));
 }
 
+void LemmyWorker::doCreateComment(const QString &jsonParams) {
+  emit createCommentFinished(
+      callRust(m_handle, lemmy_create_comment, jsonParams));
+}
+
 void LemmyWorker::doListCommunities(const QString &jsonParams) {
   emit listCommunitiesFinished(
       callRust(m_handle, lemmy_list_communities, jsonParams));
@@ -213,6 +218,8 @@ LemmyAPI::LemmyAPI(QObject *parent)
           &LemmyAPI::onListCommentsFinished);
   connect(m_worker, &LemmyWorker::likeCommentFinished, this,
           &LemmyAPI::onLikeCommentFinished);
+  connect(m_worker, &LemmyWorker::createCommentFinished, this,
+          &LemmyAPI::onCreateCommentFinished);
   connect(m_worker, &LemmyWorker::listCommunitiesFinished, this,
           &LemmyAPI::onListCommunitiesFinished);
   connect(m_worker, &LemmyWorker::getCommunityFinished, this,
@@ -526,6 +533,19 @@ void LemmyAPI::likeComment(int commentId, int score) {
                             Q_ARG(QString, params));
 }
 
+void LemmyAPI::createComment(int postId, const QString &content, int parentId) {
+  setBusy(true);
+  QJsonObject obj;
+  obj["post_id"] = postId;
+  obj["content"] = content;
+  if (parentId > 0) {
+    obj["parent_id"] = parentId;
+  }
+  QString params = QJsonDocument(obj).toJson(QJsonDocument::Compact);
+  QMetaObject::invokeMethod(m_worker, "doCreateComment", Qt::QueuedConnection,
+                            Q_ARG(QString, params));
+}
+
 void LemmyAPI::listCommunities(const QString &jsonParams) {
   setBusy(true);
   m_communitiesPage = 1;
@@ -747,6 +767,18 @@ void LemmyAPI::onLikeCommentFinished(const QString &json) {
   }
   setBusy(false);
   emit requestFinished(QStringLiteral("likeComment"), obj);
+}
+
+void LemmyAPI::onCreateCommentFinished(const QString &json) {
+  QJsonObject obj = parseJson(json);
+  if (obj.contains(QStringLiteral("error"))) {
+    setError(obj[QStringLiteral("error")].toString());
+    setBusy(false);
+    emit requestFailed(QStringLiteral("createComment"), m_error);
+    return;
+  }
+  setBusy(false);
+  emit requestFinished(QStringLiteral("createComment"), obj);
 }
 
 void LemmyAPI::onListCommunitiesFinished(const QString &json) {

@@ -4,8 +4,6 @@ import Sailfish.Silica 1.0
 import harbour.dee 1.0
 
 Page {
-    id: page
-
     property var api
     property int postId
     property string postTitle
@@ -32,12 +30,18 @@ Page {
         loadComments();
     }
 
-    Component.onCompleted: {
-        refresh();
-        appWindow.postTitle = postTitle;
+    function previewText(text) {
+        if (text.trim().length === 0) {
+            return text;
+        }
+
+        return text.trim().substring(0, 200);
     }
 
-    onPostIdChanged: refresh()
+    Component.onCompleted: {
+        loadComments();
+        appWindow.postTitle = postTitle;
+    }
 
     onStatusChanged: {
         if (status == PageStatus.Active) {
@@ -63,6 +67,18 @@ Page {
             MenuItem {
                 text: qsTr("Refresh")
                 onClicked: refresh()
+            }
+
+            MenuItem {
+                text: qsTr("Reply")
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("ReplyPage.qml"), {
+                        "api": api,
+                        "postId": postId,
+                        "parentId": 0,
+                        "previewText": qsTr("In reply to \"%1\"").arg(previewText(postTitle))
+                    });
+                }
             }
 
             MenuItem {
@@ -239,6 +255,18 @@ Page {
                                 onClicked: api.likeComment(commentData.id, myVote === 0 ? -1 : 0)
                                 enabled: myVote <= 0
                             }
+
+                            MenuItem {
+                                text: qsTr("Reply")
+                                onClicked: {
+                                    pageStack.push(Qt.resolvedUrl("ReplyPage.qml"), {
+                                        "api": api,
+                                        "postId": postId,
+                                        "parentId": commentData.id,
+                                        "previewText": qsTr("In reply to \"%1\"").arg(previewText(commentData.content))
+                                    });
+                                }
+                            }
                         }
                     }
                 }
@@ -249,7 +277,15 @@ Page {
     Connections {
         target: api
         onRequestFinished: {
-            (method === "likePost" || method === "likeComment") && refresh();
+            if (method === "likePost" || method === "getPost") {
+                postMyVote = result.post_view.my_vote ? result.post_view.my_vote : 0;
+                postComments = result.post_view.counts.comments;
+
+                postTitle = result.post_view.post.name;
+                appWindow.postTitle = postTitle;
+            } else if (method === "likeComment") {
+                loadComments();
+            }
         }
     }
 
