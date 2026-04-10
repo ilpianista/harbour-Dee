@@ -73,14 +73,6 @@
         <translation>Aktualisieren</translation>
     </message>
     <message>
-        <source>No comments</source>
-        <translation>Keine Kommentare</translation>
-    </message>
-    <message>
-        <source>Pull down to refresh</source>
-        <translation>Zum Aktualisieren herunter ziehen</translation>
-    </message>
-    <message>
         <source>Comments</source>
         <translation>Kommentare</translation>
     </message>
@@ -118,6 +110,10 @@
     </message>
     <message>
         <source>In reply to &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No comments yet.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

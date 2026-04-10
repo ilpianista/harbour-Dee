@@ -102,12 +102,6 @@ Page {
             }
         }
 
-        ViewPlaceholder {
-            enabled: api && api.comments.length === 0 && !api.busy
-            text: qsTr("No comments")
-            hintText: qsTr("Pull down to refresh")
-        }
-
         BusyIndicator {
             anchors.centerIn: parent
             size: BusyIndicatorSize.Large
@@ -187,8 +181,18 @@ Page {
                 text: qsTr("Comments") + " (" + (api ? api.comments.length : 0) + "/" + postComments + ")"
             }
 
+            Label {
+                width: parent.width
+                visible: api && api.comments.length === 0
+                text: qsTr("No comments yet.")
+                color: Theme.secondaryColor
+                font.pixelSize: Theme.fontSizeMedium
+            }
+
             Repeater {
                 model: api ? api.comments : []
+
+                visible: api && api.comments.length > 0
 
                 delegate: ListItem {
                     property var commentData: modelData.commentData

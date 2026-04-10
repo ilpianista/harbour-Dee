@@ -73,14 +73,6 @@
         <translation>Last på nytt</translation>
     </message>
     <message>
-        <source>No comments</source>
-        <translation>Ingen kommentarer</translation>
-    </message>
-    <message>
-        <source>Pull down to refresh</source>
-        <translation>Dra ned for å oppdatere</translation>
-    </message>
-    <message>
         <source>Comments</source>
         <translation>Kommentarer</translation>
     </message>
@@ -118,6 +110,10 @@
     </message>
     <message>
         <source>In reply to &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No comments yet.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

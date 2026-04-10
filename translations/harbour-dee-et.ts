@@ -73,14 +73,6 @@
         <translation>Värskenda andmeid</translation>
     </message>
     <message>
-        <source>No comments</source>
-        <translation>Kommentaare pole</translation>
-    </message>
-    <message>
-        <source>Pull down to refresh</source>
-        <translation>Värskendamiseks viipa ülevalt alla</translation>
-    </message>
-    <message>
         <source>Comments</source>
         <translation>Kommentaarid</translation>
     </message>
@@ -118,6 +110,10 @@
     </message>
     <message>
         <source>In reply to &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No comments yet.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

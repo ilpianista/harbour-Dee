@@ -73,14 +73,6 @@
         <translation type="unfinished">Päivitä</translation>
     </message>
     <message>
-        <source>No comments</source>
-        <translation>Ei kommentteja</translation>
-    </message>
-    <message>
-        <source>Pull down to refresh</source>
-        <translation type="unfinished">Päivitä vetämällä alaspäin</translation>
-    </message>
-    <message>
         <source>Comments</source>
         <translation>Kommentit</translation>
     </message>
@@ -118,6 +110,10 @@
     </message>
     <message>
         <source>In reply to &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No comments yet.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
