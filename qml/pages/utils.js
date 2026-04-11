@@ -10,11 +10,11 @@ function getRelativeTime(dateString) {
     if (diffSec < 60) {
         return qsTr("just now")
     } else if (diffMin < 60) {
-        return diffMin + " " + qsTr("min ago")
+        return qsTr("%1 min(s) ago").arg(diffMin)
     } else if (diffHour < 24) {
-        return diffHour + " " + qsTr("h ago")
+        return qsTr("%1 hour(s) ago").arg(diffHour)
     } else if (diffDay < 7) {
-        return diffDay + " " + qsTr("d ago")
+        return qsTr("%1 day(s) ago").arg(diffDay)
     } else {
         return Qt.formatDateTime(date)
     }

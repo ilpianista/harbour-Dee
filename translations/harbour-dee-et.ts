@@ -33,6 +33,25 @@
     </message>
 </context>
 <context>
+    <name>CoverPage</name>
+    <message>
+        <source>point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LemmyAPI</name>
     <message>
         <source>Please fill in all fields</source>
@@ -225,16 +244,16 @@
         <translation>äsja</translation>
     </message>
     <message>
-        <source>min ago</source>
-        <translation>min tagasi</translation>
+        <source>%1 min(s) ago</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>h ago</source>
-        <translation>t tagasi</translation>
+        <source>%1 hour(s) ago</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>d ago</source>
-        <translation>p tagasi</translation>
+        <source>%1 day(s) ago</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
