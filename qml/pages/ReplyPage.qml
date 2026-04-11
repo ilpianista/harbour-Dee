@@ -61,9 +61,6 @@ Page {
                 placeholderText: qsTr("Type here to comment…")
                 font.pixelSize: Theme.fontSizeSmall
                 wrapMode: Text.Wrap
-                EnterKey.enabled: !submitting && text.trim().length > 0
-                EnterKey.iconSource: "image://theme/icon-m-enter-accept"
-                EnterKey.onClicked: submit()
             }
 
             Button {
