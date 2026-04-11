@@ -195,6 +195,8 @@ Page {
                 visible: api && api.comments.length > 0
 
                 delegate: ListItem {
+                    id: listItem
+
                     property var commentData: modelData.commentData
                     property var counts: modelData.counts
                     property int depth: modelData.depth
@@ -214,7 +216,7 @@ Page {
                         Label {
                             width: parent.width
                             text: commentData.content || ""
-                            color: Theme.secondaryColor
+                            color: listItem.highlighted ? Theme.highlightColor : Theme.secondaryColor
                             font.pixelSize: Theme.fontSizeSmall
                             wrapMode: Text.Wrap
                         }

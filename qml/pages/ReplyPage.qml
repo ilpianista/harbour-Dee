@@ -11,6 +11,19 @@ Page {
     // Internal state
     property bool submitting: false
 
+    function submit() {
+        submitting = true;
+        var jsonObj = {
+            "post_id": postId,
+            "content": comment.text.trim()
+        };
+        if (parentId > 0) {
+            jsonObj.parent_id = parentId;
+        }
+        var jsonParams = JSON.stringify(jsonObj);
+        api.createComment(postId, comment.text.trim(), parentId);
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         contentHeight: column.height
@@ -48,24 +61,16 @@ Page {
                 placeholderText: qsTr("Type here to comment…")
                 font.pixelSize: Theme.fontSizeSmall
                 wrapMode: Text.Wrap
+                EnterKey.enabled: !submitting && text.trim().length > 0
+                EnterKey.iconSource: "image://theme/icon-m-enter-accept"
+                EnterKey.onClicked: submit()
             }
 
             Button {
                 width: parent.width
                 text: parentId === 0 ? qsTr("Post") : qsTr("Reply")
                 enabled: !submitting && comment.text.trim().length > 0
-                onClicked: {
-                    submitting = true;
-                    var jsonObj = {
-                        "post_id": postId,
-                        "content": comment.text.trim()
-                    };
-                    if (parentId > 0) {
-                        jsonObj.parent_id = parentId;
-                    }
-                    var jsonParams = JSON.stringify(jsonObj);
-                    api.createComment(postId, comment.text.trim(), parentId);
-                }
+                onClicked: submit()
             }
         }
     }
