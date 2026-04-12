@@ -5,8 +5,6 @@ int PostsModel::rowCount(const QModelIndex &parent) const {
   return m_posts.size();
 }
 
-int PostsModel::count() const { return m_posts.size(); }
-
 QVariant PostsModel::data(const QModelIndex &index, int role) const {
   if (!index.isValid() || index.row() >= m_posts.size())
     return QVariant();
@@ -31,8 +29,6 @@ void PostsModel::clear() {
   beginResetModel();
   m_posts.clear();
   endResetModel();
-
-  emit countChanged();
 }
 
 void PostsModel::append(const QJsonArray &newPosts) {
@@ -46,6 +42,4 @@ void PostsModel::append(const QJsonArray &newPosts) {
     m_posts.append(value.toObject());
   }
   endInsertRows();
-
-  emit countChanged();
 }

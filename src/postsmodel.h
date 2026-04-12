@@ -7,7 +7,6 @@
 
 class PostsModel : public QAbstractListModel {
   Q_OBJECT
-  Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
   explicit PostsModel(QObject *parent = nullptr) : QAbstractListModel(parent) {}
 
@@ -20,12 +19,6 @@ public:
   // Custom operations
   void clear();
   void append(const QJsonArray &newPosts);
-
-  // QML interface
-  int count() const;
-
-signals:
-  void countChanged();
 
 private:
   QList<QJsonObject> m_posts;

@@ -80,7 +80,7 @@ Page {
         }
 
         ViewPlaceholder {
-            enabled: posts.count === 0 && !api.busy
+            enabled: listView.count === 0 && !api.busy
             text: qsTr("No posts")
             hintText: qsTr("Pull down to refresh")
         }
@@ -88,7 +88,7 @@ Page {
         BusyIndicator {
             anchors.centerIn: parent
             size: BusyIndicatorSize.Large
-            running: api.busy && posts.count === 0
+            running: api.busy && listView.count === 0
         }
 
         VerticalScrollDecorator {}
@@ -99,7 +99,7 @@ Page {
 
         footer: Column {
             width: parent.width
-            visible: api.busy && posts.count > 0
+            visible: api.busy && listView.count > 0
 
             BusyIndicator {
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -116,7 +116,7 @@ Page {
         }
 
         onAtYEndChanged: {
-            if (atYEnd && !api.busy && posts.count > 0) {
+            if (atYEnd && !api.busy && listView.count > 0) {
                 api.loadMorePosts();
             }
         }
