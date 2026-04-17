@@ -6,7 +6,7 @@ Name:       harbour-dee
 # << macros
 
 Summary:    Lemmy client
-Version:    0.0.4
+Version:    0.0.5
 Release:    1
 License:    LICENSE
 URL:        http://example.org/
