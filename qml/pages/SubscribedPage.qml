@@ -156,13 +156,6 @@ Page {
                 width: parent.width - 2 * Theme.horizontalPageMargin
                 spacing: Theme.paddingSmall
 
-                Label {
-                    visible: page.communityId === 0
-                    text: "c/" + (community.name || "")
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryHighlightColor
-                }
-
                 Row {
                     width: parent.width
                     spacing: Theme.paddingSmall
@@ -205,45 +198,72 @@ Page {
                 Row {
                     spacing: Theme.paddingSmall
 
-                    Label {
-                        text: {
-                            var s = counts.score || 0;
-                            if (myVote > 0)
-                                return "▲ " + s;
-
-                            if (myVote < 0)
-                                return "▼ " + s;
-
-                            return s + " " + qsTr("pts");
+                    Row {
+                        spacing: Theme.paddingSmall
+                        Label {
+                            visible: page.communityId === 0
+                            text: "c/" + (community.name || "")
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: delegate.highlighted ? Theme.highlightColor : Theme.secondaryHighlightColor
                         }
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        color: myVote > 0 ? Theme.highlightColor : myVote < 0 ? Theme.highlightDimmerColor : Theme.secondaryColor
+
+                        Label {
+                            text: "·"
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: delegate.highlighted ? Theme.highlightColor : Theme.secondaryColor
+                        }
                     }
 
-                    Label {
-                        text: "·"
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        color: Theme.secondaryColor
-                        visible: (counts.comments || 0) > 0
+                    Row {
+                        spacing: Theme.paddingSmall
+
+                        Label {
+                            text: {
+                                var s = counts.score || 0;
+                                if (myVote > 0)
+                                    return "▲ " + s;
+
+                                if (myVote < 0)
+                                    return "▼ " + s;
+
+                                return s;
+                            }
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: myVote > 0 ? Theme.highlightColor : myVote < 0 ? Theme.highlightDimmerColor : delegate.highlighted ? Theme.highlightColor : Theme.secondaryColor
+                        }
+
+                        Image {
+                            source: "image://theme/icon-s-like"
+                            width: Theme.iconSizeExtraSmall
+                            height: Theme.iconSizeExtraSmall
+                            anchors.verticalCenter: parent.verticalCenter
+                            opacity: 0.7
+                        }
                     }
 
-                    Label {
-                        text: (counts.comments || 0) + " " + qsTr("comments")
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        color: Theme.secondaryColor
-                        visible: (counts.comments || 0) > 0
-                    }
+                    Row {
+                        visible: counts.comments > 0
+                        spacing: Theme.paddingSmall
 
-                    Label {
-                        text: "·"
-                        font.pixelSize: Theme.fontSizeExtraSmall
-                        color: Theme.secondaryColor
+                        Label {
+                            text: counts.comments
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: delegate.highlighted ? Theme.highlightColor : Theme.secondaryColor
+                        }
+
+                        Image {
+                            source: "image://theme/icon-s-chat"
+                            width: Theme.iconSizeExtraSmall
+                            height: Theme.iconSizeExtraSmall
+                            anchors.verticalCenter: parent.verticalCenter
+                            opacity: 0.7
+                        }
                     }
 
                     Label {
                         text: Utils.getRelativeTime(post.published)
                         font.pixelSize: Theme.fontSizeExtraSmall
-                        color: Theme.secondaryColor
+                        color: delegate.highlighted ? Theme.highlightColor : Theme.secondaryColor
                     }
                 }
             }

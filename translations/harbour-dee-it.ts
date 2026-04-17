@@ -163,10 +163,6 @@
         <source>Load more comments</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>pts</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ReplyPage</name>
@@ -245,10 +241,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>comments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Upvote</source>
         <translation type="unfinished"></translation>
     </message>
@@ -266,10 +258,6 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>pts</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

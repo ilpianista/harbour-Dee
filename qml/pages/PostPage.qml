@@ -178,17 +178,9 @@ Page {
                 spacing: Theme.paddingSmall
 
                 Label {
-                    text: {
-                        if (postMyVote > 0)
-                            return "▲ " + postScore;
-
-                        if (postMyVote < 0)
-                            return "▼ " + postScore;
-
-                        return postScore + " " + qsTr("pts");
-                    }
+                    text: "c/" + community
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    color: postMyVote > 0 ? Theme.highlightColor : postMyVote < 0 ? "#e05050" : Theme.secondaryColor
+                    color: Theme.secondaryHighlightColor
                 }
 
                 Label {
@@ -197,10 +189,30 @@ Page {
                     color: Theme.secondaryColor
                 }
 
-                Label {
-                    text: "c/" + community
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
+                Row {
+                    spacing: Theme.paddingSmall
+
+                    Label {
+                        text: {
+                            if (postMyVote > 0)
+                                return "▲ " + postScore;
+
+                            if (postMyVote < 0)
+                                return "▼ " + postScore;
+
+                            return postScore;
+                        }
+                        font.pixelSize: Theme.fontSizeExtraSmall
+                        color: postMyVote > 0 ? Theme.highlightColor : postMyVote < 0 ? "#e05050" : Theme.secondaryColor
+                    }
+
+                    Image {
+                        source: "image://theme/icon-s-like"
+                        width: Theme.iconSizeExtraSmall
+                        height: Theme.iconSizeExtraSmall
+                        anchors.verticalCenter: parent.verticalCenter
+                        opacity: 0.7
+                    }
                 }
 
                 Label {
@@ -306,18 +318,30 @@ Page {
                                     color: Theme.secondaryColor
                                 }
 
-                                Label {
-                                    text: {
-                                        if (myVote > 0)
-                                            return "▲ " + (counts.score || 0);
+                                Row {
+                                    spacing: Theme.paddingSmall
 
-                                        if (myVote < 0)
-                                            return "▼ " + (counts.score || 0);
+                                    Label {
+                                        text: {
+                                            if (myVote > 0)
+                                                return "▲ " + (counts.score || 0);
 
-                                        return (counts.score || 0) + " " + qsTr("pts");
+                                            if (myVote < 0)
+                                                return "▼ " + (counts.score || 0);
+
+                                            return (counts.score || 0);
+                                        }
+                                        font.pixelSize: Theme.fontSizeExtraSmall
+                                        color: myVote > 0 ? Theme.highlightColor : myVote < 0 ? Theme.highlightDimmerColor : Theme.secondaryColor
                                     }
-                                    font.pixelSize: Theme.fontSizeExtraSmall
-                                    color: myVote > 0 ? Theme.highlightColor : myVote < 0 ? Theme.highlightDimmerColor : Theme.secondaryColor
+
+                                    Image {
+                                        source: "image://theme/icon-s-like"
+                                        width: Theme.iconSizeExtraSmall
+                                        height: Theme.iconSizeExtraSmall
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        opacity: 0.7
+                                    }
                                 }
 
                                 Label {
