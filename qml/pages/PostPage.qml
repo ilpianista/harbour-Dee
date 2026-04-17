@@ -8,6 +8,7 @@ Page {
     id: page
 
     property var api
+    property string community
     property int postId
     property string postTitle
     property string postBody
@@ -195,11 +196,9 @@ Page {
                 }
 
                 Label {
-                    text: Utils.formatAuthor(postAuthor)
+                    text: "c/" + community
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryHighlightColor
-                    elide: Text.ElideRight
-                    width: Math.min(implicitWidth, col.width * 0.5)
+                    color: Theme.secondaryColor
                 }
 
                 Label {
@@ -213,6 +212,14 @@ Page {
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: Theme.secondaryColor
                 }
+            }
+
+            Label {
+                text: Utils.formatAuthor(postAuthor)
+                font.pixelSize: Theme.fontSizeExtraSmall
+                color: Theme.secondaryHighlightColor
+                width: parent.width
+                horizontalAlignment: Text.AlignRight
             }
 
             SectionHeader {

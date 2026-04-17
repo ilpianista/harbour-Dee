@@ -135,6 +135,7 @@ Page {
                 if (post.id)
                     pageStack.animatorPush(Qt.resolvedUrl("PostPage.qml"), {
                         "api": api,
+                        "community": community.name,
                         "postId": post.id,
                         "postTitle": post.name,
                         "postBody": post.body,
