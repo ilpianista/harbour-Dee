@@ -19,6 +19,7 @@ Page {
     property int postScore
     property int postComments
     property int postMyVote
+    property bool postLocked
     readonly property var threadColors: [Theme.highlightColor, Theme.secondaryHighlightColor, Theme.primaryColor, Theme.secondaryColor]
 
     function loadComments() {
@@ -71,6 +72,7 @@ Page {
             }
 
             MenuItem {
+                enabled: !postLocked
                 text: qsTr("Reply")
                 onClicked: pageStack.push(Qt.resolvedUrl("ReplyPage.qml"), {
                     "api": api,
@@ -349,6 +351,7 @@ Page {
                         }
 
                         MenuItem {
+                            enabled: !postLocked
                             text: qsTr("Reply")
                             onClicked: pageStack.push(Qt.resolvedUrl("ReplyPage.qml"), {
                                 "api": api,

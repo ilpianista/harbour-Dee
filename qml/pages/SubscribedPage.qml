@@ -144,7 +144,8 @@ Page {
                         "postScore": counts.score,
                         "postDate": post.published,
                         "postComments": counts.comments,
-                        "postMyVote": postData.my_vote ? postData.my_vote : 0
+                        "postMyVote": postData.my_vote ? postData.my_vote : 0,
+                        "postLocked": post.locked
                     });
             }
 
@@ -162,13 +163,27 @@ Page {
                     color: Theme.secondaryHighlightColor
                 }
 
-                // Post title
-                Label {
+                Row {
                     width: parent.width
-                    text: post.name || ""
-                    font.pixelSize: Theme.fontSizeSmall
-                    wrapMode: Text.Wrap
-                    color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+                    spacing: Theme.paddingSmall
+
+                    Image {
+                        visible: post.featured_community
+                        source: "image://theme/icon-s-high-importance"
+                    }
+
+                    Image {
+                        visible: post.locked
+                        source: "image://theme/icon-s-secure"
+                    }
+
+                    Label {
+                        width: parent.width - (post.featured_community ? (Theme.iconSizeSmall + Theme.paddingSmall) : 0) - (post.locked ? (Theme.iconSizeSmall + Theme.paddingSmall) : 0)
+                        text: post.name || ""
+                        font.pixelSize: Theme.fontSizeSmall
+                        wrapMode: Text.Wrap
+                        color: delegate.highlighted ? Theme.highlightColor : Theme.primaryColor
+                    }
                 }
 
                 Label {
