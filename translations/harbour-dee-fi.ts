@@ -156,11 +156,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Share link</source>
+        <source>Share link to post</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Share link to post</source>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PostWebView</name>
+    <message>
+        <source>Share url</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

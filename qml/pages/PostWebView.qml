@@ -23,10 +23,12 @@
 */
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import Sailfish.Share 1.0
 import Sailfish.WebView 1.0
 
 WebViewPage {
-    property var postUrl
+    property string postUrl
+    property string postTitle
 
     allowedOrientations: Orientation.All
 
@@ -34,5 +36,29 @@ WebViewPage {
         anchors.fill: parent
         url: postUrl
         privateMode: true
+    }
+
+    ShareAction {
+        id: share
+
+        title: qsTr("Share url")
+        mimeType: "text/x-url"
+        resources: [
+            {
+                "type": "text/x-url",
+                "linkTitle": postTitle,
+                "status": postUrl
+            }
+        ]
+    }
+
+    IconButton {
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+            margins: Theme.horizontalPageMargin
+        }
+        icon.source: "image://theme/icon-m-share"
+        onClicked: share.trigger()
     }
 }

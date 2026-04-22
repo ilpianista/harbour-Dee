@@ -51,7 +51,8 @@ Page {
         if (status === PageStatus.Active) {
             if (postUrl && !/^\s*$/.test(postUrl))
                 pageStack.pushAttached(Qt.resolvedUrl("PostWebView.qml"), {
-                    "postUrl": postUrl
+                    "postUrl": postUrl,
+                    "postTitle": postTitle
                 });
         }
     }
@@ -62,7 +63,7 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Share link")
+                text: qsTr("Share")
                 onClicked: share.trigger()
             }
 
