@@ -5,298 +5,298 @@
     <name>CommunitiesPage</name>
     <message>
         <source>Communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemeenschappen</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Verversen</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Trek omlaag om te verversen</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer laden</translation>
     </message>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geabonneerd</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>No subscribed communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen abonnementen op gemeenschappen</translation>
     </message>
     <message>
         <source>subscribers</source>
-        <translation type="unfinished"></translation>
+        <translation>abonnees</translation>
     </message>
     <message>
         <source>posts</source>
-        <translation type="unfinished"></translation>
+        <translation>posts</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>comment</source>
-        <translation type="unfinished"></translation>
+        <translation>opmerking</translation>
     </message>
     <message>
         <source>comments</source>
-        <translation type="unfinished"></translation>
+        <translation>opmerkingen</translation>
     </message>
     <message>
         <source>point</source>
-        <translation type="unfinished"></translation>
+        <translation>punt</translation>
     </message>
     <message>
         <source>points</source>
-        <translation type="unfinished"></translation>
+        <translation>punten</translation>
     </message>
 </context>
 <context>
     <name>LemmyAPI</name>
     <message>
         <source>Please fill in all fields</source>
-        <translation type="unfinished"></translation>
+        <translation>Gelieve alle velden in te vullen</translation>
     </message>
     <message>
         <source>Login succeeded but no token received</source>
-        <translation type="unfinished"></translation>
+        <translation>Succesvol aangemeld, maar geen token ontvangen</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Wachtwoord</translation>
     </message>
     <message>
         <source>Email or Username</source>
-        <translation type="unfinished"></translation>
+        <translation>E-mail of Gebruikersnaam</translation>
     </message>
     <message>
         <source>Sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>Aanmelden</translation>
     </message>
     <message>
         <source>Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Instantie</translation>
     </message>
     <message>
         <source>Instance URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Instantie URL</translation>
     </message>
     <message>
         <source>Credentials</source>
-        <translation type="unfinished"></translation>
+        <translation>Toegangsgegevens</translation>
     </message>
     <message>
         <source>Two-factor authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Tweestapsverificatie</translation>
     </message>
     <message>
         <source>Authentication code</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificatiecode</translation>
     </message>
     <message>
         <source>6-digit code</source>
-        <translation type="unfinished"></translation>
+        <translation>6-cijferige code</translation>
     </message>
     <message>
         <source>Signing in…</source>
-        <translation type="unfinished"></translation>
+        <translation>Aanmelden…</translation>
     </message>
 </context>
 <context>
     <name>PostPage</name>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Verversen</translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Opmerkingen</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Upvoten</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Upvote ongedaan maken</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Downvoten</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Downvote ongedaan maken</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Antwoorden</translation>
     </message>
     <message>
         <source>In reply to &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Als antwoord op &quot;%1&quot;</translation>
     </message>
     <message>
         <source>No comments yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nog geen opmerkingen.</translation>
     </message>
     <message>
         <source>Load more comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer opmerkingen laden</translation>
     </message>
     <message>
         <source>Share link to post</source>
-        <translation type="unfinished"></translation>
+        <translation>Link delen naar post</translation>
     </message>
     <message>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Delen</translation>
     </message>
 </context>
 <context>
     <name>PostWebView</name>
     <message>
         <source>Share url</source>
-        <translation type="unfinished"></translation>
+        <translation>Deel-URL</translation>
     </message>
 </context>
 <context>
     <name>ReplyPage</name>
     <message>
         <source>Reply to comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Opmerking beantwoorden</translation>
     </message>
     <message>
         <source>Reply to post</source>
-        <translation type="unfinished"></translation>
+        <translation>Post beantwoorden</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Beantwoorden</translation>
     </message>
     <message>
         <source>Write your comment…</source>
-        <translation type="unfinished"></translation>
+        <translation>Schrijf je opmerkingen…</translation>
     </message>
     <message>
         <source>Posting…</source>
-        <translation type="unfinished"></translation>
+        <translation>Indienen…</translation>
     </message>
     <message>
         <source>Post comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Opmerking indienen</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen</translation>
     </message>
     <message>
         <source>Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Account</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Gebruikersnaam</translation>
     </message>
     <message>
         <source>Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Instantie</translation>
     </message>
     <message>
         <source>Sign out</source>
-        <translation type="unfinished"></translation>
+        <translation>Afmelden</translation>
     </message>
 </context>
 <context>
     <name>SubscribedPage</name>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geabonneerd</translation>
     </message>
     <message>
         <source>Communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemeenschappen</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Verversen</translation>
     </message>
     <message>
         <source>No posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen posts</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Trek omlaag om te verversen</translation>
     </message>
     <message>
         <source>Loading more…</source>
-        <translation type="unfinished"></translation>
+        <translation>Meer aan het laden…</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Upvoten</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Upvote ongedaan maken</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Downvoten</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Downvote ongedaan maken</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Instellingen</translation>
     </message>
 </context>
 <context>
     <name>utils</name>
     <message>
         <source>just now</source>
-        <translation type="unfinished"></translation>
+        <translation>nu net</translation>
     </message>
     <message>
         <source>1 minute ago</source>
-        <translation type="unfinished"></translation>
+        <translation>1 minuut geleden</translation>
     </message>
     <message>
         <source>%1 minutes ago</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 minuten geleden</translation>
     </message>
     <message>
         <source>1 hour ago</source>
-        <translation type="unfinished"></translation>
+        <translation>1 uur geleden</translation>
     </message>
     <message>
         <source>%1 hours ago</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 uren geleden</translation>
     </message>
     <message>
         <source>1 day ago</source>
-        <translation type="unfinished"></translation>
+        <translation>1 dag geleden</translation>
     </message>
     <message>
         <source>%1 days ago</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dagen geleden</translation>
     </message>
 </context>
 </TS>
