@@ -1,3 +1,9 @@
+* Tue Apr 28 2026 Andrea Scarpino <andrea@scarpino.dev> 0.0.6-1
+- Share post link instead of attached url.
+- Allow to share link from webview.
+- Remorse popup on logout.
+- Translations updates.
+
 * Sat Apr 18 2026 Andrea Scarpino <andrea@scarpino.dev> 0.0.5-1
 - UI improvements (more icons).
 
