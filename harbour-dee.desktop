@@ -7,7 +7,7 @@ Exec=harbour-dee
 Name=Dee
 
 [X-HarbourBackup]
-BackupPathList=.config/dev.scarpino/harbour-dee/
+BackupPathList=.config/dev.scarpino/harbour-dee.conf
 
 [X-Sailjail]
 OrganizationName=dev.scarpino
