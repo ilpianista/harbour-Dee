@@ -25,38 +25,38 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Seadistused</translation>
     </message>
     <message>
         <source>No subscribed communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Tellitud kogukondi pole</translation>
     </message>
     <message>
         <source>subscribers</source>
-        <translation type="unfinished"></translation>
+        <translation>Lehe tellijad</translation>
     </message>
     <message>
         <source>posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Lehe postitused</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Lehe kommentaar</translation>
     </message>
     <message>
         <source>comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Lehe kommentaarid</translation>
     </message>
     <message>
         <source>point</source>
-        <translation type="unfinished"></translation>
+        <translation>Lehepunkt</translation>
     </message>
     <message>
         <source>points</source>
-        <translation type="unfinished"></translation>
+        <translation>Lehepunktid</translation>
     </message>
 </context>
 <context>
@@ -137,35 +137,35 @@
     </message>
     <message>
         <source>Sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi sisse</translation>
     </message>
     <message>
         <source>Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Server</translation>
     </message>
     <message>
         <source>Instance URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Serveri võrguaadress</translation>
     </message>
     <message>
         <source>Credentials</source>
-        <translation type="unfinished"></translation>
+        <translation>Kasutajanimi/salasõna</translation>
     </message>
     <message>
         <source>Two-factor authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Kahefaktoriline autentimine</translation>
     </message>
     <message>
         <source>Authentication code</source>
-        <translation type="unfinished"></translation>
+        <translation>Autentimiskood</translation>
     </message>
     <message>
         <source>6-digit code</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuuenumbriline kood</translation>
     </message>
     <message>
         <source>Signing in…</source>
-        <translation type="unfinished"></translation>
+        <translation>Sisselogimisel…</translation>
     </message>
 </context>
 <context>
@@ -196,23 +196,23 @@
     </message>
     <message>
         <source>Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Vasta</translation>
     </message>
     <message>
         <source>In reply to &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Vastuseks „%1“ postitusele</translation>
     </message>
     <message>
         <source>No comments yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentaare veel pole</translation>
     </message>
     <message>
         <source>Load more comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Laadi veel kommentaare</translation>
     </message>
     <message>
         <source>Share link to post</source>
-        <translation type="unfinished"></translation>
+        <translation>Jaga postituse linki</translation>
     </message>
     <message>
         <source>Share</source>
@@ -231,108 +231,108 @@
     <name>PostWebView</name>
     <message>
         <source>Share url</source>
-        <translation type="unfinished"></translation>
+        <translation>Jaga võrguaadressi</translation>
     </message>
 </context>
 <context>
     <name>ReplyPage</name>
     <message>
         <source>Reply to comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Vasta kommentaarile</translation>
     </message>
     <message>
         <source>Reply to post</source>
-        <translation type="unfinished"></translation>
+        <translation>Vasta postitusele</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Vasta</translation>
     </message>
     <message>
         <source>Write your comment…</source>
-        <translation type="unfinished"></translation>
+        <translation>Koosta kommentaar…</translation>
     </message>
     <message>
         <source>Posting…</source>
-        <translation type="unfinished"></translation>
+        <translation>Postitan…</translation>
     </message>
     <message>
         <source>Post comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Postita kommentaar</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Seadistused</translation>
     </message>
     <message>
         <source>Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Kasutajakonto</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Kasutajanimi</translation>
     </message>
     <message>
         <source>Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Server</translation>
     </message>
     <message>
         <source>Sign out</source>
-        <translation type="unfinished"></translation>
+        <translation>Logi välja</translation>
     </message>
     <message>
         <source>Logging out</source>
-        <translation type="unfinished"></translation>
+        <translation>Väljalogimisel</translation>
     </message>
 </context>
 <context>
     <name>SubscribedPage</name>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished">Tellitud</translation>
+        <translation>Tellitud</translation>
     </message>
     <message>
         <source>Communities</source>
-        <translation type="unfinished">Kogukonnad</translation>
+        <translation>Kogukonnad</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Laadi uuesti</translation>
     </message>
     <message>
         <source>No posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Postitusi pole</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished">Värskendamiseks viipa ülevalt alla</translation>
+        <translation>Värskendamiseks viipa ülevalt alla</translation>
     </message>
     <message>
         <source>Loading more…</source>
-        <translation type="unfinished"></translation>
+        <translation>Laadin veel…</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation type="unfinished">Hääleta pooldavalt</translation>
+        <translation>Hääleta pooldavalt</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation type="unfinished">Võta pooldav hääletus tagasi</translation>
+        <translation>Võta pooldav hääl tagasi</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation type="unfinished">Hääleta eitavalt</translation>
+        <translation>Hääleta eitavalt</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation type="unfinished">Võta eitav hääletus tagasi</translation>
+        <translation>Võta eitav hääl tagasi</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Seadistused</translation>
     </message>
     <message>
         <source>Sort</source>
