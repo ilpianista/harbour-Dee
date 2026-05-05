@@ -74,14 +74,15 @@ private:
 class LemmyAPI : public QObject {
   Q_OBJECT
 
-  // Auth properties
   Q_PROPERTY(QString instanceUrl READ instanceUrl NOTIFY instanceUrlChanged)
   Q_PROPERTY(QString username READ username NOTIFY usernameChanged)
   Q_PROPERTY(bool loggedIn READ loggedIn NOTIFY loggedInChanged)
   Q_PROPERTY(QString error READ error WRITE setError NOTIFY errorChanged)
   Q_PROPERTY(bool busy READ busy WRITE setBusy NOTIFY busyChanged)
-
-  // Data properties (populated after API calls)
+  Q_PROPERTY(QString currentSort READ currentSort WRITE setCurrentSort NOTIFY
+                 currentSortChanged)
+  Q_PROPERTY(QString commentSort READ commentSort WRITE setCommentSort NOTIFY
+                 commentSortChanged)
   Q_PROPERTY(PostsModel *posts READ posts NOTIFY postsChanged)
   Q_PROPERTY(QJsonArray communities READ communities NOTIFY communitiesChanged)
   Q_PROPERTY(QVariantList comments READ comments NOTIFY commentsChanged)
@@ -103,12 +104,16 @@ public:
   QJsonObject siteInfo() const { return m_siteInfo; }
   int postsPage() const { return m_postsPage; }
   int communitiesPage() const { return m_communitiesPage; }
+  QString currentSort() const { return m_currentSort; }
+  QString commentSort() const { return m_commentSort; }
 
   // Property setters
   void setInstanceUrl(const QString &url);
   void setUsername(const QString &username);
   void setPostsPage(int page);
   void setCommunitiesPage(int page);
+  void setCurrentSort(const QString &sort);
+  void setCommentSort(const QString &sort);
 
   // Invokable from QML
   Q_INVOKABLE void login(const QString instanceUrl, const QString username,
@@ -152,6 +157,8 @@ signals:
   void requestFinished(const QString &method, const QJsonObject &result);
   void requestFailed(const QString &method, const QString &message);
   void postsPageChanged();
+  void currentSortChanged();
+  void commentSortChanged();
 
 private slots:
   void onLoginFinished(const QString &json);
@@ -186,6 +193,8 @@ private:
   bool m_loggedIn;
   QString m_error;
   bool m_busy;
+  QString m_currentSort;
+  QString m_commentSort;
 
   // Data caches
   PostsModel *m_posts;

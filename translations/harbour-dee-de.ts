@@ -60,6 +60,61 @@
     </message>
 </context>
 <context>
+    <name>Dee</name>
+    <message>
+        <source>Hot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Active</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Controversial</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Most Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top Week</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top All Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Old</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LemmyAPI</name>
     <message>
         <source>Please fill in all fields</source>
@@ -162,6 +217,14 @@
     <message>
         <source>Share</source>
         <translation>Teilen</translation>
+    </message>
+    <message>
+        <source>Sort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort comments</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -269,6 +332,14 @@
     </message>
     <message>
         <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort posts</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
