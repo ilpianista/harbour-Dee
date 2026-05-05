@@ -76,11 +76,6 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Share")
-                onClicked: share.trigger()
-            }
-
-            MenuItem {
                 text: qsTr("Sort") + ": " + appWindow.commentSortLabel(appWindow.commentSort)
                 onClicked: {
                     var dialog = pageStack.push(Qt.resolvedUrl("SortDialog.qml"), {
@@ -97,6 +92,11 @@ Page {
             }
 
             MenuItem {
+                text: qsTr("Share")
+                onClicked: share.trigger()
+            }
+
+            MenuItem {
                 text: qsTr("Refresh")
                 onClicked: refresh()
             }
@@ -110,18 +110,6 @@ Page {
                     "parentId": 0,
                     "previewText": qsTr("In reply to \"%1\"").arg(previewText(postTitle))
                 })
-            }
-
-            MenuItem {
-                text: postMyVote === 0 ? qsTr("Upvote") : qsTr("Undo upvote")
-                onClicked: api.likePost(postId, postMyVote === 0 ? 1 : 0)
-                enabled: postMyVote >= 0
-            }
-
-            MenuItem {
-                text: postMyVote === 0 ? qsTr("Downvote") : qsTr("Undo downvote")
-                onClicked: api.likePost(postId, postMyVote === 0 ? -1 : 0)
-                enabled: postMyVote <= 0
             }
         }
 
@@ -151,119 +139,151 @@ Page {
             spacing: 0
 
             Item {
-                width: 1
-                height: Theme.paddingLarge * 2
-            }
-
-            Label {
+                id: postContent
                 width: parent.width
-                text: postTitle
-                color: Theme.primaryColor
-                font.pixelSize: Theme.fontSizeMedium
-                wrapMode: Text.Wrap
-            }
+                height: postContentColumn.height + (postVoteMenu.active ? postVoteMenu.height : 0)
 
-            Rectangle {
-                visible: postUrl && !/^\s*$/.test(postUrl)
-                width: parent.width
-                height: urlLabel.implicitHeight + Theme.paddingMedium * 2
-                color: Theme.rgba(Theme.highlightBackgroundColor, 0.1)
-                radius: Theme.paddingSmall
-                anchors.topMargin: Theme.paddingMedium
+                Column {
+                    id: postContentColumn
+                    width: parent.width
 
-                Text {
-                    id: urlLabel
-
-                    textFormat: Text.RichText
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    wrapMode: Text.WrapAnywhere
-                    text: {
-                        var c = Theme.secondaryHighlightColor;
-                        return "<style>a:link{color:" + c + ";}</style>" + "<a href=\"" + postUrl + "\">" + postUrl + "</a>";
+                    Item {
+                        width: 1
+                        height: Theme.paddingLarge * 2
                     }
-                    onLinkActivated: Qt.openUrlExternally(link)
-
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        verticalCenter: parent.verticalCenter
-                        margins: Theme.paddingMedium
-                    }
-                }
-            }
-
-            Label {
-                visible: postBody && postBody.length > 0
-                width: parent.width
-                topPadding: Theme.paddingMedium
-                text: postBody || ""
-                wrapMode: Text.Wrap
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.primaryColor
-            }
-
-            Row {
-                width: parent.width
-                topPadding: Theme.paddingMedium
-                spacing: Theme.paddingSmall
-
-                Label {
-                    text: "c/" + community
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryHighlightColor
-                }
-
-                Label {
-                    text: "·"
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
-                }
-
-                Row {
-                    spacing: Theme.paddingSmall
 
                     Label {
-                        text: {
-                            if (postMyVote > 0)
-                                return "▲ " + postScore;
+                        width: parent.width
+                        text: postTitle
+                        color: Theme.primaryColor
+                        font.pixelSize: Theme.fontSizeMedium
+                        wrapMode: Text.Wrap
+                    }
 
-                            if (postMyVote < 0)
-                                return "▼ " + postScore;
+                    Rectangle {
+                        visible: postUrl && !/^\s*$/.test(postUrl)
+                        width: parent.width
+                        height: urlLabel.implicitHeight + Theme.paddingMedium * 2
+                        color: Theme.rgba(Theme.highlightBackgroundColor, 0.1)
+                        radius: Theme.paddingSmall
+                        anchors.topMargin: Theme.paddingMedium
 
-                            return postScore;
+                        Text {
+                            id: urlLabel
+
+                            textFormat: Text.RichText
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            wrapMode: Text.WrapAnywhere
+                            text: {
+                                var c = Theme.secondaryHighlightColor;
+                                return "<style>a:link{color:" + c + ";}</style>" + "<a href=\"" + postUrl + "\">" + postUrl + "</a>";
+                            }
+                            onLinkActivated: Qt.openUrlExternally(link)
+
+                            anchors {
+                                left: parent.left
+                                right: parent.right
+                                verticalCenter: parent.verticalCenter
+                                margins: Theme.paddingMedium
+                            }
                         }
+                    }
+
+                    Label {
+                        visible: postBody && postBody.length > 0
+                        width: parent.width
+                        topPadding: Theme.paddingMedium
+                        text: postBody || ""
+                        wrapMode: Text.Wrap
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.primaryColor
+                    }
+
+                    Row {
+                        width: parent.width
+                        topPadding: Theme.paddingMedium
+                        spacing: Theme.paddingSmall
+
+                        Label {
+                            text: "c/" + community
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: Theme.secondaryHighlightColor
+                        }
+
+                        Label {
+                            text: "·"
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: Theme.secondaryColor
+                        }
+
+                        Row {
+                            spacing: Theme.paddingSmall
+
+                            Label {
+                                text: {
+                                    if (postMyVote > 0)
+                                        return "▲ " + postScore;
+
+                                    if (postMyVote < 0)
+                                        return "▼ " + postScore;
+
+                                    return postScore;
+                                }
+                                font.pixelSize: Theme.fontSizeExtraSmall
+                                color: postMyVote > 0 ? Theme.highlightColor : postMyVote < 0 ? "#e05050" : Theme.secondaryColor
+                            }
+
+                            Image {
+                                source: "image://theme/icon-s-like"
+                                width: Theme.iconSizeExtraSmall
+                                height: Theme.iconSizeExtraSmall
+                                anchors.verticalCenter: parent.verticalCenter
+                                opacity: 0.7
+                            }
+                        }
+
+                        Label {
+                            text: "·"
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: Theme.secondaryColor
+                        }
+
+                        Label {
+                            text: Format.formatDate(postDate, Formatter.DurationElapsed)
+                            font.pixelSize: Theme.fontSizeExtraSmall
+                            color: Theme.secondaryColor
+                        }
+                    }
+
+                    Label {
+                        text: formatAuthor(postAuthor)
                         font.pixelSize: Theme.fontSizeExtraSmall
-                        color: postMyVote > 0 ? Theme.highlightColor : postMyVote < 0 ? "#e05050" : Theme.secondaryColor
-                    }
-
-                    Image {
-                        source: "image://theme/icon-s-like"
-                        width: Theme.iconSizeExtraSmall
-                        height: Theme.iconSizeExtraSmall
-                        anchors.verticalCenter: parent.verticalCenter
-                        opacity: 0.7
+                        color: Theme.secondaryHighlightColor
+                        width: parent.width
+                        horizontalAlignment: Text.AlignRight
                     }
                 }
 
-                Label {
-                    text: "·"
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
+                MouseArea {
+                    anchors.fill: parent
+                    onPressAndHold: postVoteMenu.open(parent)
                 }
 
-                Label {
-                    text: Format.formatDate(postDate, Formatter.DurationElapsed)
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    color: Theme.secondaryColor
-                }
-            }
+                ContextMenu {
+                    id: postVoteMenu
 
-            Label {
-                text: formatAuthor(postAuthor)
-                font.pixelSize: Theme.fontSizeExtraSmall
-                color: Theme.secondaryHighlightColor
-                width: parent.width
-                horizontalAlignment: Text.AlignRight
+                    MenuItem {
+                        text: postMyVote === 0 ? qsTr("Upvote") : qsTr("Undo upvote")
+                        onClicked: api.likePost(postId, postMyVote === 0 ? 1 : 0)
+                        enabled: postMyVote >= 0
+                    }
+
+                    MenuItem {
+                        text: postMyVote === 0 ? qsTr("Downvote") : qsTr("Undo downvote")
+                        onClicked: api.likePost(postId, postMyVote === 0 ? -1 : 0)
+                        enabled: postMyVote <= 0
+                    }
+                }
             }
 
             SectionHeader {
