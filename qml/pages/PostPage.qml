@@ -24,7 +24,8 @@ Page {
     function loadComments() {
         api.listComments(JSON.stringify({
             "post_id": postId,
-            "limit": 50
+            "limit": 50,
+            "sort": appWindow.commentSort
         }));
     }
 
@@ -53,6 +54,7 @@ Page {
     }
 
     Component.onCompleted: {
+        appWindow.commentSort = api.commentSort;
         loadComments();
         appWindow.postTitle = postTitle;
         appWindow.postScore = postScore;
@@ -76,6 +78,22 @@ Page {
             MenuItem {
                 text: qsTr("Share")
                 onClicked: share.trigger()
+            }
+
+            MenuItem {
+                text: qsTr("Sort") + ": " + appWindow.commentSortLabel(appWindow.commentSort)
+                onClicked: {
+                    var dialog = pageStack.push(Qt.resolvedUrl("SortDialog.qml"), {
+                        "selectedSort": appWindow.commentSort,
+                        "options": appWindow.commentSortOptions,
+                        "headerTitle": qsTr("Sort comments")
+                    });
+                    dialog.accepted.connect(function () {
+                        appWindow.commentSort = dialog.selectedSort;
+                        api.commentSort = dialog.selectedSort;
+                        loadComments();
+                    });
+                }
             }
 
             MenuItem {

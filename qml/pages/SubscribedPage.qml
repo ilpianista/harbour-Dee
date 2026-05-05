@@ -7,12 +7,11 @@ Page {
 
     property int communityId: 0
     property string pageTitle: ""
-    property string currentSort: "Hot"
 
     function refresh() {
         var params = {
             "limit": 50,
-            "sort": currentSort
+            "sort": appWindow.currentSort
         };
         if (communityId > 0)
             params.community_id = communityId;
@@ -21,7 +20,8 @@ Page {
     }
 
     function setSort(sortType) {
-        currentSort = sortType;
+        appWindow.currentSort = sortType;
+        api.currentSort = sortType;
         refresh();
     }
 
@@ -43,9 +43,10 @@ Page {
 
         Component.onCompleted: {
             api.setPostsModel(posts);
+            appWindow.currentSort = api.currentSort;
             var params = {
                 "limit": 50,
-                "sort": currentSort
+                "sort": appWindow.currentSort
             };
             if (communityId > 0)
                 params.community_id = communityId;
@@ -67,12 +68,13 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Sort")
+                text: qsTr("Sort") + ": " + appWindow.sortLabel(appWindow.currentSort)
                 onClicked: {
                     var dialog = pageStack.push(Qt.resolvedUrl("SortDialog.qml"), {
-                        "selectedSort": currentSort
+                        "selectedSort": appWindow.currentSort,
+                        "headerTitle": qsTr("Sort posts")
                     });
-                    dialog.accepted.connect(function() {
+                    dialog.accepted.connect(function () {
                         setSort(dialog.selectedSort);
                     });
                 }
