@@ -174,7 +174,7 @@ Page {
                 id: contentColumn
 
                 x: Theme.horizontalPageMargin
-                width: parent.width - 2 * Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin - (thumbnail.visible ? thumbnail.width + Theme.paddingMedium : 0)
                 spacing: Theme.paddingSmall
 
                 Row {
@@ -304,6 +304,23 @@ Page {
                         onClicked: api.likePost(post.id, myVote === 0 ? -1 : 0)
                         enabled: myVote <= 0
                     }
+                }
+            }
+
+            Thumbnail {
+                id: thumbnail
+                imageUrl: post.url
+                visible: appWindow.isImageUrl(post.url)
+                anchors {
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                    rightMargin: Theme.paddingMedium
+                }
+                onClicked: {
+                    pageStack.pushAttached(Qt.resolvedUrl("PostWebView.qml"), {
+                        "postUrl": post.url,
+                        "postTitle": post.name
+                    });
                 }
             }
         }

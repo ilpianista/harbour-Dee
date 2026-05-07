@@ -93,6 +93,14 @@ ApplicationWindow {
         return value;
     }
 
+    function isImageUrl(url) {
+        if (!url || url.trim().length === 0)
+            return false;
+        return /^https?:\/\/\S+\.(jpe?g|png|gif|webp|avif)/i.test(url) ||
+               /^https?:\/\/(i\.|www\.)?imgur\.com\//.test(url) ||
+               /^https?:\/\/\S+\/media\//.test(url);
+    }
+
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
 
