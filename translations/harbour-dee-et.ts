@@ -63,55 +63,55 @@
     <name>Dee</name>
     <message>
         <source>Hot</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuum</translation>
     </message>
     <message>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiivne</translation>
     </message>
     <message>
         <source>Controversial</source>
-        <translation type="unfinished"></translation>
+        <translation>Vastuoluline</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Uus</translation>
     </message>
     <message>
         <source>Most Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Enimkommenteeritud</translation>
     </message>
     <message>
         <source>New Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Viimati kommenteeritud</translation>
     </message>
     <message>
         <source>Top Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Päeva parimad</translation>
     </message>
     <message>
         <source>Top Week</source>
-        <translation type="unfinished"></translation>
+        <translation>Nädala parimad</translation>
     </message>
     <message>
         <source>Top Month</source>
-        <translation type="unfinished"></translation>
+        <translation>Kuu parimad</translation>
     </message>
     <message>
         <source>Top Year</source>
-        <translation type="unfinished"></translation>
+        <translation>Aasta parimad</translation>
     </message>
     <message>
         <source>Top All Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Läbi aegade parimad</translation>
     </message>
     <message>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Parimad</translation>
     </message>
     <message>
         <source>Old</source>
-        <translation type="unfinished"></translation>
+        <translation>Vanad</translation>
     </message>
 </context>
 <context>
@@ -220,11 +220,11 @@
     </message>
     <message>
         <source>Sort</source>
-        <translation type="unfinished"></translation>
+        <translation>Järjestus</translation>
     </message>
     <message>
         <source>Sort comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentaaride järjestus</translation>
     </message>
 </context>
 <context>
@@ -336,11 +336,11 @@
     </message>
     <message>
         <source>Sort</source>
-        <translation type="unfinished"></translation>
+        <translation>Järjestus</translation>
     </message>
     <message>
         <source>Sort posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Postituste järjestus</translation>
     </message>
 </context>
 </TS>
