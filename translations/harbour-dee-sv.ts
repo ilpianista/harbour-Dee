@@ -5,342 +5,342 @@
     <name>CommunitiesPage</name>
     <message>
         <source>Communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemenskaper</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Dra neråt för att uppdatera</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation type="unfinished"></translation>
+        <translation>Läs in mer</translation>
     </message>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation>Prenumererad</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <source>No subscribed communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga prenumererade gemenskaper</translation>
     </message>
     <message>
         <source>subscribers</source>
-        <translation type="unfinished"></translation>
+        <translation>prenumeranter</translation>
     </message>
     <message>
         <source>posts</source>
-        <translation type="unfinished"></translation>
+        <translation>inlägg</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>comment</source>
-        <translation type="unfinished"></translation>
+        <translation>kommentar</translation>
     </message>
     <message>
         <source>comments</source>
-        <translation type="unfinished"></translation>
+        <translation>kommentarer</translation>
     </message>
     <message>
         <source>point</source>
-        <translation type="unfinished"></translation>
+        <translation>punkt</translation>
     </message>
     <message>
         <source>points</source>
-        <translation type="unfinished"></translation>
+        <translation>punkter</translation>
     </message>
 </context>
 <context>
     <name>Dee</name>
     <message>
         <source>Hot</source>
-        <translation type="unfinished"></translation>
+        <translation>Het</translation>
     </message>
     <message>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiv</translation>
     </message>
     <message>
         <source>Controversial</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontroversiell</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny</translation>
     </message>
     <message>
         <source>Most Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Mest kommenterad</translation>
     </message>
     <message>
         <source>New Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Nya kommentarer</translation>
     </message>
     <message>
         <source>Top Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Toppdag</translation>
     </message>
     <message>
         <source>Top Week</source>
-        <translation type="unfinished"></translation>
+        <translation>Toppvecka</translation>
     </message>
     <message>
         <source>Top Month</source>
-        <translation type="unfinished"></translation>
+        <translation>Toppmånad</translation>
     </message>
     <message>
         <source>Top Year</source>
-        <translation type="unfinished"></translation>
+        <translation>Toppår</translation>
     </message>
     <message>
         <source>Top All Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Topp genom tiderna</translation>
     </message>
     <message>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Topp</translation>
     </message>
     <message>
         <source>Old</source>
-        <translation type="unfinished"></translation>
+        <translation>Gammal</translation>
     </message>
 </context>
 <context>
     <name>LemmyAPI</name>
     <message>
         <source>Please fill in all fields</source>
-        <translation type="unfinished"></translation>
+        <translation>Fyll i alla fält</translation>
     </message>
     <message>
         <source>Login succeeded but no token received</source>
-        <translation type="unfinished"></translation>
+        <translation>Inloggningen lyckades, men ingen token mottogs.</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>Lösenord</translation>
     </message>
     <message>
         <source>Email or Username</source>
-        <translation type="unfinished"></translation>
+        <translation>E-postadress eller användarnamn</translation>
     </message>
     <message>
         <source>Sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>Logga in</translation>
     </message>
     <message>
         <source>Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Instans</translation>
     </message>
     <message>
         <source>Instance URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Instans-URL</translation>
     </message>
     <message>
         <source>Credentials</source>
-        <translation type="unfinished"></translation>
+        <translation>Autentiseringsuppgifter</translation>
     </message>
     <message>
         <source>Two-factor authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Tvåfaktorsautentisering</translation>
     </message>
     <message>
         <source>Authentication code</source>
-        <translation type="unfinished"></translation>
+        <translation>Autentiseringskod</translation>
     </message>
     <message>
         <source>6-digit code</source>
-        <translation type="unfinished"></translation>
+        <translation>6-siffrig kod</translation>
     </message>
     <message>
         <source>Signing in…</source>
-        <translation type="unfinished"></translation>
+        <translation>Loggar in...</translation>
     </message>
 </context>
 <context>
     <name>PostPage</name>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentarer</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Rösta upp</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Ångra uppröstning</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Rösta ner</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Ångra nedröstning</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Svara</translation>
     </message>
     <message>
         <source>In reply to &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Som svar till &quot;%1&quot;</translation>
     </message>
     <message>
         <source>No comments yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga kommentarer än.</translation>
     </message>
     <message>
         <source>Load more comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Läs in fler kommentarer</translation>
     </message>
     <message>
         <source>Share link to post</source>
-        <translation type="unfinished"></translation>
+        <translation>Dela länk till inlägget</translation>
     </message>
     <message>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Dela</translation>
     </message>
     <message>
         <source>Sort</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortera</translation>
     </message>
     <message>
         <source>Sort comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortera kommentarer</translation>
     </message>
 </context>
 <context>
     <name>PostWebView</name>
     <message>
         <source>Share url</source>
-        <translation type="unfinished"></translation>
+        <translation>Dela URL</translation>
     </message>
 </context>
 <context>
     <name>ReplyPage</name>
     <message>
         <source>Reply to comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Svara på kommentar</translation>
     </message>
     <message>
         <source>Reply to post</source>
-        <translation type="unfinished"></translation>
+        <translation>Svara på inlägg</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Svara</translation>
     </message>
     <message>
         <source>Write your comment…</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv din kommentar…</translation>
     </message>
     <message>
         <source>Posting…</source>
-        <translation type="unfinished"></translation>
+        <translation>Postar…</translation>
     </message>
     <message>
         <source>Post comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Posta kommentar</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <source>Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Konto</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Användarnamn</translation>
     </message>
     <message>
         <source>Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Instans</translation>
     </message>
     <message>
         <source>Sign out</source>
-        <translation type="unfinished"></translation>
+        <translation>Logga ut</translation>
     </message>
     <message>
         <source>Logging out</source>
-        <translation type="unfinished"></translation>
+        <translation>Loggar ut</translation>
     </message>
 </context>
 <context>
     <name>SubscribedPage</name>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation>Prenumererad</translation>
     </message>
     <message>
         <source>Communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemenskaper</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <source>No posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga inlägg</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Dra neråt för att uppdatera</translation>
     </message>
     <message>
         <source>Loading more…</source>
-        <translation type="unfinished"></translation>
+        <translation>Läser in mer…</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Rösta upp</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Ångra uppröstning</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Rösta ner</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation type="unfinished"></translation>
+        <translation>Ångra nedröstning</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <source>Sort</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortera</translation>
     </message>
     <message>
         <source>Sort posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortera inlägg</translation>
     </message>
 </context>
 </TS>
