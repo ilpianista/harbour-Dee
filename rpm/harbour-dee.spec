@@ -9,7 +9,7 @@ Summary:    A Lemmy client
 Version:    0.0.6
 Release:    1
 License:    LICENSE
-URL:        http://example.org/
+URL:        https://github.com/ilpianista/harbour-dee
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
 BuildRequires:  openssl-devel
