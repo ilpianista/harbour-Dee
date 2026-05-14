@@ -67,23 +67,23 @@
     </message>
     <message>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiv</translation>
     </message>
     <message>
         <source>Controversial</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontroversiell</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny</translation>
     </message>
     <message>
         <source>Most Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Mest kommentert</translation>
     </message>
     <message>
         <source>New Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Ny kommentarer</translation>
     </message>
     <message>
         <source>Top Day</source>
@@ -91,15 +91,15 @@
     </message>
     <message>
         <source>Top Week</source>
-        <translation type="unfinished"></translation>
+        <translation>Toppuke</translation>
     </message>
     <message>
         <source>Top Month</source>
-        <translation type="unfinished"></translation>
+        <translation>Toppmåned</translation>
     </message>
     <message>
         <source>Top Year</source>
-        <translation type="unfinished"></translation>
+        <translation>Toppår</translation>
     </message>
     <message>
         <source>Top All Time</source>
@@ -224,7 +224,7 @@
     </message>
     <message>
         <source>Sort comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorter kommentarer</translation>
     </message>
 </context>
 <context>
@@ -285,7 +285,7 @@
     </message>
     <message>
         <source>Logging out</source>
-        <translation type="unfinished"></translation>
+        <translation>Logger ut</translation>
     </message>
 </context>
 <context>
@@ -336,11 +336,11 @@
     </message>
     <message>
         <source>Sort</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortere</translation>
     </message>
     <message>
         <source>Sort posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortere innlegg</translation>
     </message>
 </context>
 </TS>
