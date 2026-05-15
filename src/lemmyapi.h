@@ -195,6 +195,7 @@ private:
   QString serverKindToString(ServerKind serverKind) const;
   void clearLocalSession();
   QJsonObject parseJson(const QString &json);
+  void finishRequestError(const QString &method, const QJsonObject &obj);
   void appendCommunities(const QJsonArray &newCommunities);
   void buildCommentTree(const QJsonArray &comments);
 

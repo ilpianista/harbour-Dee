@@ -206,10 +206,32 @@ LemmyAPI::LemmyAPI(QObject *parent)
   m_jwt = m_secureStorage->loadAccessToken();
 
   if (!m_jwt.isEmpty() && !m_instanceUrl.isEmpty()) {
-    m_loggedIn = true;
+    const QString tokenInstanceUrl =
+        m_settings->value(QStringLiteral("accessTokenInstanceUrl")).toString();
+    const QString tokenServerKind =
+        m_settings->value(QStringLiteral("accessTokenServerKind")).toString();
+    const bool tokenHasScope =
+        !tokenInstanceUrl.isEmpty() || !tokenServerKind.isEmpty();
+    if (!tokenHasScope || (tokenInstanceUrl == m_instanceUrl &&
+                           tokenServerKind == serverKind())) {
+      if (!tokenHasScope) {
+        m_settings->setValue(QStringLiteral("accessTokenInstanceUrl"),
+                             m_instanceUrl);
+        m_settings->setValue(QStringLiteral("accessTokenServerKind"),
+                             serverKind());
+      }
+      m_loggedIn = true;
+    } else {
+      m_jwt.clear();
+      m_secureStorage->clearAll();
+      m_settings->remove(QStringLiteral("accessTokenInstanceUrl"));
+      m_settings->remove(QStringLiteral("accessTokenServerKind"));
+    }
   } else if (!m_jwt.isEmpty()) {
     m_jwt.clear();
     m_secureStorage->clearAll();
+    m_settings->remove(QStringLiteral("accessTokenInstanceUrl"));
+    m_settings->remove(QStringLiteral("accessTokenServerKind"));
   }
 
   // Move the worker to a background thread
@@ -464,6 +486,8 @@ void LemmyAPI::clearLocalSession() {
   m_settings->remove(QStringLiteral("username"));
   m_settings->remove(QStringLiteral("instanceUrl"));
   m_settings->remove(QStringLiteral("serverKind"));
+  m_settings->remove(QStringLiteral("accessTokenInstanceUrl"));
+  m_settings->remove(QStringLiteral("accessTokenServerKind"));
 }
 
 QJsonObject LemmyAPI::parseJson(const QString &json) {
@@ -475,6 +499,23 @@ QJsonObject LemmyAPI::parseJson(const QString &json) {
     return errObj;
   }
   return doc.object();
+}
+
+void LemmyAPI::finishRequestError(const QString &method,
+                                  const QJsonObject &obj) {
+  setError(obj[QStringLiteral("error")].toString());
+  const int status = obj.value(QStringLiteral("status_code")).toInt();
+  const QString normalizedError = m_error.trimmed();
+  const bool pieFedAuthFailure =
+      m_serverKind == ServerKind::PieFed &&
+      (status == 401 ||
+       (status == 400 &&
+        (normalizedError.startsWith(QStringLiteral("incorrect_login")) ||
+         normalizedError == QStringLiteral("not_logged_in"))));
+  if (pieFedAuthFailure)
+    clearLocalSession();
+  setBusy(false);
+  emit requestFailed(method, m_error);
 }
 
 void LemmyAPI::setBusy(bool busy) {
@@ -561,7 +602,7 @@ void LemmyAPI::login(const QString instanceUrl, const QString username,
 
   ensureClient();
   if (m_serverKind == ServerKind::PieFed) {
-    m_piefedClient->login(username, password);
+    m_piefedClient->login(username, password, totp);
     return;
   }
   QMetaObject::invokeMethod(m_worker, "doLogin", Qt::QueuedConnection,
@@ -572,16 +613,6 @@ void LemmyAPI::login(const QString instanceUrl, const QString username,
 void LemmyAPI::logout() {
   setBusy(true);
   if (m_serverKind == ServerKind::PieFed) {
-    // TODO(EVO-020): Harden PieFed auth and logout lifecycle.
-    //                Why: The executable slice proves PieFed login/token reuse,
-    //                but it does not cover TOTP, server-side logout semantics,
-    //                expired tokens, or clearing pending credentials after
-    //                asynchronous login finishes.
-    //                Done: PieFed auth supports the server's full login/logout
-    //                contract, token expiry failures clear state cleanly, and
-    //                stored credentials remain scoped to the selected instance.
-    //                Non-Goals: Do not replace SecureStorage or change the
-    //                QML-facing login/logout API in this step.
     clearLocalSession();
     setBusy(false);
     return;
@@ -813,6 +844,21 @@ void LemmyAPI::onLoginFinished(const QString &json) {
   if (obj.contains(QStringLiteral("error"))) {
     QString msg = obj[QStringLiteral("error")].toString();
     setError(msg);
+    if (m_serverKind == ServerKind::PieFed) {
+      setLoggedIn(false);
+      m_jwt.clear();
+      m_piefedClient->setJwt(QString());
+      m_secureStorage->clearAll();
+      m_settings->remove(QStringLiteral("username"));
+      m_settings->remove(QStringLiteral("instanceUrl"));
+      m_settings->remove(QStringLiteral("serverKind"));
+      m_settings->remove(QStringLiteral("accessTokenInstanceUrl"));
+      m_settings->remove(QStringLiteral("accessTokenServerKind"));
+      m_username.clear();
+      m_instanceUrl.clear();
+      emit usernameChanged();
+      emit instanceUrlChanged();
+    }
     setBusy(false);
     emit loginFailed(msg);
     return;
@@ -833,6 +879,10 @@ void LemmyAPI::onLoginFinished(const QString &json) {
     m_settings->setValue(QStringLiteral("username"), m_username);
     m_settings->setValue(QStringLiteral("instanceUrl"), m_instanceUrl);
     m_settings->setValue(QStringLiteral("serverKind"), serverKind());
+    m_settings->setValue(QStringLiteral("accessTokenInstanceUrl"),
+                         m_instanceUrl);
+    m_settings->setValue(QStringLiteral("accessTokenServerKind"),
+                         serverKind());
 
     if (m_serverKind == ServerKind::PieFed) {
       m_piefedClient->setJwt(jwt);
@@ -846,6 +896,21 @@ void LemmyAPI::onLoginFinished(const QString &json) {
     emit loginSuccess();
   } else {
     setError(tr("Login succeeded but no token received"));
+    if (m_serverKind == ServerKind::PieFed) {
+      setLoggedIn(false);
+      m_jwt.clear();
+      m_piefedClient->setJwt(QString());
+      m_secureStorage->clearAll();
+      m_settings->remove(QStringLiteral("username"));
+      m_settings->remove(QStringLiteral("instanceUrl"));
+      m_settings->remove(QStringLiteral("serverKind"));
+      m_settings->remove(QStringLiteral("accessTokenInstanceUrl"));
+      m_settings->remove(QStringLiteral("accessTokenServerKind"));
+      m_username.clear();
+      m_instanceUrl.clear();
+      emit usernameChanged();
+      emit instanceUrlChanged();
+    }
     setBusy(false);
     emit loginFailed(m_error);
   }
@@ -864,9 +929,7 @@ void LemmyAPI::onGetSiteFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
-    emit requestFailed(QStringLiteral("getSite"), m_error);
+    finishRequestError(QStringLiteral("getSite"), obj);
     return;
   }
   m_siteInfo = obj;
@@ -881,10 +944,8 @@ void LemmyAPI::onListPostsFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
     m_loadingMore = false;
-    emit requestFailed(QStringLiteral("listPosts"), m_error);
+    finishRequestError(QStringLiteral("listPosts"), obj);
     return;
   }
   if (!m_loadingMore && m_posts) {
@@ -905,9 +966,7 @@ void LemmyAPI::onGetPostFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
-    emit requestFailed(QStringLiteral("getPost"), m_error);
+    finishRequestError(QStringLiteral("getPost"), obj);
     return;
   }
   setBusy(false);
@@ -920,9 +979,7 @@ void LemmyAPI::onLikePostFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
-    emit requestFailed(QStringLiteral("likePost"), m_error);
+    finishRequestError(QStringLiteral("likePost"), obj);
     return;
   }
   setBusy(false);
@@ -935,10 +992,8 @@ void LemmyAPI::onListCommentsFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
     m_loadingMoreComments = false;
-    emit requestFailed(QStringLiteral("listComments"), m_error);
+    finishRequestError(QStringLiteral("listComments"), obj);
     return;
   }
   QJsonArray newComments = obj.value(QStringLiteral("comments")).toArray();
@@ -969,9 +1024,7 @@ void LemmyAPI::onLikeCommentFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
-    emit requestFailed(QStringLiteral("likeComment"), m_error);
+    finishRequestError(QStringLiteral("likeComment"), obj);
     return;
   }
   setBusy(false);
@@ -984,9 +1037,7 @@ void LemmyAPI::onCreateCommentFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
-    emit requestFailed(QStringLiteral("createComment"), m_error);
+    finishRequestError(QStringLiteral("createComment"), obj);
     return;
   }
   setBusy(false);
@@ -999,10 +1050,8 @@ void LemmyAPI::onListCommunitiesFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
     m_loadingMoreCommunities = false;
-    emit requestFailed(QStringLiteral("listCommunities"), m_error);
+    finishRequestError(QStringLiteral("listCommunities"), obj);
     return;
   }
   QJsonArray newCommunities =
@@ -1024,9 +1073,7 @@ void LemmyAPI::onGetCommunityFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
-    emit requestFailed(QStringLiteral("getCommunity"), m_error);
+    finishRequestError(QStringLiteral("getCommunity"), obj);
     return;
   }
   setBusy(false);
@@ -1039,9 +1086,7 @@ void LemmyAPI::onGetPersonFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
-    emit requestFailed(QStringLiteral("getPerson"), m_error);
+    finishRequestError(QStringLiteral("getPerson"), obj);
     return;
   }
   setBusy(false);
@@ -1054,9 +1099,7 @@ void LemmyAPI::onSearchFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
-    emit requestFailed(QStringLiteral("search"), m_error);
+    finishRequestError(QStringLiteral("search"), obj);
     return;
   }
   setBusy(false);
@@ -1069,9 +1112,7 @@ void LemmyAPI::onFollowCommunityFinished(const QString &json) {
 
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
-    setError(obj[QStringLiteral("error")].toString());
-    setBusy(false);
-    emit requestFailed(QStringLiteral("followCommunity"), m_error);
+    finishRequestError(QStringLiteral("followCommunity"), obj);
     return;
   }
   setBusy(false);

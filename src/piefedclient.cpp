@@ -10,7 +10,7 @@
 #include <QUrlQuery>
 
 static QString compactJson(const QJsonObject &obj);
-static QString errorJson(const QString &message);
+static QString errorJson(const QString &message, int status = 0);
 static QString finishJson(QNetworkReply *reply,
                           std::function<QJsonObject(QJsonObject)> normalize);
 static QString responseErrorText(QNetworkReply *reply, const QJsonObject &obj);
@@ -41,10 +41,13 @@ void PieFedClient::cancelPendingRequests() {
   }
 }
 
-void PieFedClient::login(const QString &username, const QString &password) {
+void PieFedClient::login(const QString &username, const QString &password,
+                         const QString &totp) {
   QJsonObject body;
   body[QStringLiteral("username")] = username;
   body[QStringLiteral("password")] = password;
+  if (!totp.isEmpty())
+    body[QStringLiteral("totp_2fa_token")] = totp;
   post(Operation::Login, QStringLiteral("/api/alpha/user/login"), body, nullptr);
 }
 
@@ -535,9 +538,11 @@ static QString compactJson(const QJsonObject &obj) {
   return QString::fromUtf8(QJsonDocument(obj).toJson(QJsonDocument::Compact));
 }
 
-static QString errorJson(const QString &message) {
+static QString errorJson(const QString &message, int status) {
   QJsonObject obj;
   obj[QStringLiteral("error")] = message;
+  if (status > 0)
+    obj[QStringLiteral("status_code")] = status;
   return compactJson(obj);
 }
 
@@ -551,13 +556,16 @@ static QString finishJson(QNetworkReply *reply,
   const QJsonObject obj = doc.isObject() ? doc.object() : QJsonObject();
 
   if (reply->error() != QNetworkReply::NoError || status >= 400)
-    return errorJson(responseErrorText(reply, obj));
+    return errorJson(responseErrorText(reply, obj), status);
   if (parseError.error != QJsonParseError::NoError || !doc.isObject())
     return errorJson(parseError.errorString());
   return compactJson(normalize ? normalize(obj) : obj);
 }
 
 static QString responseErrorText(QNetworkReply *reply, const QJsonObject &obj) {
+  const QString error = obj.value(QStringLiteral("error")).toString();
+  if (!error.isEmpty())
+    return error;
   const QString message = obj.value(QStringLiteral("message")).toString();
   if (!message.isEmpty())
     return message;

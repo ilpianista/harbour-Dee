@@ -25,7 +25,8 @@ public:
   void setJwt(const QString &jwt);
   void cancelPendingRequests();
 
-  void login(const QString &username, const QString &password);
+  void login(const QString &username, const QString &password,
+             const QString &totp);
   void getSite();
   void listPosts(const QString &jsonParams);
   void listComments(const QString &jsonParams);
