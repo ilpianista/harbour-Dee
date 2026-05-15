@@ -251,6 +251,10 @@ LemmyAPI::LemmyAPI(QObject *parent)
           &LemmyAPI::onLoginFinished);
   connect(m_piefedClient, &PieFedClient::listPostsFinished, this,
           &LemmyAPI::onListPostsFinished);
+  connect(m_piefedClient, &PieFedClient::listCommentsFinished, this,
+          &LemmyAPI::onListCommentsFinished);
+  connect(m_piefedClient, &PieFedClient::getPostFinished, this,
+          &LemmyAPI::onGetPostFinished);
   connect(m_piefedClient, &PieFedClient::likePostFinished, this,
           &LemmyAPI::onLikePostFinished);
 
@@ -424,8 +428,8 @@ bool LemmyAPI::finishUnsupportedPieFedOperation(const QString &method) {
 
   // TODO(EVO-010): Route remaining PieFed operations through PieFedClient.
   //                Why: The probe answers the boundary question with login,
-  //                listPosts, and likePost only; comments, comment votes,
-  //                communities, post details, people, search, follow, and
+  //                listPosts, likePost, post details, and comment listing only;
+  //                comment votes, communities, people, search, follow, and
   //                create-comment still intentionally stop here instead of
   //                leaking PieFed requests through the Lemmy Rust client.
   //                Done: Each existing LemmyAPI invokable either has a PieFed
@@ -651,22 +655,22 @@ void LemmyAPI::loadMoreCommunities() {
 
 void LemmyAPI::loadMoreComments() {
   setBusy(true);
-  if (finishUnsupportedPieFedOperation(QStringLiteral("listComments")))
-    return;
   m_commentsPage++;
   m_loadingMoreComments = true;
   // Build params: stored filter + page
   QJsonObject params = m_commentsFilter;
   params["page"] = m_commentsPage;
   QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
+  if (m_serverKind == ServerKind::PieFed) {
+    m_piefedClient->listComments(paramsStr);
+    return;
+  }
   QMetaObject::invokeMethod(m_worker, "doListComments", Qt::QueuedConnection,
                             Q_ARG(QString, paramsStr));
 }
 
 void LemmyAPI::listComments(const QString &jsonParams) {
   setBusy(true);
-  if (finishUnsupportedPieFedOperation(QStringLiteral("listComments")))
-    return;
   m_commentsPage = 1;
   m_loadingMoreComments = false;
   m_allCommentItems = QJsonArray();
@@ -683,6 +687,10 @@ void LemmyAPI::listComments(const QString &jsonParams) {
 
   m_comments.clear();
   emit commentsChanged();
+  if (m_serverKind == ServerKind::PieFed) {
+    m_piefedClient->listComments(jsonParams);
+    return;
+  }
   QMetaObject::invokeMethod(m_worker, "doListComments", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
@@ -736,8 +744,10 @@ void LemmyAPI::listCommunities(const QString &jsonParams) {
 
 void LemmyAPI::getPost(int postId) {
   setBusy(true);
-  if (finishUnsupportedPieFedOperation(QStringLiteral("getPost")))
+  if (m_serverKind == ServerKind::PieFed) {
+    m_piefedClient->getPost(postId);
     return;
+  }
   QString params = QStringLiteral("{\"id\":%1}").arg(postId);
   QMetaObject::invokeMethod(m_worker, "doGetPost", Qt::QueuedConnection,
                             Q_ARG(QString, params));

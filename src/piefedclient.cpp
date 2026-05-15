@@ -54,6 +54,25 @@ void PieFedClient::listPosts(const QString &jsonParams) {
       [this](QJsonObject response) { return normalizePosts(response); });
 }
 
+void PieFedClient::listComments(const QString &jsonParams) {
+  get(Operation::ListComments, QStringLiteral("/api/alpha/comment/list"),
+      queryFromJson(jsonParams),
+      [this](QJsonObject response) { return normalizeComments(response); });
+}
+
+void PieFedClient::getPost(int postId) {
+  QUrlQuery query;
+  query.addQueryItem(QStringLiteral("id"), QString::number(postId));
+  get(Operation::GetPost, QStringLiteral("/api/alpha/post"), query,
+      [this](QJsonObject response) {
+        if (response.contains(QStringLiteral("post_view"))) {
+          response[QStringLiteral("post_view")] = normalizePostView(
+              response.value(QStringLiteral("post_view")).toObject());
+        }
+        return response;
+      });
+}
+
 void PieFedClient::likePost(const QString &jsonParams) {
   QJsonParseError parseError;
   QJsonDocument doc = QJsonDocument::fromJson(jsonParams.toUtf8(), &parseError);
@@ -132,6 +151,12 @@ void PieFedClient::emitFinished(Operation operation, const QString &json) {
   case Operation::ListPosts:
     emit listPostsFinished(json);
     break;
+  case Operation::ListComments:
+    emit listCommentsFinished(json);
+    break;
+  case Operation::GetPost:
+    emit getPostFinished(json);
+    break;
   case Operation::LikePost:
     emit likePostFinished(json);
     break;
@@ -189,6 +214,16 @@ QJsonObject PieFedClient::normalizePosts(QJsonObject response) const {
   return response;
 }
 
+QJsonObject PieFedClient::normalizeComments(QJsonObject response) const {
+  QJsonArray normalized;
+  const QJsonArray comments =
+      response.value(QStringLiteral("comments")).toArray();
+  for (const QJsonValue &value : comments)
+    normalized.append(normalizeCommentView(value.toObject()));
+  response[QStringLiteral("comments")] = normalized;
+  return response;
+}
+
 QJsonObject PieFedClient::normalizePostView(QJsonObject view) const {
   QJsonObject post = view.value(QStringLiteral("post")).toObject();
   if (post.contains(QStringLiteral("title")) &&
@@ -217,8 +252,8 @@ QJsonObject PieFedClient::normalizePostView(QJsonObject view) const {
   view[QStringLiteral("creator")] = creator;
 
   // TODO(EVO-040): Complete PieFed-to-Lemmy response normalization.
-  //                Why: listPosts and likePost expose only the fields QML uses
-  //                today; post details, comments, communities, site data, and
+  //                Why: listPosts, likePost, and comments expose only the fields
+  //                QML uses today; post details, communities, site data, and
   //                moderation flags still need audited shape-by-shape mapping.
   //                Done: Every PieFed operation implemented in LemmyAPI returns
   //                the same top-level keys and nested field names that existing
@@ -226,6 +261,18 @@ QJsonObject PieFedClient::normalizePostView(QJsonObject view) const {
   //                responses.
   //                Non-Goals: Do not add a parallel PieFed model layer or change
   //                QML to branch on server software in this step.
+  return view;
+}
+
+QJsonObject PieFedClient::normalizeCommentView(QJsonObject view) const {
+  view = normalizePostView(view);
+
+  QJsonObject comment = view.value(QStringLiteral("comment")).toObject();
+  if (comment.contains(QStringLiteral("body")) &&
+      !comment.contains(QStringLiteral("content"))) {
+    comment[QStringLiteral("content")] = comment.value(QStringLiteral("body"));
+  }
+  view[QStringLiteral("comment")] = comment;
   return view;
 }
 
