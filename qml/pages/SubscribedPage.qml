@@ -46,16 +46,7 @@ Page {
         Component.onCompleted: {
             api.setPostsModel(posts);
             appWindow.currentSort = api.currentSort;
-            var params = {
-                "limit": 50,
-                "sort": appWindow.currentSort
-            };
-            if (communityId > 0)
-                params.community_id = communityId;
-            else
-                params.type_ = "Subscribed";
-
-            api.listPosts(JSON.stringify(params));
+            refresh();
         }
     }
 

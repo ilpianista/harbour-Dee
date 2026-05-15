@@ -227,8 +227,8 @@ private:
   bool m_loadingMoreComments;
   QJsonObject m_commentsFilter;
 
-  QThread m_lemmyWorkerThread;
-  LemmyWorker *m_lemmyWorker;
+  QThread m_workerThread;
+  LemmyWorker *m_worker;
   PieFedClient *m_piefedClient;
   SecureStorage *m_secureStorage;
 };
