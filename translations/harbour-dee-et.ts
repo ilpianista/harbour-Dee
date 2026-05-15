@@ -124,6 +124,10 @@
         <source>Login succeeded but no token received</source>
         <translation>Sisselogimine õnnestus, aga tunnusluba polnud võimalik laadida</translation>
     </message>
+    <message>
+        <source>PieFed %1 is not implemented yet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LoginPage</name>
@@ -161,6 +165,18 @@
     </message>
     <message>
         <source>6-digit code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server software</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lemmy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PieFed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

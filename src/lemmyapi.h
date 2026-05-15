@@ -71,11 +71,15 @@ private:
 // LemmyAPI – QML-facing API object
 // ---------------------------------------------------------------------------
 
+class PieFedClient;
+
 class LemmyAPI : public QObject {
   Q_OBJECT
 
   Q_PROPERTY(QString instanceUrl READ instanceUrl NOTIFY instanceUrlChanged)
   Q_PROPERTY(QString username READ username NOTIFY usernameChanged)
+  Q_PROPERTY(QString serverKind READ serverKind WRITE setServerKind NOTIFY
+                 serverKindChanged)
   Q_PROPERTY(bool loggedIn READ loggedIn NOTIFY loggedInChanged)
   Q_PROPERTY(QString error READ error WRITE setError NOTIFY errorChanged)
   Q_PROPERTY(bool busy READ busy WRITE setBusy NOTIFY busyChanged)
@@ -95,6 +99,7 @@ public:
   // Property getters
   QString instanceUrl() const { return m_instanceUrl; }
   QString username() const { return m_username; }
+  QString serverKind() const;
   bool loggedIn() const { return m_loggedIn; }
   QString error() const { return m_error; }
   bool busy() const { return m_busy; }
@@ -110,6 +115,7 @@ public:
   // Property setters
   void setInstanceUrl(const QString &url);
   void setUsername(const QString &username);
+  void setServerKind(const QString &serverKind);
   void setPostsPage(int page);
   void setCommunitiesPage(int page);
   void setCurrentSort(const QString &sort);
@@ -143,6 +149,7 @@ public:
 signals:
   void instanceUrlChanged();
   void usernameChanged();
+  void serverKindChanged();
   void loggedInChanged();
   void errorChanged();
   void busyChanged();
@@ -180,7 +187,14 @@ private:
   void setBusy(bool busy);
   void setLoggedIn(bool loggedIn);
   void setError(const QString &error);
+  enum class ServerKind { Lemmy, PieFed };
+
   void ensureClient();
+  void routeListPosts(const QString &jsonParams);
+  ServerKind serverKindFromString(const QString &serverKind) const;
+  QString serverKindToString(ServerKind serverKind) const;
+  bool finishUnsupportedPieFedOperation(const QString &method);
+  void clearLocalSession();
   QJsonObject parseJson(const QString &json);
   void appendCommunities(const QJsonArray &newCommunities);
   void buildCommentTree(const QJsonArray &comments);
@@ -195,6 +209,7 @@ private:
   bool m_busy;
   QString m_currentSort;
   QString m_commentSort;
+  ServerKind m_serverKind;
 
   // Data caches
   PostsModel *m_posts;
@@ -212,8 +227,9 @@ private:
   bool m_loadingMoreComments;
   QJsonObject m_commentsFilter;
 
-  QThread m_workerThread;
-  LemmyWorker *m_worker;
+  QThread m_lemmyWorkerThread;
+  LemmyWorker *m_lemmyWorker;
+  PieFedClient *m_piefedClient;
   SecureStorage *m_secureStorage;
 };
 

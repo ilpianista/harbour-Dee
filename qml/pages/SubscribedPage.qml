@@ -15,6 +15,8 @@ Page {
         };
         if (communityId > 0)
             params.community_id = communityId;
+        else
+            params.type_ = "Subscribed";
 
         api.listPosts(JSON.stringify(params));
     }
@@ -50,6 +52,8 @@ Page {
             };
             if (communityId > 0)
                 params.community_id = communityId;
+            else
+                params.type_ = "Subscribed";
 
             api.listPosts(JSON.stringify(params));
         }

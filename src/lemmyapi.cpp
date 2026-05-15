@@ -1,5 +1,6 @@
 #include "lemmyapi.h"
 #include "lemmy_bridge.h"
+#include "piefedclient.h"
 #include "postsmodel.h"
 #include "securestorage.h"
 #include <QCoreApplication>
@@ -159,8 +160,9 @@ LemmyAPI::LemmyAPI(QObject *parent)
     : QObject(parent), m_loggedIn(false), m_busy(false), m_posts(0),
       m_postsPage(1), m_loadingMore(false), m_communitiesPage(1),
       m_loadingMoreCommunities(false), m_commentsPage(1),
-      m_loadingMoreComments(false),
-      m_worker(new LemmyWorker), // no parent – will be moved to thread
+      m_loadingMoreComments(false), m_serverKind(ServerKind::Lemmy),
+      m_lemmyWorker(new LemmyWorker), // no parent – will be moved to thread
+      m_piefedClient(new PieFedClient(this)),
       m_secureStorage(new SecureStorage(this)) {
   // Initialize secure storage and wait for it to be ready
   QEventLoop initLoop;
@@ -189,6 +191,10 @@ LemmyAPI::LemmyAPI(QObject *parent)
 
   m_username = m_settings->value(QStringLiteral("username")).toString();
   m_instanceUrl = m_settings->value(QStringLiteral("instanceUrl")).toString();
+  const QString storedServerKind =
+      m_settings->value(QStringLiteral("serverKind"), QStringLiteral("lemmy"))
+          .toString();
+  m_serverKind = serverKindFromString(storedServerKind);
   m_currentSort =
       m_settings->value(QStringLiteral("currentSort"), QStringLiteral("Active"))
           .toString();
@@ -199,45 +205,56 @@ LemmyAPI::LemmyAPI(QObject *parent)
   // Retrieve JWT from secure storage
   m_jwt = m_secureStorage->loadAccessToken();
 
-  if (!m_jwt.isEmpty()) {
+  if (!m_jwt.isEmpty() && !m_instanceUrl.isEmpty()) {
     m_loggedIn = true;
+  } else if (!m_jwt.isEmpty()) {
+    m_jwt.clear();
+    m_secureStorage->clearAll();
   }
 
   // Move the worker to a background thread
-  m_worker->moveToThread(&m_workerThread);
-  connect(&m_workerThread, &QThread::finished, m_worker, &QObject::deleteLater);
+  m_lemmyWorker->moveToThread(&m_lemmyWorkerThread);
+  connect(&m_lemmyWorkerThread, &QThread::finished, m_lemmyWorker,
+          &QObject::deleteLater);
 
   // Connect worker signals → our handler slots (queued across threads)
-  connect(m_worker, &LemmyWorker::loginFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::loginFinished, this,
           &LemmyAPI::onLoginFinished);
-  connect(m_worker, &LemmyWorker::logoutFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::logoutFinished, this,
           &LemmyAPI::onLogoutFinished);
-  connect(m_worker, &LemmyWorker::getSiteFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::getSiteFinished, this,
           &LemmyAPI::onGetSiteFinished);
-  connect(m_worker, &LemmyWorker::listPostsFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::listPostsFinished, this,
           &LemmyAPI::onListPostsFinished);
-  connect(m_worker, &LemmyWorker::getPostFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::getPostFinished, this,
           &LemmyAPI::onGetPostFinished);
-  connect(m_worker, &LemmyWorker::likePostFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::likePostFinished, this,
           &LemmyAPI::onLikePostFinished);
-  connect(m_worker, &LemmyWorker::listCommentsFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::listCommentsFinished, this,
           &LemmyAPI::onListCommentsFinished);
-  connect(m_worker, &LemmyWorker::likeCommentFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::likeCommentFinished, this,
           &LemmyAPI::onLikeCommentFinished);
-  connect(m_worker, &LemmyWorker::createCommentFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::createCommentFinished, this,
           &LemmyAPI::onCreateCommentFinished);
-  connect(m_worker, &LemmyWorker::listCommunitiesFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::listCommunitiesFinished, this,
           &LemmyAPI::onListCommunitiesFinished);
-  connect(m_worker, &LemmyWorker::getCommunityFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::getCommunityFinished, this,
           &LemmyAPI::onGetCommunityFinished);
-  connect(m_worker, &LemmyWorker::getPersonFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::getPersonFinished, this,
           &LemmyAPI::onGetPersonFinished);
-  connect(m_worker, &LemmyWorker::searchFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::searchFinished, this,
           &LemmyAPI::onSearchFinished);
-  connect(m_worker, &LemmyWorker::followCommunityFinished, this,
+  connect(m_lemmyWorker, &LemmyWorker::followCommunityFinished, this,
           &LemmyAPI::onFollowCommunityFinished);
 
-  m_workerThread.start();
+  connect(m_piefedClient, &PieFedClient::loginFinished, this,
+          &LemmyAPI::onLoginFinished);
+  connect(m_piefedClient, &PieFedClient::listPostsFinished, this,
+          &LemmyAPI::onListPostsFinished);
+  connect(m_piefedClient, &PieFedClient::likePostFinished, this,
+          &LemmyAPI::onLikePostFinished);
+
+  m_lemmyWorkerThread.start();
 
   // If we already have an instance URL, create the client
   if (!m_instanceUrl.isEmpty()) {
@@ -246,8 +263,8 @@ LemmyAPI::LemmyAPI(QObject *parent)
 }
 
 LemmyAPI::~LemmyAPI() {
-  m_workerThread.quit();
-  m_workerThread.wait();
+  m_lemmyWorkerThread.quit();
+  m_lemmyWorkerThread.wait();
 }
 
 void LemmyAPI::appendCommunities(const QJsonArray &newCommunities) {
@@ -348,6 +365,15 @@ void LemmyAPI::ensureClient() {
   if (m_instanceUrl.isEmpty())
     return;
 
+  if (m_serverKind == ServerKind::PieFed) {
+    QMetaObject::invokeMethod(m_lemmyWorker, "destroyClient",
+                              Qt::QueuedConnection);
+    m_piefedClient->setInstanceUrl(m_instanceUrl);
+    m_piefedClient->setJwt(m_jwt);
+    return;
+  }
+
+  m_piefedClient->cancelPendingRequests();
   QUrl url(m_instanceUrl);
   QString domain = url.host();
   if (domain.isEmpty()) {
@@ -361,14 +387,86 @@ void LemmyAPI::ensureClient() {
   }
   bool secure = !m_instanceUrl.startsWith(QStringLiteral("http://"));
 
-  QMetaObject::invokeMethod(m_worker, "createClient", Qt::QueuedConnection,
+  QMetaObject::invokeMethod(m_lemmyWorker, "createClient", Qt::QueuedConnection,
                             Q_ARG(QString, domain), Q_ARG(bool, secure));
 
-  // If we have a JWT, set it on the client
   if (!m_jwt.isEmpty()) {
-    QMetaObject::invokeMethod(m_worker, "setJwt", Qt::QueuedConnection,
+    QMetaObject::invokeMethod(m_lemmyWorker, "setJwt", Qt::QueuedConnection,
                               Q_ARG(QString, m_jwt));
   }
+}
+
+void LemmyAPI::routeListPosts(const QString &jsonParams) {
+  if (m_serverKind == ServerKind::PieFed) {
+    m_piefedClient->listPosts(jsonParams);
+    return;
+  }
+
+  QMetaObject::invokeMethod(m_lemmyWorker, "doListPosts", Qt::QueuedConnection,
+                            Q_ARG(QString, jsonParams));
+}
+
+LemmyAPI::ServerKind LemmyAPI::serverKindFromString(
+    const QString &serverKind) const {
+  return serverKind.compare(QStringLiteral("piefed"), Qt::CaseInsensitive) == 0
+             ? ServerKind::PieFed
+             : ServerKind::Lemmy;
+}
+
+QString LemmyAPI::serverKindToString(ServerKind serverKind) const {
+  return serverKind == ServerKind::PieFed ? QStringLiteral("piefed")
+                                          : QStringLiteral("lemmy");
+}
+
+bool LemmyAPI::finishUnsupportedPieFedOperation(const QString &method) {
+  if (m_serverKind != ServerKind::PieFed)
+    return false;
+
+  // TODO(EVO-010): Route remaining PieFed operations through PieFedClient.
+  //                Why: The probe answers the boundary question with login,
+  //                listPosts, and likePost only; comments, comment votes,
+  //                communities, post details, people, search, follow, and
+  //                create-comment still intentionally stop here instead of
+  //                leaking PieFed requests through the Lemmy Rust client.
+  //                Done: Each existing LemmyAPI invokable either has a PieFed
+  //                HTTP implementation with normalized JSON or a product-level
+  //                reason to remain Lemmy-only, and QML never branches by
+  //                server software.
+  //                Non-Goals: Do not rewrite LemmyWorker or introduce a generic
+  //                multi-backend interface before this concrete client proves
+  //                where the duplication actually is.
+  setError(tr("PieFed %1 is not implemented yet").arg(method));
+  setBusy(false);
+  emit requestFailed(method, m_error);
+  return true;
+}
+
+void LemmyAPI::clearLocalSession() {
+  setLoggedIn(false);
+  m_jwt.clear();
+  m_username.clear();
+  m_instanceUrl.clear();
+  m_piefedClient->cancelPendingRequests();
+  m_piefedClient->setJwt(QString());
+  if (m_serverKind != ServerKind::Lemmy) {
+    m_serverKind = ServerKind::Lemmy;
+    emit serverKindChanged();
+  }
+
+  if (m_posts)
+    m_posts->clear();
+  m_communities = QJsonArray();
+  m_comments.clear();
+  m_allCommentItems = QJsonArray();
+  emit instanceUrlChanged();
+  emit usernameChanged();
+  emit communitiesChanged();
+  emit commentsChanged();
+
+  m_secureStorage->clearAll();
+  m_settings->remove(QStringLiteral("username"));
+  m_settings->remove(QStringLiteral("instanceUrl"));
+  m_settings->remove(QStringLiteral("serverKind"));
 }
 
 QJsonObject LemmyAPI::parseJson(const QString &json) {
@@ -387,6 +485,20 @@ void LemmyAPI::setBusy(bool busy) {
     m_busy = busy;
     emit busyChanged();
   }
+}
+
+QString LemmyAPI::serverKind() const { return serverKindToString(m_serverKind); }
+
+void LemmyAPI::setServerKind(const QString &serverKind) {
+  if (m_busy)
+    return;
+
+  const ServerKind selected = serverKindFromString(serverKind);
+  if (m_serverKind == selected)
+    return;
+  m_piefedClient->cancelPendingRequests();
+  m_serverKind = selected;
+  emit serverKindChanged();
 }
 
 void LemmyAPI::setLoggedIn(bool loggedIn) {
@@ -451,22 +563,47 @@ void LemmyAPI::login(const QString instanceUrl, const QString username,
   m_instanceUrl = instanceUrl;
 
   ensureClient();
-
-  QMetaObject::invokeMethod(m_worker, "doLogin", Qt::QueuedConnection,
+  if (m_serverKind == ServerKind::PieFed) {
+    m_piefedClient->login(username, password);
+    return;
+  }
+  QMetaObject::invokeMethod(m_lemmyWorker, "doLogin", Qt::QueuedConnection,
                             Q_ARG(QString, username), Q_ARG(QString, password),
                             Q_ARG(QString, totp));
 }
 
 void LemmyAPI::logout() {
   setBusy(true);
-  QMetaObject::invokeMethod(m_worker, "doLogout", Qt::QueuedConnection);
+  if (m_serverKind == ServerKind::PieFed) {
+    // TODO(EVO-020): Harden PieFed auth and logout lifecycle.
+    //                Why: The executable slice proves PieFed login/token reuse,
+    //                but it does not cover TOTP, server-side logout semantics,
+    //                expired tokens, or clearing pending credentials after
+    //                asynchronous login finishes.
+    //                Done: PieFed auth supports the server's full login/logout
+    //                contract, token expiry failures clear state cleanly, and
+    //                stored credentials remain scoped to the selected instance.
+    //                Non-Goals: Do not replace SecureStorage or change the
+    //                QML-facing login/logout API in this step.
+    clearLocalSession();
+    setBusy(false);
+    return;
+  }
+
+  // SettingsPage replaces LoginPage immediately after calling logout(). Clear
+  // local credentials before the server-side Lemmy logout callback returns so a
+  // newly constructed API cannot see stale persisted login state.
+  clearLocalSession();
+  QMetaObject::invokeMethod(m_lemmyWorker, "doLogout", Qt::QueuedConnection);
 }
 
 void LemmyAPI::clearError() { setError(QString()); }
 
 void LemmyAPI::getSite() {
   setBusy(true);
-  QMetaObject::invokeMethod(m_worker, "doGetSite", Qt::QueuedConnection);
+  if (finishUnsupportedPieFedOperation(QStringLiteral("getSite")))
+    return;
+  QMetaObject::invokeMethod(m_lemmyWorker, "doGetSite", Qt::QueuedConnection);
 }
 
 void LemmyAPI::listPosts(const QString &jsonParams) {
@@ -484,8 +621,7 @@ void LemmyAPI::listPosts(const QString &jsonParams) {
     m_postsFilter = QJsonObject();
   }
 
-  QMetaObject::invokeMethod(m_worker, "doListPosts", Qt::QueuedConnection,
-                            Q_ARG(QString, jsonParams));
+  routeListPosts(jsonParams);
 }
 
 void LemmyAPI::loadMorePosts() {
@@ -496,36 +632,41 @@ void LemmyAPI::loadMorePosts() {
   QJsonObject params = m_postsFilter;
   params["page"] = m_postsPage;
   QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
-  QMetaObject::invokeMethod(m_worker, "doListPosts", Qt::QueuedConnection,
-                            Q_ARG(QString, paramsStr));
+  routeListPosts(paramsStr);
 }
 
 void LemmyAPI::loadMoreCommunities() {
   setBusy(true);
+  if (finishUnsupportedPieFedOperation(QStringLiteral("listCommunities")))
+    return;
   m_communitiesPage++;
   m_loadingMoreCommunities = true;
   // Build params: stored filter + page
   QJsonObject params = m_communitiesFilter;
   params["page"] = m_communitiesPage;
   QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
-  QMetaObject::invokeMethod(m_worker, "doListCommunities", Qt::QueuedConnection,
+  QMetaObject::invokeMethod(m_lemmyWorker, "doListCommunities", Qt::QueuedConnection,
                             Q_ARG(QString, paramsStr));
 }
 
 void LemmyAPI::loadMoreComments() {
   setBusy(true);
+  if (finishUnsupportedPieFedOperation(QStringLiteral("listComments")))
+    return;
   m_commentsPage++;
   m_loadingMoreComments = true;
   // Build params: stored filter + page
   QJsonObject params = m_commentsFilter;
   params["page"] = m_commentsPage;
   QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
-  QMetaObject::invokeMethod(m_worker, "doListComments", Qt::QueuedConnection,
+  QMetaObject::invokeMethod(m_lemmyWorker, "doListComments", Qt::QueuedConnection,
                             Q_ARG(QString, paramsStr));
 }
 
 void LemmyAPI::listComments(const QString &jsonParams) {
   setBusy(true);
+  if (finishUnsupportedPieFedOperation(QStringLiteral("listComments")))
+    return;
   m_commentsPage = 1;
   m_loadingMoreComments = false;
   m_allCommentItems = QJsonArray();
@@ -542,21 +683,25 @@ void LemmyAPI::listComments(const QString &jsonParams) {
 
   m_comments.clear();
   emit commentsChanged();
-  QMetaObject::invokeMethod(m_worker, "doListComments", Qt::QueuedConnection,
+  QMetaObject::invokeMethod(m_lemmyWorker, "doListComments", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
 
 void LemmyAPI::likeComment(int commentId, int score) {
   setBusy(true);
+  if (finishUnsupportedPieFedOperation(QStringLiteral("likeComment")))
+    return;
   QString params = QStringLiteral("{\"comment_id\":%1,\"score\":%2}")
                        .arg(commentId)
                        .arg(score);
-  QMetaObject::invokeMethod(m_worker, "doLikeComment", Qt::QueuedConnection,
+  QMetaObject::invokeMethod(m_lemmyWorker, "doLikeComment", Qt::QueuedConnection,
                             Q_ARG(QString, params));
 }
 
 void LemmyAPI::createComment(int postId, const QString &content, int parentId) {
   setBusy(true);
+  if (finishUnsupportedPieFedOperation(QStringLiteral("createComment")))
+    return;
   QJsonObject obj;
   obj["post_id"] = postId;
   obj["content"] = content;
@@ -564,12 +709,14 @@ void LemmyAPI::createComment(int postId, const QString &content, int parentId) {
     obj["parent_id"] = parentId;
   }
   QString params = QJsonDocument(obj).toJson(QJsonDocument::Compact);
-  QMetaObject::invokeMethod(m_worker, "doCreateComment", Qt::QueuedConnection,
+  QMetaObject::invokeMethod(m_lemmyWorker, "doCreateComment", Qt::QueuedConnection,
                             Q_ARG(QString, params));
 }
 
 void LemmyAPI::listCommunities(const QString &jsonParams) {
   setBusy(true);
+  if (finishUnsupportedPieFedOperation(QStringLiteral("listCommunities")))
+    return;
   m_communitiesPage = 1;
   m_loadingMoreCommunities = false;
 
@@ -583,14 +730,16 @@ void LemmyAPI::listCommunities(const QString &jsonParams) {
     m_communitiesFilter = QJsonObject();
   }
 
-  QMetaObject::invokeMethod(m_worker, "doListCommunities", Qt::QueuedConnection,
+  QMetaObject::invokeMethod(m_lemmyWorker, "doListCommunities", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
 
 void LemmyAPI::getPost(int postId) {
   setBusy(true);
+  if (finishUnsupportedPieFedOperation(QStringLiteral("getPost")))
+    return;
   QString params = QStringLiteral("{\"id\":%1}").arg(postId);
-  QMetaObject::invokeMethod(m_worker, "doGetPost", Qt::QueuedConnection,
+  QMetaObject::invokeMethod(m_lemmyWorker, "doGetPost", Qt::QueuedConnection,
                             Q_ARG(QString, params));
 }
 
@@ -598,31 +747,43 @@ void LemmyAPI::likePost(int postId, int score) {
   setBusy(true);
   QString params =
       QStringLiteral("{\"post_id\":%1,\"score\":%2}").arg(postId).arg(score);
-  QMetaObject::invokeMethod(m_worker, "doLikePost", Qt::QueuedConnection,
+  if (m_serverKind == ServerKind::PieFed) {
+    m_piefedClient->likePost(params);
+    return;
+  }
+  QMetaObject::invokeMethod(m_lemmyWorker, "doLikePost", Qt::QueuedConnection,
                             Q_ARG(QString, params));
 }
 
 void LemmyAPI::getCommunity(const QString &jsonParams) {
   setBusy(true);
-  QMetaObject::invokeMethod(m_worker, "doGetCommunity", Qt::QueuedConnection,
+  if (finishUnsupportedPieFedOperation(QStringLiteral("getCommunity")))
+    return;
+  QMetaObject::invokeMethod(m_lemmyWorker, "doGetCommunity", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
 
 void LemmyAPI::getPerson(const QString &jsonParams) {
   setBusy(true);
-  QMetaObject::invokeMethod(m_worker, "doGetPerson", Qt::QueuedConnection,
+  if (finishUnsupportedPieFedOperation(QStringLiteral("getPerson")))
+    return;
+  QMetaObject::invokeMethod(m_lemmyWorker, "doGetPerson", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
 
 void LemmyAPI::search(const QString &jsonParams) {
   setBusy(true);
-  QMetaObject::invokeMethod(m_worker, "doSearch", Qt::QueuedConnection,
+  if (finishUnsupportedPieFedOperation(QStringLiteral("search")))
+    return;
+  QMetaObject::invokeMethod(m_lemmyWorker, "doSearch", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
 
 void LemmyAPI::followCommunity(const QString &jsonParams) {
   setBusy(true);
-  QMetaObject::invokeMethod(m_worker, "doFollowCommunity", Qt::QueuedConnection,
+  if (finishUnsupportedPieFedOperation(QStringLiteral("followCommunity")))
+    return;
+  QMetaObject::invokeMethod(m_lemmyWorker, "doFollowCommunity", Qt::QueuedConnection,
                             Q_ARG(QString, jsonParams));
 }
 
@@ -650,10 +811,14 @@ void LemmyAPI::onLoginFinished(const QString &json) {
     // Store details in QSettings
     m_settings->setValue(QStringLiteral("username"), m_username);
     m_settings->setValue(QStringLiteral("instanceUrl"), m_instanceUrl);
+    m_settings->setValue(QStringLiteral("serverKind"), serverKind());
 
-    // Set the JWT on the Rust client for subsequent requests
-    QMetaObject::invokeMethod(m_worker, "setJwt", Qt::QueuedConnection,
-                              Q_ARG(QString, m_jwt));
+    if (m_serverKind == ServerKind::PieFed) {
+      m_piefedClient->setJwt(jwt);
+    } else {
+      QMetaObject::invokeMethod(m_lemmyWorker, "setJwt", Qt::QueuedConnection,
+                                Q_ARG(QString, m_jwt));
+    }
 
     setLoggedIn(true);
     setBusy(false);
@@ -667,29 +832,15 @@ void LemmyAPI::onLoginFinished(const QString &json) {
 
 void LemmyAPI::onLogoutFinished(const QString &json) {
   Q_UNUSED(json)
-  m_jwt.clear();
-  // Remove JWT from secure storage
-  m_secureStorage->clearAll();
-  // Remove user details from QSettings
-  m_settings->remove(QStringLiteral("username"));
-  m_settings->remove(QStringLiteral("instanceUrl"));
-  m_username.clear();
-  m_instanceUrl.clear();
-  setLoggedIn(false);
+  // Local credentials are cleared synchronously in logout(). The delayed
+  // server-side callback must not clear credentials from a later login session.
   setBusy(false);
-
-  // Clear cached data
-  if (m_posts) {
-    m_posts->clear();
-  }
-  m_communities = QJsonArray();
-  emit communitiesChanged();
-  m_comments.clear();
-  m_allCommentItems = QJsonArray();
-  emit commentsChanged();
 }
 
 void LemmyAPI::onGetSiteFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -704,6 +855,9 @@ void LemmyAPI::onGetSiteFinished(const QString &json) {
 }
 
 void LemmyAPI::onListPostsFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -725,6 +879,9 @@ void LemmyAPI::onListPostsFinished(const QString &json) {
 }
 
 void LemmyAPI::onGetPostFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -737,6 +894,9 @@ void LemmyAPI::onGetPostFinished(const QString &json) {
 }
 
 void LemmyAPI::onLikePostFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -749,6 +909,9 @@ void LemmyAPI::onLikePostFinished(const QString &json) {
 }
 
 void LemmyAPI::onListCommentsFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -780,6 +943,9 @@ void LemmyAPI::onListCommentsFinished(const QString &json) {
 }
 
 void LemmyAPI::onLikeCommentFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -792,6 +958,9 @@ void LemmyAPI::onLikeCommentFinished(const QString &json) {
 }
 
 void LemmyAPI::onCreateCommentFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -804,6 +973,9 @@ void LemmyAPI::onCreateCommentFinished(const QString &json) {
 }
 
 void LemmyAPI::onListCommunitiesFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -826,6 +998,9 @@ void LemmyAPI::onListCommunitiesFinished(const QString &json) {
 }
 
 void LemmyAPI::onGetCommunityFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -838,6 +1013,9 @@ void LemmyAPI::onGetCommunityFinished(const QString &json) {
 }
 
 void LemmyAPI::onGetPersonFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -850,6 +1028,9 @@ void LemmyAPI::onGetPersonFinished(const QString &json) {
 }
 
 void LemmyAPI::onSearchFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
@@ -862,6 +1043,9 @@ void LemmyAPI::onSearchFinished(const QString &json) {
 }
 
 void LemmyAPI::onFollowCommunityFinished(const QString &json) {
+  if (!m_loggedIn)
+    return;
+
   QJsonObject obj = parseJson(json);
   if (obj.contains(QStringLiteral("error"))) {
     setError(obj[QStringLiteral("error")].toString());
