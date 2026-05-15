@@ -390,6 +390,26 @@ QJsonObject PieFedClient::normalizePostResponse(QJsonObject response) const {
     response[QStringLiteral("post_view")] = normalizePostView(
         response.value(QStringLiteral("post_view")).toObject());
   }
+  if (response.contains(QStringLiteral("community_view"))) {
+    response[QStringLiteral("community_view")] = normalizeCommunityView(
+        response.value(QStringLiteral("community_view")).toObject());
+  }
+
+  if (response.contains(QStringLiteral("moderators"))) {
+    QJsonArray moderators;
+    for (const QJsonValue &value :
+         response.value(QStringLiteral("moderators")).toArray())
+      moderators.append(normalizeCommunityModeratorView(value.toObject()));
+    response[QStringLiteral("moderators")] = moderators;
+  }
+
+  if (response.contains(QStringLiteral("cross_posts"))) {
+    QJsonArray crossPosts;
+    for (const QJsonValue &value :
+         response.value(QStringLiteral("cross_posts")).toArray())
+      crossPosts.append(normalizePostView(value.toObject()));
+    response[QStringLiteral("cross_posts")] = crossPosts;
+  }
   return response;
 }
 
@@ -435,16 +455,6 @@ QJsonObject PieFedClient::normalizePostView(QJsonObject view) const {
         normalizeCommunityView(communityView).value(QStringLiteral("community"));
   }
 
-  // TODO(EVO-040): Complete PieFed-to-Lemmy response normalization.
-  //                Why: PieFed operations now consistently pass through this
-  //                client, but only the fields QML uses today have audited
-  //                normalization.
-  //                Done: Every PieFed operation implemented in LemmyAPI returns
-  //                the same top-level keys and nested field names that existing
-  //                QML expects, with focused smoke coverage for representative
-  //                responses.
-  //                Non-Goals: Do not add a parallel PieFed model layer or change
-  //                QML to branch on server software in this step.
   return view;
 }
 
