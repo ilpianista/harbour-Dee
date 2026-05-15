@@ -193,7 +193,6 @@ private:
   void routeListPosts(const QString &jsonParams);
   ServerKind serverKindFromString(const QString &serverKind) const;
   QString serverKindToString(ServerKind serverKind) const;
-  bool finishUnsupportedPieFedOperation(const QString &method);
   void clearLocalSession();
   QJsonObject parseJson(const QString &json);
   void appendCommunities(const QJsonArray &newCommunities);

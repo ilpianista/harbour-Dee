@@ -48,6 +48,11 @@ void PieFedClient::login(const QString &username, const QString &password) {
   post(Operation::Login, QStringLiteral("/api/alpha/user/login"), body, nullptr);
 }
 
+void PieFedClient::getSite() {
+  get(Operation::GetSite, QStringLiteral("/api/alpha/site"), QUrlQuery(),
+      [this](QJsonObject response) { return normalizeSite(response); });
+}
+
 void PieFedClient::listPosts(const QString &jsonParams) {
   get(Operation::ListPosts, QStringLiteral("/api/alpha/post/list"),
       queryFromJson(jsonParams),
@@ -64,13 +69,7 @@ void PieFedClient::getPost(int postId) {
   QUrlQuery query;
   query.addQueryItem(QStringLiteral("id"), QString::number(postId));
   get(Operation::GetPost, QStringLiteral("/api/alpha/post"), query,
-      [this](QJsonObject response) {
-        if (response.contains(QStringLiteral("post_view"))) {
-          response[QStringLiteral("post_view")] = normalizePostView(
-              response.value(QStringLiteral("post_view")).toObject());
-        }
-        return response;
-      });
+      [this](QJsonObject response) { return normalizePostResponse(response); });
 }
 
 void PieFedClient::likePost(const QString &jsonParams) {
@@ -82,12 +81,69 @@ void PieFedClient::likePost(const QString &jsonParams) {
   }
 
   post(Operation::LikePost, QStringLiteral("/api/alpha/post/like"), doc.object(),
+       [this](QJsonObject response) { return normalizePostResponse(response); });
+}
+
+void PieFedClient::likeComment(int commentId, int score) {
+  QJsonObject body;
+  body[QStringLiteral("comment_id")] = commentId;
+  body[QStringLiteral("score")] = score;
+  post(Operation::LikeComment, QStringLiteral("/api/alpha/comment/like"), body,
        [this](QJsonObject response) {
-         if (response.contains(QStringLiteral("post_view"))) {
-           response[QStringLiteral("post_view")] = normalizePostView(
-               response.value(QStringLiteral("post_view")).toObject());
-         }
-         return response;
+         return normalizeCommentResponse(response);
+       });
+}
+
+void PieFedClient::createComment(int postId, const QString &content,
+                                 int parentId) {
+  QJsonObject body;
+  body[QStringLiteral("post_id")] = postId;
+  body[QStringLiteral("body")] = content;
+  if (parentId > 0)
+    body[QStringLiteral("parent_id")] = parentId;
+  post(Operation::CreateComment, QStringLiteral("/api/alpha/comment"), body,
+       [this](QJsonObject response) {
+         return normalizeCommentResponse(response);
+       });
+}
+
+void PieFedClient::listCommunities(const QString &jsonParams) {
+  get(Operation::ListCommunities, QStringLiteral("/api/alpha/community/list"),
+      queryFromJson(jsonParams), [this](QJsonObject response) {
+        return normalizeCommunities(response);
+      });
+}
+
+void PieFedClient::getCommunity(const QString &jsonParams) {
+  get(Operation::GetCommunity, QStringLiteral("/api/alpha/community"),
+      queryFromJson(jsonParams), [this](QJsonObject response) {
+        return normalizeCommunityResponse(response);
+      });
+}
+
+void PieFedClient::getPerson(const QString &jsonParams) {
+  get(Operation::GetPerson, QStringLiteral("/api/alpha/user"),
+      queryFromJson(jsonParams),
+      [this](QJsonObject response) { return normalizeUserResponse(response); });
+}
+
+void PieFedClient::search(const QString &jsonParams) {
+  get(Operation::Search, QStringLiteral("/api/alpha/search"),
+      queryFromJson(jsonParams),
+      [this](QJsonObject response) { return normalizeSearch(response); });
+}
+
+void PieFedClient::followCommunity(const QString &jsonParams) {
+  QJsonParseError parseError;
+  QJsonDocument doc = QJsonDocument::fromJson(jsonParams.toUtf8(), &parseError);
+  if (parseError.error != QJsonParseError::NoError || !doc.isObject()) {
+    emit followCommunityFinished(errorJson(parseError.errorString()));
+    return;
+  }
+
+  post(Operation::FollowCommunity, QStringLiteral("/api/alpha/community/follow"),
+       doc.object(), [this](QJsonObject response) {
+         return normalizeCommunityResponse(response);
        });
 }
 
@@ -148,6 +204,9 @@ void PieFedClient::emitFinished(Operation operation, const QString &json) {
   case Operation::Login:
     emit loginFinished(json);
     break;
+  case Operation::GetSite:
+    emit getSiteFinished(json);
+    break;
   case Operation::ListPosts:
     emit listPostsFinished(json);
     break;
@@ -159,6 +218,27 @@ void PieFedClient::emitFinished(Operation operation, const QString &json) {
     break;
   case Operation::LikePost:
     emit likePostFinished(json);
+    break;
+  case Operation::LikeComment:
+    emit likeCommentFinished(json);
+    break;
+  case Operation::CreateComment:
+    emit createCommentFinished(json);
+    break;
+  case Operation::ListCommunities:
+    emit listCommunitiesFinished(json);
+    break;
+  case Operation::GetCommunity:
+    emit getCommunityFinished(json);
+    break;
+  case Operation::GetPerson:
+    emit getPersonFinished(json);
+    break;
+  case Operation::Search:
+    emit searchFinished(json);
+    break;
+  case Operation::FollowCommunity:
+    emit followCommunityFinished(json);
     break;
   }
 }
@@ -205,6 +285,27 @@ QUrlQuery PieFedClient::queryFromJson(const QString &jsonParams) const {
   return query;
 }
 
+QJsonObject PieFedClient::normalizeSite(QJsonObject response) const {
+  QJsonArray admins;
+  for (const QJsonValue &value :
+       response.value(QStringLiteral("admins")).toArray())
+    admins.append(normalizePersonView(value.toObject()));
+  response[QStringLiteral("admins")] = admins;
+
+  if (response.contains(QStringLiteral("site")) &&
+      !response.contains(QStringLiteral("site_view"))) {
+    const QJsonObject site = response.value(QStringLiteral("site")).toObject();
+    QJsonObject counts;
+    if (site.contains(QStringLiteral("user_count")))
+      counts[QStringLiteral("users")] = site.value(QStringLiteral("user_count"));
+    QJsonObject siteView;
+    siteView[QStringLiteral("site")] = site;
+    siteView[QStringLiteral("counts")] = counts;
+    response[QStringLiteral("site_view")] = siteView;
+  }
+  return response;
+}
+
 QJsonObject PieFedClient::normalizePosts(QJsonObject response) const {
   QJsonArray normalized;
   const QJsonArray posts = response.value(QStringLiteral("posts")).toArray();
@@ -221,6 +322,79 @@ QJsonObject PieFedClient::normalizeComments(QJsonObject response) const {
   for (const QJsonValue &value : comments)
     normalized.append(normalizeCommentView(value.toObject()));
   response[QStringLiteral("comments")] = normalized;
+  return response;
+}
+
+QJsonObject PieFedClient::normalizeCommunities(QJsonObject response) const {
+  QJsonArray normalized;
+  const QJsonArray communities =
+      response.value(QStringLiteral("communities")).toArray();
+  for (const QJsonValue &value : communities)
+    normalized.append(normalizeCommunityView(value.toObject()));
+  response[QStringLiteral("communities")] = normalized;
+  return response;
+}
+
+QJsonObject PieFedClient::normalizeCommunityResponse(
+    QJsonObject response) const {
+  if (response.contains(QStringLiteral("community_view"))) {
+    response[QStringLiteral("community_view")] = normalizeCommunityView(
+        response.value(QStringLiteral("community_view")).toObject());
+  }
+
+  QJsonArray moderators;
+  for (const QJsonValue &value :
+       response.value(QStringLiteral("moderators")).toArray())
+    moderators.append(normalizeCommunityModeratorView(value.toObject()));
+  if (!moderators.isEmpty())
+    response[QStringLiteral("moderators")] = moderators;
+  return response;
+}
+
+QJsonObject PieFedClient::normalizeUserResponse(QJsonObject response) const {
+  response = normalizePosts(response);
+  response = normalizeComments(response);
+
+  QJsonArray moderates;
+  for (const QJsonValue &value :
+       response.value(QStringLiteral("moderates")).toArray())
+    moderates.append(normalizeCommunityModeratorView(value.toObject()));
+  if (!moderates.isEmpty())
+    response[QStringLiteral("moderates")] = moderates;
+
+  if (response.contains(QStringLiteral("person_view"))) {
+    response[QStringLiteral("person_view")] = normalizePersonView(
+        response.value(QStringLiteral("person_view")).toObject());
+  }
+  return response;
+}
+
+QJsonObject PieFedClient::normalizeSearch(QJsonObject response) const {
+  response = normalizePosts(response);
+  response = normalizeComments(response);
+  response = normalizeCommunities(response);
+
+  QJsonArray users;
+  for (const QJsonValue &value :
+       response.value(QStringLiteral("users")).toArray())
+    users.append(normalizePersonView(value.toObject()));
+  response[QStringLiteral("users")] = users;
+  return response;
+}
+
+QJsonObject PieFedClient::normalizePostResponse(QJsonObject response) const {
+  if (response.contains(QStringLiteral("post_view"))) {
+    response[QStringLiteral("post_view")] = normalizePostView(
+        response.value(QStringLiteral("post_view")).toObject());
+  }
+  return response;
+}
+
+QJsonObject PieFedClient::normalizeCommentResponse(QJsonObject response) const {
+  if (response.contains(QStringLiteral("comment_view"))) {
+    response[QStringLiteral("comment_view")] = normalizeCommentView(
+        response.value(QStringLiteral("comment_view")).toObject());
+  }
   return response;
 }
 
@@ -244,17 +418,24 @@ QJsonObject PieFedClient::normalizePostView(QJsonObject view) const {
   }
   view[QStringLiteral("post")] = post;
 
-  QJsonObject creator = view.value(QStringLiteral("creator")).toObject();
-  if (creator.contains(QStringLiteral("user_name")) &&
-      !creator.contains(QStringLiteral("name"))) {
-    creator[QStringLiteral("name")] = creator.value(QStringLiteral("user_name"));
+  if (view.contains(QStringLiteral("creator"))) {
+    QJsonObject personView;
+    personView[QStringLiteral("person")] = view.value(QStringLiteral("creator"));
+    view[QStringLiteral("creator")] =
+        normalizePersonView(personView).value(QStringLiteral("person"));
   }
-  view[QStringLiteral("creator")] = creator;
+  if (view.contains(QStringLiteral("community"))) {
+    QJsonObject communityView;
+    communityView[QStringLiteral("community")] =
+        view.value(QStringLiteral("community"));
+    view[QStringLiteral("community")] =
+        normalizeCommunityView(communityView).value(QStringLiteral("community"));
+  }
 
   // TODO(EVO-040): Complete PieFed-to-Lemmy response normalization.
-  //                Why: listPosts, likePost, and comments expose only the fields
-  //                QML uses today; post details, communities, site data, and
-  //                moderation flags still need audited shape-by-shape mapping.
+  //                Why: PieFed operations now consistently pass through this
+  //                client, but only the fields QML uses today have audited
+  //                normalization.
   //                Done: Every PieFed operation implemented in LemmyAPI returns
   //                the same top-level keys and nested field names that existing
   //                QML expects, with focused smoke coverage for representative
@@ -272,7 +453,81 @@ QJsonObject PieFedClient::normalizeCommentView(QJsonObject view) const {
       !comment.contains(QStringLiteral("content"))) {
     comment[QStringLiteral("content")] = comment.value(QStringLiteral("body"));
   }
+  if (comment.contains(QStringLiteral("user_id")) &&
+      !comment.contains(QStringLiteral("creator_id"))) {
+    comment[QStringLiteral("creator_id")] =
+        comment.value(QStringLiteral("user_id"));
+  }
   view[QStringLiteral("comment")] = comment;
+  return view;
+}
+
+QJsonObject PieFedClient::normalizeCommunityView(QJsonObject view) const {
+  QJsonObject counts = view.value(QStringLiteral("counts")).toObject();
+  if (counts.contains(QStringLiteral("subscriptions_count")) &&
+      !counts.contains(QStringLiteral("subscribers"))) {
+    counts[QStringLiteral("subscribers")] =
+        counts.value(QStringLiteral("subscriptions_count"));
+  }
+  if (counts.contains(QStringLiteral("post_count")) &&
+      !counts.contains(QStringLiteral("posts"))) {
+    counts[QStringLiteral("posts")] = counts.value(QStringLiteral("post_count"));
+  }
+  if (counts.contains(QStringLiteral("post_reply_count")) &&
+      !counts.contains(QStringLiteral("comments"))) {
+    counts[QStringLiteral("comments")] =
+        counts.value(QStringLiteral("post_reply_count"));
+  }
+  if (counts.contains(QStringLiteral("active_daily")) &&
+      !counts.contains(QStringLiteral("users_active_day"))) {
+    counts[QStringLiteral("users_active_day")] =
+        counts.value(QStringLiteral("active_daily"));
+  }
+  if (counts.contains(QStringLiteral("active_weekly")) &&
+      !counts.contains(QStringLiteral("users_active_week"))) {
+    counts[QStringLiteral("users_active_week")] =
+        counts.value(QStringLiteral("active_weekly"));
+  }
+  if (counts.contains(QStringLiteral("active_monthly")) &&
+      !counts.contains(QStringLiteral("users_active_month"))) {
+    counts[QStringLiteral("users_active_month")] =
+        counts.value(QStringLiteral("active_monthly"));
+  }
+  if (counts.contains(QStringLiteral("active_6monthly")) &&
+      !counts.contains(QStringLiteral("users_active_half_year"))) {
+    counts[QStringLiteral("users_active_half_year")] =
+        counts.value(QStringLiteral("active_6monthly"));
+  }
+  view[QStringLiteral("counts")] = counts;
+  return view;
+}
+
+QJsonObject PieFedClient::normalizeCommunityModeratorView(
+    QJsonObject view) const {
+  if (view.contains(QStringLiteral("community"))) {
+    QJsonObject communityView;
+    communityView[QStringLiteral("community")] =
+        view.value(QStringLiteral("community"));
+    view[QStringLiteral("community")] =
+        normalizeCommunityView(communityView).value(QStringLiteral("community"));
+  }
+  if (view.contains(QStringLiteral("moderator"))) {
+    QJsonObject personView;
+    personView[QStringLiteral("person")] =
+        view.value(QStringLiteral("moderator"));
+    view[QStringLiteral("moderator")] =
+        normalizePersonView(personView).value(QStringLiteral("person"));
+  }
+  return view;
+}
+
+QJsonObject PieFedClient::normalizePersonView(QJsonObject view) const {
+  QJsonObject person = view.value(QStringLiteral("person")).toObject();
+  if (person.contains(QStringLiteral("user_name")) &&
+      !person.contains(QStringLiteral("name"))) {
+    person[QStringLiteral("name")] = person.value(QStringLiteral("user_name"));
+  }
+  view[QStringLiteral("person")] = person;
   return view;
 }
 
