@@ -58,12 +58,62 @@ ApplicationWindow {
         }
     ]
 
-    function sortLabel(value) {
-        for (var i = 0; i < sortOptions.length; i++) {
-            if (sortOptions[i].value === value)
-                return sortOptions[i].text;
+    readonly property var pieFedSortOptions: [
+        {
+            "text": qsTr("Hot"),
+            "value": "Hot"
+        },
+        {
+            "text": qsTr("Active"),
+            "value": "Active"
+        },
+        {
+            "text": qsTr("New"),
+            "value": "New"
+        },
+        {
+            "text": qsTr("Top Day"),
+            "value": "TopDay"
+        },
+        {
+            "text": qsTr("Top Week"),
+            "value": "TopWeek"
+        },
+        {
+            "text": qsTr("Top Month"),
+            "value": "TopMonth"
+        },
+        {
+            "text": qsTr("Top Year"),
+            "value": "TopYear"
+        },
+        {
+            "text": qsTr("Top All Time"),
+            "value": "TopAll"
+        }
+    ]
+
+    function postSortOptions(serverKind) {
+        return serverKind === "piefed" ? pieFedSortOptions : sortOptions;
+    }
+
+    function sortLabel(value, serverKind) {
+        var options = postSortOptions(serverKind);
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].value === value)
+                return options[i].text;
         }
         return value;
+    }
+
+    function postSortForServer(value, serverKind) {
+        if (serverKind !== "piefed")
+            return value;
+        for (var i = 0; i < pieFedSortOptions.length; i++) {
+            if (pieFedSortOptions[i].value === value)
+                return value;
+        }
+        return "Hot";
     }
 
     readonly property var commentSortOptions: [

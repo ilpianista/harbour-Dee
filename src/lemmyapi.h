@@ -5,6 +5,7 @@
 #include "securestorage.h"
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QJsonValue>
 #include <QObject>
 #include <QSettings>
 #include <QString>
@@ -220,12 +221,15 @@ private:
   int m_postsPage;
   bool m_loadingMore;
   QJsonObject m_postsFilter;
+  QJsonValue m_piefedPostsNextPage;
   int m_communitiesPage;
   bool m_loadingMoreCommunities;
   QJsonObject m_communitiesFilter;
+  QJsonValue m_piefedCommunitiesNextPage;
   int m_commentsPage;
   bool m_loadingMoreComments;
   QJsonObject m_commentsFilter;
+  QJsonValue m_piefedCommentsNextPage;
 
   QThread m_workerThread;
   LemmyWorker *m_worker;

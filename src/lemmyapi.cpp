@@ -477,6 +477,9 @@ void LemmyAPI::clearLocalSession() {
   m_communities = QJsonArray();
   m_comments.clear();
   m_allCommentItems = QJsonArray();
+  m_piefedPostsNextPage = QJsonValue();
+  m_piefedCommunitiesNextPage = QJsonValue();
+  m_piefedCommentsNextPage = QJsonValue();
   emit instanceUrlChanged();
   emit usernameChanged();
   emit communitiesChanged();
@@ -640,6 +643,7 @@ void LemmyAPI::listPosts(const QString &jsonParams) {
   setBusy(true);
   m_postsPage = 1;
   m_loadingMore = false;
+  m_piefedPostsNextPage = QJsonValue();
 
   // Store base filter (without page) for pagination
   QJsonDocument doc = QJsonDocument::fromJson(jsonParams.toUtf8());
@@ -655,6 +659,18 @@ void LemmyAPI::listPosts(const QString &jsonParams) {
 }
 
 void LemmyAPI::loadMorePosts() {
+  if (m_serverKind == ServerKind::PieFed) {
+    if (m_piefedPostsNextPage.isUndefined() || m_piefedPostsNextPage.isNull())
+      return;
+    setBusy(true);
+    m_loadingMore = true;
+    QJsonObject params = m_postsFilter;
+    params[QStringLiteral("page")] = m_piefedPostsNextPage;
+    QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
+    routeListPosts(paramsStr);
+    return;
+  }
+
   setBusy(true);
   m_postsPage++;
   m_loadingMore = true;
@@ -666,6 +682,19 @@ void LemmyAPI::loadMorePosts() {
 }
 
 void LemmyAPI::loadMoreCommunities() {
+  if (m_serverKind == ServerKind::PieFed) {
+    if (m_piefedCommunitiesNextPage.isUndefined() ||
+        m_piefedCommunitiesNextPage.isNull())
+      return;
+    setBusy(true);
+    m_loadingMoreCommunities = true;
+    QJsonObject params = m_communitiesFilter;
+    params[QStringLiteral("page")] = m_piefedCommunitiesNextPage;
+    QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
+    m_piefedClient->listCommunities(paramsStr);
+    return;
+  }
+
   setBusy(true);
   m_communitiesPage++;
   m_loadingMoreCommunities = true;
@@ -673,15 +702,24 @@ void LemmyAPI::loadMoreCommunities() {
   QJsonObject params = m_communitiesFilter;
   params["page"] = m_communitiesPage;
   QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
-  if (m_serverKind == ServerKind::PieFed) {
-    m_piefedClient->listCommunities(paramsStr);
-    return;
-  }
   QMetaObject::invokeMethod(m_worker, "doListCommunities", Qt::QueuedConnection,
                             Q_ARG(QString, paramsStr));
 }
 
 void LemmyAPI::loadMoreComments() {
+  if (m_serverKind == ServerKind::PieFed) {
+    if (m_piefedCommentsNextPage.isUndefined() ||
+        m_piefedCommentsNextPage.isNull())
+      return;
+    setBusy(true);
+    m_loadingMoreComments = true;
+    QJsonObject params = m_commentsFilter;
+    params[QStringLiteral("page")] = m_piefedCommentsNextPage;
+    QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
+    m_piefedClient->listComments(paramsStr);
+    return;
+  }
+
   setBusy(true);
   m_commentsPage++;
   m_loadingMoreComments = true;
@@ -689,10 +727,6 @@ void LemmyAPI::loadMoreComments() {
   QJsonObject params = m_commentsFilter;
   params["page"] = m_commentsPage;
   QString paramsStr = QJsonDocument(params).toJson(QJsonDocument::Compact);
-  if (m_serverKind == ServerKind::PieFed) {
-    m_piefedClient->listComments(paramsStr);
-    return;
-  }
   QMetaObject::invokeMethod(m_worker, "doListComments", Qt::QueuedConnection,
                             Q_ARG(QString, paramsStr));
 }
@@ -701,6 +735,7 @@ void LemmyAPI::listComments(const QString &jsonParams) {
   setBusy(true);
   m_commentsPage = 1;
   m_loadingMoreComments = false;
+  m_piefedCommentsNextPage = QJsonValue();
   m_allCommentItems = QJsonArray();
 
   // Store base filter (without page) for pagination
@@ -757,6 +792,7 @@ void LemmyAPI::listCommunities(const QString &jsonParams) {
   setBusy(true);
   m_communitiesPage = 1;
   m_loadingMoreCommunities = false;
+  m_piefedCommunitiesNextPage = QJsonValue();
 
   // Store base filter (without page) for pagination
   QJsonDocument doc = QJsonDocument::fromJson(jsonParams.toUtf8());
@@ -951,6 +987,8 @@ void LemmyAPI::onListPostsFinished(const QString &json) {
   if (!m_loadingMore && m_posts) {
     m_posts->clear();
   }
+  if (m_serverKind == ServerKind::PieFed)
+    m_piefedPostsNextPage = obj.value(QStringLiteral("next_page"));
   QJsonArray newPosts = obj.value(QStringLiteral("posts")).toArray();
   if (m_posts) {
     m_posts->append(newPosts);
@@ -996,6 +1034,8 @@ void LemmyAPI::onListCommentsFinished(const QString &json) {
     finishRequestError(QStringLiteral("listComments"), obj);
     return;
   }
+  if (m_serverKind == ServerKind::PieFed)
+    m_piefedCommentsNextPage = obj.value(QStringLiteral("next_page"));
   QJsonArray newComments = obj.value(QStringLiteral("comments")).toArray();
 
   if (m_loadingMoreComments) {
@@ -1054,6 +1094,8 @@ void LemmyAPI::onListCommunitiesFinished(const QString &json) {
     finishRequestError(QStringLiteral("listCommunities"), obj);
     return;
   }
+  if (m_serverKind == ServerKind::PieFed)
+    m_piefedCommunitiesNextPage = obj.value(QStringLiteral("next_page"));
   QJsonArray newCommunities =
       obj.value(QStringLiteral("communities")).toArray();
   if (m_loadingMoreCommunities) {

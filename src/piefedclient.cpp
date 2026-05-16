@@ -275,16 +275,6 @@ QUrlQuery PieFedClient::queryFromJson(const QString &jsonParams) const {
     }
   }
 
-  // TODO(EVO-030): Align PieFed pagination and filter UI with Dee filters.
-  //                Why: The probe now maps known unsupported Lemmy sort values,
-  //                but it still ignores PieFed next_page metadata and the QML
-  //                sort picker still offers values PieFed cannot represent
-  //                exactly.
-  //                Done: Pagination follows PieFed's response contract, PieFed
-  //                sort choices are represented honestly in the UI, and Lemmy
-  //                routing remains unchanged.
-  //                Non-Goals: Do not redesign unrelated filters or add a
-  //                generic filtering abstraction in this step.
   return query;
 }
 
