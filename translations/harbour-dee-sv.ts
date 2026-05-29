@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="nb_NO">
+<TS version="2.1" language="sv">
 <context>
     <name>CommunitiesPage</name>
     <message>
         <source>Communities</source>
-        <translation>Nettsamfunn</translation>
+        <translation>Gemenskaper</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Last på nytt</translation>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation>Dra ned for å oppdatere</translation>
+        <translation>Dra neråt för att uppdatera</translation>
     </message>
     <message>
         <source>Load more</source>
-        <translation>Last inn mer</translation>
+        <translation>Läs in mer</translation>
     </message>
     <message>
         <source>Subscribed</source>
-        <translation>Abonnerer</translation>
+        <translation>Prenumererad</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Innstillinger</translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <source>No subscribed communities</source>
-        <translation>Ingen fulgte samfunn</translation>
+        <translation>Inga prenumererade gemenskaper</translation>
     </message>
     <message>
         <source>subscribers</source>
-        <translation>følgere</translation>
+        <translation>prenumeranter</translation>
     </message>
     <message>
         <source>posts</source>
-        <translation>innlegg</translation>
+        <translation>inlägg</translation>
     </message>
 </context>
 <context>
@@ -63,7 +63,7 @@
     <name>Dee</name>
     <message>
         <source>Hot</source>
-        <translation type="unfinished"></translation>
+        <translation>Het</translation>
     </message>
     <message>
         <source>Active</source>
@@ -79,23 +79,23 @@
     </message>
     <message>
         <source>Most Comments</source>
-        <translation>Mest kommentert</translation>
+        <translation>Mest kommenterad</translation>
     </message>
     <message>
         <source>New Comments</source>
-        <translation>Ny kommentarer</translation>
+        <translation>Nya kommentarer</translation>
     </message>
     <message>
         <source>Top Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Toppdag</translation>
     </message>
     <message>
         <source>Top Week</source>
-        <translation>Toppuke</translation>
+        <translation>Toppvecka</translation>
     </message>
     <message>
         <source>Top Month</source>
-        <translation>Toppmåned</translation>
+        <translation>Toppmånad</translation>
     </message>
     <message>
         <source>Top Year</source>
@@ -103,41 +103,41 @@
     </message>
     <message>
         <source>Top All Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Topp genom tiderna</translation>
     </message>
     <message>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Topp</translation>
     </message>
     <message>
         <source>Old</source>
-        <translation type="unfinished"></translation>
+        <translation>Gammal</translation>
     </message>
 </context>
 <context>
     <name>LemmyAPI</name>
     <message>
         <source>Please fill in all fields</source>
-        <translation>Vennligst fyll ut alle feltene</translation>
+        <translation>Fyll i alla fält</translation>
     </message>
     <message>
         <source>Login succeeded but no token received</source>
-        <translation>Vellykket innlogging, men ingen token ble mottatt</translation>
+        <translation>Inloggningen lyckades, men ingen token mottogs.</translation>
     </message>
 </context>
 <context>
     <name>LoginPage</name>
     <message>
         <source>Password</source>
-        <translation>Passord</translation>
+        <translation>Lösenord</translation>
     </message>
     <message>
         <source>Email or Username</source>
-        <translation>E-post eller brukernavn</translation>
+        <translation>E-postadress eller användarnamn</translation>
     </message>
     <message>
         <source>Sign in</source>
-        <translation>Logg inn</translation>
+        <translation>Logga in</translation>
     </message>
     <message>
         <source>Instance</source>
@@ -145,34 +145,34 @@
     </message>
     <message>
         <source>Instance URL</source>
-        <translation>URL til instans</translation>
+        <translation>Instans-URL</translation>
     </message>
     <message>
         <source>Credentials</source>
-        <translation>Påloggingsinformasjon</translation>
+        <translation>Autentiseringsuppgifter</translation>
     </message>
     <message>
         <source>Two-factor authentication</source>
-        <translation>to-faktor-autentisering</translation>
+        <translation>Tvåfaktorsautentisering</translation>
     </message>
     <message>
         <source>Authentication code</source>
-        <translation>Autentiseringskode</translation>
+        <translation>Autentiseringskod</translation>
     </message>
     <message>
         <source>6-digit code</source>
-        <translation>6-sifret kode</translation>
+        <translation>6-siffrig kod</translation>
     </message>
     <message>
         <source>Signing in…</source>
-        <translation>Logger inn…</translation>
+        <translation>Loggar in...</translation>
     </message>
 </context>
 <context>
     <name>PostPage</name>
     <message>
         <source>Refresh</source>
-        <translation>Last på nytt</translation>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <source>Comments</source>
@@ -180,73 +180,73 @@
     </message>
     <message>
         <source>Upvote</source>
-        <translation>Stem opp</translation>
+        <translation>Rösta upp</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation>Fjern stemme</translation>
+        <translation>Ångra uppröstning</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation>Stem ned</translation>
+        <translation>Rösta ner</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation>Fjern nedstemme</translation>
+        <translation>Ångra nedröstning</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation>Svar</translation>
+        <translation>Svara</translation>
     </message>
     <message>
         <source>In reply to &quot;%1&quot;</source>
-        <translation>Som svar på «%1»</translation>
+        <translation>Som svar till &quot;%1&quot;</translation>
     </message>
     <message>
         <source>No comments yet.</source>
-        <translation>Ingen kommentarer enda.</translation>
+        <translation>Inga kommentarer än.</translation>
     </message>
     <message>
         <source>Load more comments</source>
-        <translation>Last inn flere kommentarer</translation>
+        <translation>Läs in fler kommentarer</translation>
     </message>
     <message>
         <source>Share link to post</source>
-        <translation>Del lenken til innlegget</translation>
+        <translation>Dela länk till inlägget</translation>
     </message>
     <message>
         <source>Share</source>
-        <translation>Dele</translation>
+        <translation>Dela</translation>
     </message>
     <message>
         <source>Sort</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortera</translation>
     </message>
     <message>
         <source>Sort comments</source>
-        <translation>Sorter kommentarer</translation>
+        <translation>Sortera kommentarer</translation>
     </message>
 </context>
 <context>
     <name>PostWebView</name>
     <message>
         <source>Share url</source>
-        <translation>Del url</translation>
+        <translation>Dela URL</translation>
     </message>
 </context>
 <context>
     <name>ReplyPage</name>
     <message>
         <source>Reply to comment</source>
-        <translation>Svar på kommentar</translation>
+        <translation>Svara på kommentar</translation>
     </message>
     <message>
         <source>Reply to post</source>
-        <translation>Svar på innlegg</translation>
+        <translation>Svara på inlägg</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation>Svar</translation>
+        <translation>Svara</translation>
     </message>
     <message>
         <source>Write your comment…</source>
@@ -254,18 +254,18 @@
     </message>
     <message>
         <source>Posting…</source>
-        <translation>Publiserer…</translation>
+        <translation>Postar…</translation>
     </message>
     <message>
         <source>Post comment</source>
-        <translation>Publiser kommentar</translation>
+        <translation>Posta kommentar</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>Settings</source>
-        <translation>Innstillinger</translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <source>Account</source>
@@ -273,7 +273,7 @@
     </message>
     <message>
         <source>Username</source>
-        <translation>Brukernavn</translation>
+        <translation>Användarnamn</translation>
     </message>
     <message>
         <source>Instance</source>
@@ -281,66 +281,66 @@
     </message>
     <message>
         <source>Sign out</source>
-        <translation>Logg ut</translation>
+        <translation>Logga ut</translation>
     </message>
     <message>
         <source>Logging out</source>
-        <translation>Logger ut</translation>
+        <translation>Loggar ut</translation>
     </message>
 </context>
 <context>
     <name>SubscribedPage</name>
     <message>
         <source>Subscribed</source>
-        <translation>Følger</translation>
+        <translation>Prenumererad</translation>
     </message>
     <message>
         <source>Communities</source>
-        <translation>Nettsamfunn</translation>
+        <translation>Gemenskaper</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation>Last på nytt</translation>
+        <translation>Uppdatera</translation>
     </message>
     <message>
         <source>No posts</source>
-        <translation>Ingen innlegg</translation>
+        <translation>Inga inlägg</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation>Dra ned for å oppdatere</translation>
+        <translation>Dra neråt för att uppdatera</translation>
     </message>
     <message>
         <source>Loading more…</source>
-        <translation>Laster inn mer…</translation>
+        <translation>Läser in mer…</translation>
     </message>
     <message>
         <source>Upvote</source>
-        <translation>Stem opp</translation>
+        <translation>Rösta upp</translation>
     </message>
     <message>
         <source>Undo upvote</source>
-        <translation>Fjern stemme</translation>
+        <translation>Ångra uppröstning</translation>
     </message>
     <message>
         <source>Downvote</source>
-        <translation>Stem ned</translation>
+        <translation>Rösta ner</translation>
     </message>
     <message>
         <source>Undo downvote</source>
-        <translation>Fjern nedstemme</translation>
+        <translation>Ångra nedröstning</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Innstillinger</translation>
+        <translation>Inställningar</translation>
     </message>
     <message>
         <source>Sort</source>
-        <translation>Sortere</translation>
+        <translation>Sortera</translation>
     </message>
     <message>
         <source>Sort posts</source>
-        <translation>Sortere innlegg</translation>
+        <translation>Sortera inlägg</translation>
     </message>
 </context>
 </TS>
