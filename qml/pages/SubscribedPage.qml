@@ -221,8 +221,9 @@ Page {
 
                     Row {
                         spacing: Theme.paddingSmall
+                        visible: page.communityId === 0
+
                         Label {
-                            visible: page.communityId === 0
                             text: "c/" + (community.name || "")
                             font.pixelSize: Theme.fontSizeExtraSmall
                             color: delegate.highlighted ? Theme.highlightColor : Theme.secondaryHighlightColor
