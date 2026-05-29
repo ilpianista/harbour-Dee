@@ -38,5 +38,5 @@ Image {
         size: BusyIndicatorSize.Small
     }
 
-    signal clicked()
+    signal clicked
 }

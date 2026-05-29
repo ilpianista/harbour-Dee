@@ -309,8 +309,8 @@ Page {
 
             Thumbnail {
                 id: thumbnail
-                imageUrl: post.thumbnail_url || post.url
-                visible: appWindow.isImageUrl(thumbnail.imageUrl)
+                imageUrl: post.thumbnail_url || ""
+                visible: !!post.thumbnail_url
                 anchors {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
