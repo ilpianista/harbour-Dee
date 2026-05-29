@@ -174,7 +174,7 @@ Page {
                 id: contentColumn
 
                 x: Theme.horizontalPageMargin
-                width: parent.width - 2 * Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin - (thumbnail.visible ? thumbnail.width + Theme.paddingMedium : 0)
                 spacing: Theme.paddingSmall
 
                 Row {
@@ -201,7 +201,7 @@ Page {
                 }
 
                 Label {
-                    visible: post.url ? (post.url.length > 0 && !/^\s*$/.test(post.url)) : false
+                    visible: post.url ? (post.url.length > 0 && !/\s*$/.test(post.url)) : false
                     text: {
                         try {
                             var u = new URL(post.url);
@@ -304,6 +304,23 @@ Page {
                         onClicked: api.likePost(post.id, myVote === 0 ? -1 : 0)
                         enabled: myVote <= 0
                     }
+                }
+            }
+
+            Thumbnail {
+                id: thumbnail
+                imageUrl: post.thumbnail_url || post.url
+                visible: appWindow.isImageUrl(thumbnail.imageUrl)
+                anchors {
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                    rightMargin: Theme.paddingMedium
+                }
+                onClicked: {
+                    pageStack.pushAttached(Qt.resolvedUrl("PostWebView.qml"), {
+                        "postUrl": post.url,
+                        "postTitle": post.name
+                    });
                 }
             }
         }
