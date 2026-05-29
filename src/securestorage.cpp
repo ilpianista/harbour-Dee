@@ -49,50 +49,51 @@ void SecureStorage::ensureCollection() {
 
 void SecureStorage::storeSecret(const QString &name, const QString &value) {
   // First delete any existing secret with this name (to allow updates)
-  DeleteSecretRequest *deleteRequest = new DeleteSecretRequest(this);
-  deleteRequest->setManager(&m_secretManager);
-  deleteRequest->setIdentifier(
+  DeleteSecretRequest deleteRequest;
+  deleteRequest.setManager(&m_secretManager);
+  deleteRequest.setIdentifier(
       Secret::Identifier(name, m_collectionName,
                          SecretManager::DefaultEncryptedStoragePluginName));
-  deleteRequest->setUserInteractionMode(SecretManager::SystemInteraction);
+  deleteRequest.setUserInteractionMode(SecretManager::SystemInteraction);
 
-  connect(deleteRequest, &DeleteSecretRequest::statusChanged, this,
-          [this, deleteRequest, name, value]() {
-            if (deleteRequest->status() == Request::Finished) {
-              deleteRequest->deleteLater();
-
-              // Now store the new secret
-              Secret secret(Secret::Identifier(
-                  name, m_collectionName,
-                  SecretManager::DefaultEncryptedStoragePluginName));
-              secret.setData(value.toUtf8());
-              secret.setType(Secret::TypeBlob);
-
-              StoreSecretRequest *storeRequest = new StoreSecretRequest(this);
-              storeRequest->setManager(&m_secretManager);
-              storeRequest->setSecretStorageType(
-                  StoreSecretRequest::CollectionSecret);
-              storeRequest->setUserInteractionMode(
-                  SecretManager::SystemInteraction);
-              storeRequest->setSecret(secret);
-
-              connect(
-                  storeRequest, &StoreSecretRequest::statusChanged, this,
-                  [storeRequest, name]() {
-                    if (storeRequest->status() == Request::Finished) {
-                      if (storeRequest->result().code() != Result::Succeeded) {
-                        qWarning() << "Failed to store secret" << name << ":"
-                                   << storeRequest->result().errorMessage();
-                      }
-                      storeRequest->deleteLater();
-                    }
-                  });
-
-              storeRequest->startRequest();
-            }
+  QEventLoop deleteLoop;
+  connect(&deleteRequest, &DeleteSecretRequest::statusChanged, &deleteLoop,
+          [&deleteLoop, &deleteRequest]() {
+            if (deleteRequest.status() == Request::Finished)
+              deleteLoop.quit();
           });
+  deleteRequest.startRequest();
+  if (deleteRequest.status() != Request::Finished)
+    deleteLoop.exec();
 
-  deleteRequest->startRequest();
+  // Now store the new secret. This is deliberately synchronous so callers that
+  // navigate to another QML page can immediately construct a new LemmyAPI and
+  // read the token from secure storage.
+  Secret secret(Secret::Identifier(
+      name, m_collectionName, SecretManager::DefaultEncryptedStoragePluginName));
+  secret.setData(value.toUtf8());
+  secret.setType(Secret::TypeBlob);
+
+  StoreSecretRequest storeRequest;
+  storeRequest.setManager(&m_secretManager);
+  storeRequest.setSecretStorageType(StoreSecretRequest::CollectionSecret);
+  storeRequest.setUserInteractionMode(SecretManager::SystemInteraction);
+  storeRequest.setSecret(secret);
+
+  QEventLoop storeLoop;
+  connect(&storeRequest, &StoreSecretRequest::statusChanged, &storeLoop,
+          [&storeLoop, &storeRequest]() {
+            if (storeRequest.status() == Request::Finished)
+              storeLoop.quit();
+          });
+  storeRequest.startRequest();
+  if (storeRequest.status() != Request::Finished)
+    storeLoop.exec();
+
+  if (storeRequest.result().code() != Result::Succeeded) {
+    qWarning() << "Failed to store secret" << name << ":"
+               << storeRequest.result().errorMessage();
+  }
 }
 
 QString SecureStorage::getSecret(const QString &name) const {
@@ -126,20 +127,22 @@ QString SecureStorage::getSecret(const QString &name) const {
 }
 
 void SecureStorage::deleteSecret(const QString &name) {
-  DeleteSecretRequest *request = new DeleteSecretRequest(this);
-  request->setManager(&m_secretManager);
-  request->setIdentifier(
+  DeleteSecretRequest request;
+  request.setManager(&m_secretManager);
+  request.setIdentifier(
       Secret::Identifier(name, m_collectionName,
                          SecretManager::DefaultEncryptedStoragePluginName));
-  request->setUserInteractionMode(SecretManager::SystemInteraction);
+  request.setUserInteractionMode(SecretManager::SystemInteraction);
 
-  connect(request, &DeleteSecretRequest::statusChanged, this, [request]() {
-    if (request->status() == Request::Finished) {
-      request->deleteLater();
-    }
-  });
-
-  request->startRequest();
+  QEventLoop loop;
+  connect(&request, &DeleteSecretRequest::statusChanged, &loop,
+          [&loop, &request]() {
+            if (request.status() == Request::Finished)
+              loop.quit();
+          });
+  request.startRequest();
+  if (request.status() != Request::Finished)
+    loop.exec();
 }
 
 void SecureStorage::saveAccessToken(const QString &token) {

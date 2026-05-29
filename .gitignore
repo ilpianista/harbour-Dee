@@ -3,6 +3,8 @@
 *.pro.user.*
 *.autosave
 RPMS
+.pytest_cache/
+__pycache__/
 
 # Rust build artifacts
 src/lemmy_bridge.h

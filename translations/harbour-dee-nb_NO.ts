@@ -124,6 +124,10 @@
         <source>Login succeeded but no token received</source>
         <translation>Vellykket innlogging, men ingen token ble mottatt</translation>
     </message>
+    <message>
+        <source>PieFed %1 is not implemented yet</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LoginPage</name>
@@ -162,6 +166,18 @@
     <message>
         <source>6-digit code</source>
         <translation>6-sifret kode</translation>
+    </message>
+    <message>
+        <source>Server software</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lemmy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>PieFed</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Signing in…</source>

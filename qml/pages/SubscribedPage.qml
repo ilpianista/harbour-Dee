@@ -9,12 +9,15 @@ Page {
     property string pageTitle: ""
 
     function refresh() {
+        appWindow.currentSort = appWindow.postSortForServer(appWindow.currentSort, api.serverKind);
         var params = {
             "limit": 50,
             "sort": appWindow.currentSort
         };
         if (communityId > 0)
             params.community_id = communityId;
+        else
+            params.type_ = "Subscribed";
 
         api.listPosts(JSON.stringify(params));
     }
@@ -43,15 +46,8 @@ Page {
 
         Component.onCompleted: {
             api.setPostsModel(posts);
-            appWindow.currentSort = api.currentSort;
-            var params = {
-                "limit": 50,
-                "sort": appWindow.currentSort
-            };
-            if (communityId > 0)
-                params.community_id = communityId;
-
-            api.listPosts(JSON.stringify(params));
+            appWindow.currentSort = appWindow.postSortForServer(api.currentSort, api.serverKind);
+            refresh();
         }
     }
 
@@ -68,10 +64,11 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Sort") + ": " + appWindow.sortLabel(appWindow.currentSort)
+                text: qsTr("Sort") + ": " + appWindow.sortLabel(appWindow.currentSort, api.serverKind)
                 onClicked: {
                     var dialog = pageStack.push(Qt.resolvedUrl("SortDialog.qml"), {
                         "selectedSort": appWindow.currentSort,
+                        "options": appWindow.postSortOptions(api.serverKind),
                         "headerTitle": qsTr("Sort posts")
                     });
                     dialog.accepted.connect(function () {

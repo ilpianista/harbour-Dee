@@ -8,6 +8,7 @@ Page {
     property alias api: _api
 
     function doLogin() {
+        _api.serverKind = serverSoftware.currentIndex === 1 ? "piefed" : "lemmy";
         _api.login(instance.text, username.text, password.text, useTwoFactor.checked ? totp.text : "");
     }
 
@@ -61,6 +62,26 @@ Page {
                 EnterKey.enabled: text.length > 0
                 EnterKey.iconSource: "image://theme/icon-m-enter-next"
                 EnterKey.onClicked: username.focus = true
+            }
+
+            ComboBox {
+                id: serverSoftware
+
+                x: Theme.horizontalPageMargin
+                width: parent.width - 2 * Theme.horizontalPageMargin
+                label: qsTr("Server software")
+                currentIndex: _api.serverKind === "piefed" ? 1 : 0
+                enabled: !_api.busy
+
+                menu: ContextMenu {
+                    MenuItem {
+                        text: qsTr("Lemmy")
+                    }
+
+                    MenuItem {
+                        text: qsTr("PieFed")
+                    }
+                }
             }
 
             SectionHeader {
