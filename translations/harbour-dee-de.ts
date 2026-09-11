@@ -5,117 +5,117 @@
     <name>CommunitiesPage</name>
     <message>
         <source>Go to community</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu Community gehen</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished">Aktualisieren</translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <source>No subscribed communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine abonnierten Communitys</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished">Zum Aktualisieren herunter ziehen</translation>
+        <translation>Zum Aktualisieren herunterziehen</translation>
     </message>
     <message>
         <source>Communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Communitys</translation>
     </message>
     <message>
         <source>subscribers</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonnenten</translation>
     </message>
     <message>
         <source>posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Beiträge</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar</translation>
     </message>
     <message>
         <source>comments</source>
-        <translation type="unfinished">Kommentare</translation>
+        <translation>Kommentare</translation>
     </message>
     <message>
         <source>point</source>
-        <translation type="unfinished"></translation>
+        <translation>Punkt</translation>
     </message>
     <message>
         <source>points</source>
-        <translation type="unfinished"></translation>
+        <translation>Punkte</translation>
     </message>
 </context>
 <context>
     <name>Dee</name>
     <message>
         <source>Hot</source>
-        <translation type="unfinished"></translation>
+        <translation>Angesagt</translation>
     </message>
     <message>
         <source>Active</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktiv</translation>
     </message>
     <message>
         <source>Controversial</source>
-        <translation type="unfinished"></translation>
+        <translation>Kontrovers</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Neu</translation>
     </message>
     <message>
         <source>Most Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Meistkommentiert</translation>
     </message>
     <message>
         <source>New Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Kommentare</translation>
     </message>
     <message>
         <source>Top Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Top des Tages</translation>
     </message>
     <message>
         <source>Top Week</source>
-        <translation type="unfinished"></translation>
+        <translation>Top der Woche</translation>
     </message>
     <message>
         <source>Top Month</source>
-        <translation type="unfinished"></translation>
+        <translation>Top des Monats</translation>
     </message>
     <message>
         <source>Top Year</source>
-        <translation type="unfinished"></translation>
+        <translation>Top des Jahres</translation>
     </message>
     <message>
         <source>Top All Time</source>
-        <translation type="unfinished"></translation>
+        <translation>Top aller Zeiten</translation>
     </message>
     <message>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>Top</translation>
     </message>
     <message>
         <source>Old</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt</translation>
     </message>
     <message>
         <source>New messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Nachrichten</translation>
     </message>
     <message>
         <source>1 unread message</source>
-        <translation type="unfinished"></translation>
+        <translation>1 ungelesene Nachricht</translation>
     </message>
     <message>
         <source>%1 unread messages</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ungelesene Nachrichten</translation>
     </message>
     <message>
         <source>Scaled</source>
@@ -126,66 +126,66 @@
     <name>GoToCommunityDialog</name>
     <message>
         <source>Go to community</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu Community gehen</translation>
     </message>
     <message>
         <source>Enter a community name or full handle (e.g. &quot;lemmy&quot; or &quot;lemmy@lemmy.world&quot;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Gib den Namen einer Community oder deren Adresse ein (z. B. &quot;lemmy&quot; oder &quot;lemmy@lemmy.org&quot;)</translation>
     </message>
     <message>
         <source>Go</source>
-        <translation type="unfinished"></translation>
+        <translation>Gehe zu</translation>
     </message>
     <message>
         <source>Community not found. Check the name and try again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Community nicht gefunden. Prüfe den Namen und versuche es erneut.</translation>
     </message>
 </context>
 <context>
     <name>InboxPage</name>
     <message>
         <source>Mark all as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle als gelesen markieren</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished">Aktualisieren</translation>
+        <translation>Aktualisieren</translation>
     </message>
     <message>
         <source>Inbox (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Posteingang (%1)</translation>
     </message>
     <message>
         <source>Inbox</source>
-        <translation type="unfinished"></translation>
+        <translation>Posteingang</translation>
     </message>
     <message>
         <source>No notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Benachrichtigungen</translation>
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation type="unfinished">Zum Aktualisieren herunter ziehen</translation>
+        <translation>Zum Aktualisieren herunterziehen</translation>
     </message>
     <message>
         <source>Reply to your comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Antwort auf deinen Kommentar</translation>
     </message>
     <message>
         <source>You were mentioned</source>
-        <translation type="unfinished"></translation>
+        <translation>Du wurdest erwähnt</translation>
     </message>
     <message>
         <source>Private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Privatnachricht</translation>
     </message>
     <message>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigung</translation>
     </message>
     <message>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Startseite</translation>
     </message>
 </context>
 <context>
@@ -203,7 +203,7 @@
     <name>LoadingFooter</name>
     <message>
         <source>Loading more…</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade mehr…</translation>
     </message>
 </context>
 <context>
@@ -218,78 +218,78 @@
     </message>
     <message>
         <source>Sign in</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmelden</translation>
     </message>
     <message>
         <source>Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Instanz</translation>
     </message>
     <message>
         <source>Instance URL</source>
-        <translation type="unfinished"></translation>
+        <translation>Instanz-URL</translation>
     </message>
     <message>
         <source>Credentials</source>
-        <translation type="unfinished"></translation>
+        <translation>Zugangsdaten</translation>
     </message>
     <message>
         <source>Two-factor authentication</source>
-        <translation type="unfinished"></translation>
+        <translation>Zwei-Faktor-Authentifizierung</translation>
     </message>
     <message>
         <source>Authentication code</source>
-        <translation type="unfinished"></translation>
+        <translation>2FA-Code</translation>
     </message>
     <message>
         <source>6-digit code</source>
-        <translation type="unfinished"></translation>
+        <translation>6-stelliger Code</translation>
     </message>
     <message>
         <source>Signing in…</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmeldung läuft…</translation>
     </message>
 </context>
 <context>
     <name>NewPostPage</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel</translation>
     </message>
     <message>
         <source>Post title</source>
-        <translation type="unfinished"></translation>
+        <translation>Beitragstitel</translation>
     </message>
     <message>
         <source>URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL</translation>
     </message>
     <message>
         <source>optional</source>
-        <translation type="unfinished"></translation>
+        <translation>optional</translation>
     </message>
     <message>
         <source>Link (leave empty for a text post)</source>
-        <translation type="unfinished"></translation>
+        <translation>Link (leer lassen für Text-Beitrag)</translation>
     </message>
     <message>
         <source>Body</source>
-        <translation type="unfinished"></translation>
+        <translation>Text</translation>
     </message>
     <message>
         <source>Write your post…</source>
-        <translation type="unfinished"></translation>
+        <translation>Schreibe deinen Beitrag…</translation>
     </message>
     <message>
         <source>Creating…</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstellung läuft…</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstellen</translation>
     </message>
     <message>
         <source>Create post</source>
-        <translation type="unfinished"></translation>
+        <translation>Beitrag erstellen</translation>
     </message>
 </context>
 <context>
@@ -327,23 +327,23 @@
     </message>
     <message>
         <source>Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Antworten</translation>
     </message>
     <message>
         <source>In reply to &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Antwort auf &quot;%1&quot;</translation>
     </message>
     <message>
         <source>No comments yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Noch keine Kommentare.</translation>
     </message>
     <message>
         <source>Load more comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Mehr Kommentare laden</translation>
     </message>
     <message>
         <source>Share link to post</source>
-        <translation type="unfinished"></translation>
+        <translation>Link zum Beitrag teilen</translation>
     </message>
     <message>
         <source>Share</source>
@@ -351,104 +351,104 @@
     </message>
     <message>
         <source>Sort</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortieren</translation>
     </message>
     <message>
         <source>Sort comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentare sortieren</translation>
     </message>
 </context>
 <context>
     <name>PostWebView</name>
     <message>
         <source>Share url</source>
-        <translation type="unfinished"></translation>
+        <translation>URL teilen</translation>
     </message>
 </context>
 <context>
     <name>ReplyPage</name>
     <message>
         <source>Reply to comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Auf Kommentar antworten</translation>
     </message>
     <message>
         <source>Reply to post</source>
-        <translation type="unfinished"></translation>
+        <translation>Auf Beitrag antworten</translation>
     </message>
     <message>
         <source>Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Antworten</translation>
     </message>
     <message>
         <source>Write your comment…</source>
-        <translation type="unfinished"></translation>
+        <translation>Schreibe deinen Kommentar…</translation>
     </message>
     <message>
         <source>Posting…</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar wird erstellt…</translation>
     </message>
     <message>
         <source>Post comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommentar erstellen</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Konto</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>Nutzername</translation>
     </message>
     <message>
         <source>Instance</source>
-        <translation type="unfinished"></translation>
+        <translation>Instanz</translation>
     </message>
     <message>
         <source>Sign out</source>
-        <translation type="unfinished"></translation>
+        <translation>Abmelden</translation>
     </message>
     <message>
         <source>Logging out</source>
-        <translation type="unfinished"></translation>
+        <translation>Abmeldung läuft</translation>
     </message>
     <message>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigungen</translation>
     </message>
     <message>
         <source>Background checking</source>
-        <translation type="unfinished"></translation>
+        <translation>Überprüfung im Hintergrund</translation>
     </message>
     <message>
         <source>Poll for new notifications while the app is running</source>
-        <translation type="unfinished"></translation>
+        <translation>Neue Benachrichtigungen abfragen, während die App läuft</translation>
     </message>
     <message>
         <source>Check interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Abfrage-Intervall</translation>
     </message>
     <message>
         <source>5 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>5 Minuten</translation>
     </message>
     <message>
         <source>15 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>15 Minuten</translation>
     </message>
     <message>
         <source>30 minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>30 Minuten</translation>
     </message>
     <message>
         <source>1 hour</source>
-        <translation type="unfinished"></translation>
+        <translation>1 Stunde</translation>
     </message>
     <message>
         <source>Feed</source>
@@ -475,7 +475,7 @@
     <name>SubscribedPage</name>
     <message>
         <source>Communities</source>
-        <translation type="unfinished"></translation>
+        <translation>Communitys</translation>
     </message>
     <message>
         <source>Refresh</source>
@@ -487,7 +487,7 @@
     </message>
     <message>
         <source>Pull down to refresh</source>
-        <translation>Zum Aktualisieren herunter ziehen</translation>
+        <translation>Zum Aktualisieren herunterziehen</translation>
     </message>
     <message>
         <source>Upvote</source>
@@ -507,35 +507,35 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <source>Sort</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortieren</translation>
     </message>
     <message>
         <source>Sort posts</source>
-        <translation type="unfinished"></translation>
+        <translation>Beiträge sortieren</translation>
     </message>
     <message>
         <source>Inbox</source>
-        <translation type="unfinished"></translation>
+        <translation>Posteingang</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation type="unfinished"></translation>
+        <translation>Abbestellen</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation type="unfinished"></translation>
+        <translation>Abonnieren</translation>
     </message>
     <message>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Startseite</translation>
     </message>
     <message>
         <source>Create post</source>
-        <translation type="unfinished"></translation>
+        <translation>Beitrag erstellen</translation>
     </message>
 </context>
 </TS>
