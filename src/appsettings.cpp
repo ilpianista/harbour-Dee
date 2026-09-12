@@ -5,7 +5,8 @@
 #include <QStandardPaths>
 
 AppSettings::AppSettings(QObject *parent)
-    : QObject(parent), m_fullSizeMediaEnabled(false) {
+    : QObject(parent), m_fullSizeMediaEnabled(false),
+      m_blurNsfwEnabled(true) {
   // Shares the same config file as LemmyAPI (same path formula), so this is
   // just another set of keys in the app's one settings file, not a second
   // settings file.
@@ -16,6 +17,8 @@ AppSettings::AppSettings(QObject *parent)
 
   m_fullSizeMediaEnabled =
       m_settings->value(QStringLiteral("feed/fullSizeMedia"), false).toBool();
+  m_blurNsfwEnabled =
+      m_settings->value(QStringLiteral("feed/blurNsfw"), true).toBool();
 }
 
 void AppSettings::setFullSizeMediaEnabled(bool enabled) {
@@ -24,4 +27,12 @@ void AppSettings::setFullSizeMediaEnabled(bool enabled) {
   m_fullSizeMediaEnabled = enabled;
   m_settings->setValue(QStringLiteral("feed/fullSizeMedia"), enabled);
   emit fullSizeMediaEnabledChanged();
+}
+
+void AppSettings::setBlurNsfwEnabled(bool enabled) {
+  if (m_blurNsfwEnabled == enabled)
+    return;
+  m_blurNsfwEnabled = enabled;
+  m_settings->setValue(QStringLiteral("feed/blurNsfw"), enabled);
+  emit blurNsfwEnabledChanged();
 }
