@@ -93,6 +93,8 @@ class LemmyAPI : public QObject {
                  currentSortChanged)
   Q_PROPERTY(QString commentSort READ commentSort WRITE setCommentSort NOTIFY
                  commentSortChanged)
+  Q_PROPERTY(QString listingType READ listingType WRITE setListingType NOTIFY
+                 listingTypeChanged)
   Q_PROPERTY(PostsModel *posts READ posts NOTIFY postsChanged)
   Q_PROPERTY(QJsonArray communities READ communities NOTIFY communitiesChanged)
   Q_PROPERTY(QVariantList comments READ comments NOTIFY commentsChanged)
@@ -125,6 +127,7 @@ public:
   int communitiesPage() const { return m_communitiesPage; }
   QString currentSort() const { return m_currentSort; }
   QString commentSort() const { return m_commentSort; }
+  QString listingType() const { return m_listingType; }
   QVariantList notifications() const { return m_notifications; }
   int unreadCount() const { return m_unreadCount; }
   bool backgroundCheckEnabled() const { return m_backgroundCheckEnabled; }
@@ -137,6 +140,7 @@ public:
   void setCommunitiesPage(int page);
   void setCurrentSort(const QString &sort);
   void setCommentSort(const QString &sort);
+  void setListingType(const QString &type);
   void setBackgroundCheckEnabled(bool enabled);
   void setCheckIntervalMinutes(int minutes);
 
@@ -193,6 +197,7 @@ signals:
   void postsPageChanged();
   void currentSortChanged();
   void commentSortChanged();
+  void listingTypeChanged();
 
   // Notification signals
   void notificationsChanged();
@@ -245,6 +250,7 @@ private:
   bool m_busy;
   QString m_currentSort;
   QString m_commentSort;
+  QString m_listingType;
 
   // Data caches
   PostsModel *m_posts;

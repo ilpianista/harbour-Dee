@@ -224,6 +224,10 @@ LemmyAPI::LemmyAPI(QObject *parent)
   m_commentSort =
       m_settings->value(QStringLiteral("commentSort"), QStringLiteral("Hot"))
           .toString();
+  m_listingType = m_settings
+                       ->value(QStringLiteral("listingType"),
+                               QStringLiteral("Subscribed"))
+                       .toString();
 
   // Retrieve JWT from secure storage
   m_jwt = m_secureStorage->loadAccessToken();
@@ -515,6 +519,14 @@ void LemmyAPI::setCommentSort(const QString &sort) {
   m_commentSort = sort;
   m_settings->setValue(QStringLiteral("commentSort"), sort);
   emit commentSortChanged();
+}
+
+void LemmyAPI::setListingType(const QString &type) {
+  if (m_listingType == type)
+    return;
+  m_listingType = type;
+  m_settings->setValue(QStringLiteral("listingType"), type);
+  emit listingTypeChanged();
 }
 
 void LemmyAPI::setPostsModel(PostsModel *model) {

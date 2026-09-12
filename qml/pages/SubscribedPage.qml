@@ -40,6 +40,8 @@ Page {
         };
         if (communityId > 0)
             params.community_id = communityId;
+        else
+            params.type_ = appWindow.listingType;
 
         api.listPosts(JSON.stringify(params));
     }
@@ -47,6 +49,12 @@ Page {
     function setSort(sortType) {
         appWindow.currentSort = sortType;
         api.currentSort = sortType;
+        refresh();
+    }
+
+    function setListingType(type) {
+        appWindow.listingType = type;
+        api.listingType = type;
         refresh();
     }
 
@@ -68,6 +76,7 @@ Page {
     Component.onCompleted: {
         api.setPostsModel(posts);
         appWindow.currentSort = api.currentSort;
+        appWindow.listingType = api.listingType;
         var params = {
             "limit": 50,
             "sort": appWindow.currentSort
@@ -77,6 +86,8 @@ Page {
             api.getCommunity(JSON.stringify({
                 "id": communityId
             }));
+        } else {
+            params.type_ = appWindow.listingType;
         }
 
         api.listPosts(JSON.stringify(params));
@@ -97,12 +108,28 @@ Page {
             MenuItem {
                 text: qsTr("Sort") + ": " + appWindow.sortLabel(appWindow.currentSort)
                 onClicked: {
-                    var dialog = pageStack.push(Qt.resolvedUrl("SortDialog.qml"), {
-                        "selectedSort": appWindow.currentSort,
+                    var dialog = pageStack.push(Qt.resolvedUrl("SelectionDialog.qml"), {
+                        "selectedValue": appWindow.currentSort,
+                        "options": appWindow.sortOptions,
                         "headerTitle": qsTr("Sort posts")
                     });
                     dialog.accepted.connect(function () {
-                        setSort(dialog.selectedSort);
+                        setSort(dialog.selectedValue);
+                    });
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Feed") + ": " + appWindow.listingTypeLabel(appWindow.listingType)
+                visible: communityId === 0
+                onClicked: {
+                    var dialog = pageStack.push(Qt.resolvedUrl("SelectionDialog.qml"), {
+                        "selectedValue": appWindow.listingType,
+                        "options": appWindow.listingTypeOptions,
+                        "headerTitle": qsTr("Feed")
+                    });
+                    dialog.accepted.connect(function () {
+                        setListingType(dialog.selectedValue);
                     });
                 }
             }
