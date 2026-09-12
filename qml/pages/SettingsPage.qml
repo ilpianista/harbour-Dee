@@ -54,6 +54,13 @@ Page {
                 onCheckedChanged: AppSettings.fullSizeMediaEnabled = checked
             }
 
+            TextSwitch {
+                text: qsTr("No NSFW in feed")
+                description: qsTr("Blur thumbnails of posts marked NSFW")
+                checked: AppSettings.blurNsfwEnabled
+                onCheckedChanged: AppSettings.blurNsfwEnabled = checked
+            }
+
             SectionHeader {
                 text: qsTr("Notifications")
             }

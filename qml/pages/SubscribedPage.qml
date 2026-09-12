@@ -313,6 +313,12 @@ Page {
                         imageUrl: post.thumbnail_url || ""
                         onClicked: delegate.openPost()
                     }
+
+                    NsfwOverlay {
+                        anchors.fill: parent
+                        radius: Theme.paddingSmall
+                        visible: !!post.nsfw && AppSettings.blurNsfwEnabled
+                    }
                 }
 
                 Row {
@@ -430,6 +436,11 @@ Page {
                     rightMargin: Theme.paddingMedium
                 }
                 onClicked: delegate.openPost()
+            }
+
+            NsfwOverlay {
+                anchors.fill: thumbnail
+                visible: thumbnail.visible && !!post.nsfw && AppSettings.blurNsfwEnabled
             }
         }
     }

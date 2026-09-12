@@ -18,6 +18,8 @@ class AppSettings : public QObject {
 
   Q_PROPERTY(bool fullSizeMediaEnabled READ fullSizeMediaEnabled WRITE
                  setFullSizeMediaEnabled NOTIFY fullSizeMediaEnabledChanged)
+  Q_PROPERTY(bool blurNsfwEnabled READ blurNsfwEnabled WRITE
+                 setBlurNsfwEnabled NOTIFY blurNsfwEnabledChanged)
 
 public:
   explicit AppSettings(QObject *parent = nullptr);
@@ -25,12 +27,17 @@ public:
   bool fullSizeMediaEnabled() const { return m_fullSizeMediaEnabled; }
   void setFullSizeMediaEnabled(bool enabled);
 
+  bool blurNsfwEnabled() const { return m_blurNsfwEnabled; }
+  void setBlurNsfwEnabled(bool enabled);
+
 signals:
   void fullSizeMediaEnabledChanged();
+  void blurNsfwEnabledChanged();
 
 private:
   QSettings *m_settings;
   bool m_fullSizeMediaEnabled;
+  bool m_blurNsfwEnabled;
 };
 
 #endif // APPSETTINGS_H
