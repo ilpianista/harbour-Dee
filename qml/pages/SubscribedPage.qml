@@ -199,7 +199,8 @@ Page {
 
             menu: contextMenu
             contentHeight: contentColumn.height + 2 * Theme.paddingMedium
-            onClicked: {
+
+            function openPost() {
                 if (post.id)
                     pageStack.animatorPush(Qt.resolvedUrl("PostPage.qml"), {
                         "api": api,
@@ -216,6 +217,8 @@ Page {
                         "postLocked": post.locked
                     });
             }
+
+            onClicked: openPost()
 
             Column {
                 id: contentColumn
@@ -281,10 +284,7 @@ Page {
                         height: parent.height
                         fillMode: Image.PreserveAspectFit
                         imageUrl: post.thumbnail_url || ""
-                        onClicked: pageStack.pushAttached(Qt.resolvedUrl("PostWebView.qml"), {
-                            "postUrl": post.url,
-                            "postTitle": post.name
-                        })
+                        onClicked: delegate.openPost()
                     }
                 }
 
@@ -402,12 +402,7 @@ Page {
                     verticalCenter: parent.verticalCenter
                     rightMargin: Theme.paddingMedium
                 }
-                onClicked: {
-                    pageStack.pushAttached(Qt.resolvedUrl("PostWebView.qml"), {
-                        "postUrl": post.url,
-                        "postTitle": post.name
-                    });
-                }
+                onClicked: delegate.openPost()
             }
         }
     }
