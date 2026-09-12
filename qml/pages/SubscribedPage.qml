@@ -263,6 +263,31 @@ Page {
                     width: parent.width
                 }
 
+                Item {
+                    id: fullMediaBox
+                    visible: AppSettings.fullSizeMediaEnabled && !!post.thumbnail_url
+                    width: parent.width
+                    height: visible ? width * 3 / 4 : 0
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: Theme.rgba(Theme.highlightBackgroundColor, 0.08)
+                        radius: Theme.paddingSmall
+                    }
+
+                    Thumbnail {
+                        id: fullMedia
+                        width: parent.width
+                        height: parent.height
+                        fillMode: Image.PreserveAspectFit
+                        imageUrl: post.thumbnail_url || ""
+                        onClicked: pageStack.pushAttached(Qt.resolvedUrl("PostWebView.qml"), {
+                            "postUrl": post.url,
+                            "postTitle": post.name
+                        })
+                    }
+                }
+
                 Row {
                     spacing: Theme.paddingSmall
 
@@ -371,7 +396,7 @@ Page {
             Thumbnail {
                 id: thumbnail
                 imageUrl: post.thumbnail_url || ""
-                visible: !!post.thumbnail_url
+                visible: !!post.thumbnail_url && !AppSettings.fullSizeMediaEnabled
                 anchors {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
