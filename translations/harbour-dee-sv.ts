@@ -119,7 +119,7 @@
     </message>
     <message>
         <source>Scaled</source>
-        <translation type="unfinished"></translation>
+        <translation>Skala</translation>
     </message>
 </context>
 <context>
@@ -296,7 +296,7 @@
     <name>NsfwOverlay</name>
     <message>
         <source>NSFW</source>
-        <translation type="unfinished"></translation>
+        <translation>NSFW</translation>
     </message>
 </context>
 <context>
@@ -452,23 +452,23 @@
     </message>
     <message>
         <source>Feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Flöde</translation>
     </message>
     <message>
         <source>Full size media</source>
-        <translation type="unfinished"></translation>
+        <translation>Fullstorleksmedia</translation>
     </message>
     <message>
         <source>Show post images at full width instead of small thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Visa inläggsbilder på full bredd istället för små miniatyrer</translation>
     </message>
     <message>
         <source>No NSFW in feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Inget NSFW i flödet</translation>
     </message>
     <message>
         <source>Blur thumbnails of posts marked NSFW</source>
-        <translation type="unfinished"></translation>
+        <translation>Oskärpa på miniatyrer märkta NSFW</translation>
     </message>
 </context>
 <context>
