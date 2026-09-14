@@ -111,14 +111,14 @@ Page {
             MenuItem {
                 text: qsTr("Sort") + ": " + appWindow.commentSortLabel(appWindow.commentSort)
                 onClicked: {
-                    var dialog = pageStack.push(Qt.resolvedUrl("SortDialog.qml"), {
-                        "selectedSort": appWindow.commentSort,
+                    var dialog = pageStack.push(Qt.resolvedUrl("SelectionDialog.qml"), {
+                        "selectedValue": appWindow.commentSort,
                         "options": appWindow.commentSortOptions,
                         "headerTitle": qsTr("Sort comments")
                     });
                     dialog.accepted.connect(function () {
-                        appWindow.commentSort = dialog.selectedSort;
-                        api.commentSort = dialog.selectedSort;
+                        appWindow.commentSort = dialog.selectedValue;
+                        api.commentSort = dialog.selectedValue;
                         loadComments();
                     });
                 }

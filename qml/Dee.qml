@@ -12,6 +12,7 @@ ApplicationWindow {
     property int postComments: 0
     property string currentSort: ""
     property string commentSort: "Hot"
+    property string listingType: ""
 
     readonly property var sortOptions: [
         {
@@ -95,6 +96,29 @@ ApplicationWindow {
         for (var i = 0; i < commentSortOptions.length; i++) {
             if (commentSortOptions[i].value === value)
                 return commentSortOptions[i].text;
+        }
+        return value;
+    }
+
+    readonly property var listingTypeOptions: [
+        {
+            "text": qsTr("Subscribed"),
+            "value": "Subscribed"
+        },
+        {
+            "text": qsTr("Local"),
+            "value": "Local"
+        },
+        {
+            "text": qsTr("All"),
+            "value": "All"
+        }
+    ]
+
+    function listingTypeLabel(value) {
+        for (var i = 0; i < listingTypeOptions.length; i++) {
+            if (listingTypeOptions[i].value === value)
+                return listingTypeOptions[i].text;
         }
         return value;
     }

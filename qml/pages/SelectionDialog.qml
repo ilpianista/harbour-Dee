@@ -2,10 +2,10 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Dialog {
-    id: sortDialog
+    id: selectionDialog
 
-    property string selectedSort
-    property var options: appWindow.sortOptions
+    property string selectedValue
+    property var options
     property string headerTitle
 
     DialogHeader {
@@ -26,19 +26,19 @@ Dialog {
             model: options
 
             ListItem {
-                id: sortItem
+                id: selectionItem
                 contentHeight: Theme.itemSizeSmall
-                highlighted: modelData.value === selectedSort
+                highlighted: modelData.value === selectedValue
 
                 Label {
                     text: modelData.text
                     anchors.centerIn: parent
-                    color: sortItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                    color: selectionItem.highlighted ? Theme.highlightColor : Theme.primaryColor
                 }
 
                 onClicked: {
-                    selectedSort = modelData.value;
-                    sortDialog.accept();
+                    selectedValue = modelData.value;
+                    selectionDialog.accept();
                 }
             }
         }
