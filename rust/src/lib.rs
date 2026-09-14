@@ -478,13 +478,25 @@ pub unsafe extern "C" fn lemmy_get_site(handle: *mut LemmyClientHandle) -> *mut 
 // ---------------------------------------------------------------------------
 
 /// List posts. `json_params` is a JSON-serialised `GetPosts` struct.
+/// The `type_` field defaults to `Subscribed` when not provided.
 /// Returns JSON `GetPostsResponse`.
 #[no_mangle]
 pub unsafe extern "C" fn lemmy_list_posts(
     handle: *mut LemmyClientHandle,
     json_params: *const c_char,
 ) -> *mut c_char {
-    api_call!(handle, json_params, GetPosts, default, list_posts)
+    api_call!(
+        handle,
+        json_params,
+        GetPosts,
+        default,
+        fixup |p: &mut GetPosts| {
+            if p.type_.is_none() {
+                p.type_ = Some(ListingType::Subscribed);
+            }
+        },
+        list_posts
+    )
 }
 
 /// Get a single post. `json_params` is a JSON-serialised `GetPost`.
