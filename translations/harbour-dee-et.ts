@@ -117,6 +117,10 @@
         <source>%1 unread messages</source>
         <translation>%1 lugemata sõnumit</translation>
     </message>
+    <message>
+        <source>Scaled</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GoToCommunityDialog</name>
@@ -289,6 +293,13 @@
     </message>
 </context>
 <context>
+    <name>NsfwOverlay</name>
+    <message>
+        <source>NSFW</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PostPage</name>
     <message>
         <source>Refresh</source>
@@ -438,6 +449,26 @@
     <message>
         <source>1 hour</source>
         <translation>1 tund</translation>
+    </message>
+    <message>
+        <source>Feed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full size media</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show post images at full width instead of small thumbnails</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No NSFW in feed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blur thumbnails of posts marked NSFW</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
