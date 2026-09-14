@@ -1,4 +1,5 @@
 
+#include "appsettings.h"
 #include "lemmyapi.h"
 #include <QQmlEngine>
 #include <QtQuick>
@@ -13,6 +14,9 @@ int main(int argc, char *argv[]) {
 
   qmlRegisterType<LemmyAPI>("harbour.dee", 1, 0, "LemmyAPI");
   qmlRegisterType<PostsModel>("harbour.dee", 1, 0, "PostsModel");
+  qmlRegisterSingletonType<AppSettings>(
+      "harbour.dee", 1, 0, "AppSettings",
+      [](QQmlEngine *, QJSEngine *) -> QObject * { return new AppSettings(); });
 
   view->setSource(SailfishApp::pathTo("qml/Dee.qml"));
   view->show();

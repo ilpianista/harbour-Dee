@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import harbour.dee 1.0
 
 Page {
     id: page
@@ -40,6 +41,17 @@ Page {
             DetailItem {
                 label: qsTr("Instance")
                 value: api.instanceUrl
+            }
+
+            SectionHeader {
+                text: qsTr("Feed")
+            }
+
+            TextSwitch {
+                text: qsTr("Full size media")
+                description: qsTr("Show post images at full width instead of small thumbnails")
+                checked: AppSettings.fullSizeMediaEnabled
+                onCheckedChanged: AppSettings.fullSizeMediaEnabled = checked
             }
 
             SectionHeader {
