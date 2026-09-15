@@ -12,6 +12,7 @@ License:    LICENSE
 URL:        https://github.com/ilpianista/harbour-dee
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
+Requires:   sailfishsecretsdaemon-secretsplugins-default
 BuildRequires:  openssl-devel
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
