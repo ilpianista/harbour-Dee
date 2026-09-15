@@ -119,7 +119,7 @@
     </message>
     <message>
         <source>Scaled</source>
-        <translation type="unfinished"></translation>
+        <translation>Skaleeritud</translation>
     </message>
 </context>
 <context>
@@ -296,7 +296,7 @@
     <name>NsfwOverlay</name>
     <message>
         <source>NSFW</source>
-        <translation type="unfinished"></translation>
+        <translation>Ebasobilik sisu</translation>
     </message>
 </context>
 <context>
@@ -452,23 +452,23 @@
     </message>
     <message>
         <source>Feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Uudisvoog</translation>
     </message>
     <message>
         <source>Full size media</source>
-        <translation type="unfinished"></translation>
+        <translation>Täismahus meedium</translation>
     </message>
     <message>
         <source>Show post images at full width instead of small thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Näita postituse pilte väikeste pisipiltide asemel täismahulistena</translation>
     </message>
     <message>
         <source>No NSFW in feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Uudisvoos pole ebasobilikku sisu</translation>
     </message>
     <message>
         <source>Blur thumbnails of posts marked NSFW</source>
-        <translation type="unfinished"></translation>
+        <translation>Kui postitused on märgitus ebasobilikku sisu sisaldavaks, siis hägusta pisipildid</translation>
     </message>
 </context>
 <context>
