@@ -201,7 +201,7 @@
     </message>
     <message>
         <source>Sent private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Sendt privat melding</translation>
     </message>
 </context>
 <context>
@@ -385,31 +385,31 @@
     <name>PrivateMessagePage</name>
     <message>
         <source>Sent private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Sendt privat melding</translation>
     </message>
     <message>
         <source>Private message</source>
-        <translation type="unfinished">Privat melding</translation>
+        <translation>Privat melding</translation>
     </message>
     <message>
         <source>To %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Til %1</translation>
     </message>
     <message>
         <source>From %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fra %1</translation>
     </message>
     <message>
         <source>Write a reply…</source>
-        <translation type="unfinished"></translation>
+        <translation>Skriv et svar…</translation>
     </message>
     <message>
         <source>Sending…</source>
-        <translation type="unfinished"></translation>
+        <translation>Sender…</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Send</translation>
     </message>
 </context>
 <context>
