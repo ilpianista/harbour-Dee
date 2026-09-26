@@ -503,7 +503,7 @@
     </message>
     <message>
         <source>Full size media</source>
-        <translation>Ffullskärmsmedia</translation>
+        <translation>Fullskärmsmedia</translation>
     </message>
     <message>
         <source>Show post images at full width instead of small thumbnails</source>
