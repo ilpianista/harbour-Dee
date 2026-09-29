@@ -5,12 +5,13 @@
 #include <QSettings>
 
 // ---------------------------------------------------------------------------
-// AppSettings – persisted, purely-local UI/display preferences.
+// AppSettings – persisted, local UI preferences.
 //
 // Kept separate from LemmyAPI, which owns network/session state and request
-// parameters (e.g. currentSort/commentSort, which are sent to the server).
-// Properties here never affect a request; they only affect how already-
-// fetched data is displayed.
+// parameters that change at runtime (e.g. currentSort/commentSort, which are
+// sent to the server). Most properties here only affect how already-fetched
+// data is displayed; defaultListingType selects the listing type used when the
+// Home feed is first loaded.
 // ---------------------------------------------------------------------------
 
 class AppSettings : public QObject {
@@ -18,8 +19,10 @@ class AppSettings : public QObject {
 
   Q_PROPERTY(bool fullSizeMediaEnabled READ fullSizeMediaEnabled WRITE
                  setFullSizeMediaEnabled NOTIFY fullSizeMediaEnabledChanged)
-  Q_PROPERTY(bool blurNsfwEnabled READ blurNsfwEnabled WRITE
-                 setBlurNsfwEnabled NOTIFY blurNsfwEnabledChanged)
+  Q_PROPERTY(bool blurNsfwEnabled READ blurNsfwEnabled WRITE setBlurNsfwEnabled
+                 NOTIFY blurNsfwEnabledChanged)
+  Q_PROPERTY(QString defaultListingType READ defaultListingType WRITE
+                 setDefaultListingType NOTIFY defaultListingTypeChanged)
 
 public:
   explicit AppSettings(QObject *parent = nullptr);
@@ -30,14 +33,19 @@ public:
   bool blurNsfwEnabled() const { return m_blurNsfwEnabled; }
   void setBlurNsfwEnabled(bool enabled);
 
+  QString defaultListingType() const { return m_defaultListingType; }
+  void setDefaultListingType(const QString &type);
+
 signals:
   void fullSizeMediaEnabledChanged();
   void blurNsfwEnabledChanged();
+  void defaultListingTypeChanged();
 
 private:
   QSettings *m_settings;
   bool m_fullSizeMediaEnabled;
   bool m_blurNsfwEnabled;
+  QString m_defaultListingType;
 };
 
 #endif // APPSETTINGS_H

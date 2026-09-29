@@ -121,6 +121,18 @@
         <source>Scaled</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Subscribed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Local</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GoToCommunityDialog</name>
@@ -503,6 +515,10 @@
     </message>
     <message>
         <source>Blur thumbnails of posts marked NSFW</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default home listing</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

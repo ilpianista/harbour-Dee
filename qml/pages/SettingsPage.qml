@@ -47,6 +47,32 @@ Page {
                 text: qsTr("Feed")
             }
 
+            ComboBox {
+                label: qsTr("Default home listing")
+                currentIndex: {
+                    var types = appWindow.listingTypes;
+                    for (var i = 0; i < types.length; i++) {
+                        if (types[i].value === AppSettings.defaultListingType)
+                            return i;
+                    }
+                    return 0;
+                }
+                onCurrentIndexChanged: {
+                    var types = appWindow.listingTypes;
+                    if (currentIndex >= 0 && currentIndex < types.length)
+                        AppSettings.defaultListingType = types[currentIndex].value;
+                }
+                menu: ContextMenu {
+                    Repeater {
+                        model: appWindow.listingTypes
+
+                        MenuItem {
+                            text: modelData.text
+                        }
+                    }
+                }
+            }
+
             TextSwitch {
                 text: qsTr("Full size media")
                 description: qsTr("Show post images at full width instead of small thumbnails")

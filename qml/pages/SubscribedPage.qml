@@ -8,6 +8,7 @@ Page {
 
     property int communityId: 0
     property string pageTitle: ""
+    property string listingType: ""
     property string communitySubscribed: "NotSubscribed"
     property string communityHandle: ""
     property bool postingRestrictedToMods: false
@@ -16,6 +17,8 @@ Page {
     property int postComments: 0
     property int postScore: 0
     property string postTitle: ""
+
+    readonly property string homeListingType: listingType !== "" ? listingType : AppSettings.defaultListingType
 
     function isSubscribed() {
         return communitySubscribed === "Subscribed";
@@ -42,6 +45,8 @@ Page {
         };
         if (communityId > 0)
             params.community_id = communityId;
+        else
+            params.type_ = homeListingType;
 
         api.listPosts(JSON.stringify(params));
     }
@@ -183,7 +188,7 @@ Page {
 
         header: PageHeader {
             title: communityId > 0 ? pageTitle : qsTr("Home")
-            description: communityId > 0 ? communityHandle : ""
+            description: communityId > 0 ? communityHandle : appWindow.listingLabel(homeListingType)
         }
 
         footer: LoadingFooter {

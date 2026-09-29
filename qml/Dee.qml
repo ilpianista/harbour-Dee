@@ -20,7 +20,7 @@ ApplicationWindow {
         },
         {
             "text": qsTr("Scaled"),
-            "value": "Scaled",
+            "value": "Scaled"
         },
         {
             "text": qsTr("Active"),
@@ -68,6 +68,29 @@ ApplicationWindow {
         for (var i = 0; i < sortOptions.length; i++) {
             if (sortOptions[i].value === value)
                 return sortOptions[i].text;
+        }
+        return value;
+    }
+
+    readonly property var listingTypes: [
+        {
+            "text": qsTr("Subscribed"),
+            "value": "Subscribed"
+        },
+        {
+            "text": qsTr("Local"),
+            "value": "Local"
+        },
+        {
+            "text": qsTr("All"),
+            "value": "All"
+        }
+    ]
+
+    function listingLabel(value) {
+        for (var i = 0; i < listingTypes.length; i++) {
+            if (listingTypes[i].value === value)
+                return listingTypes[i].text;
         }
         return value;
     }

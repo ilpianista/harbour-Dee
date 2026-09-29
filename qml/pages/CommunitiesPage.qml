@@ -7,6 +7,21 @@ Page {
 
     property var api
 
+    function showHome(listingType) {
+        var home = pageStack.find(function (p) {
+            return p.communityId === 0;
+        });
+        if (home) {
+            home.listingType = listingType;
+            home.refresh();
+            pageStack.pop(home);
+        } else {
+            pageStack.animatorPush(Qt.resolvedUrl("SubscribedPage.qml"), {
+                "listingType": listingType
+            });
+        }
+    }
+
     allowedOrientations: Orientation.All
     Component.onCompleted: {
         api.listCommunities(JSON.stringify({
@@ -47,6 +62,7 @@ Page {
 
         ViewPlaceholder {
             enabled: (!api || api.communities.length === 0) && (!api || !api.busy)
+            verticalOffset: appWindow.listingTypes.length * Theme.itemSizeSmall / 2
             text: qsTr("No subscribed communities")
             hintText: qsTr("Pull down to refresh")
         }
@@ -59,8 +75,38 @@ Page {
 
         VerticalScrollDecorator {}
 
-        header: PageHeader {
-            title: qsTr("Communities")
+        header: Column {
+            width: listView.width
+
+            PageHeader {
+                title: qsTr("Communities")
+            }
+
+            Repeater {
+                model: appWindow.listingTypes
+
+                delegate: BackgroundItem {
+                    id: listingItem
+
+                    width: parent.width
+                    onClicked: page.showHome(modelData.value)
+
+                    Label {
+                        anchors {
+                            left: parent.left
+                            leftMargin: Theme.horizontalPageMargin
+                            verticalCenter: parent.verticalCenter
+                        }
+                        text: modelData.text
+                        color: listingItem.highlighted ? Theme.highlightColor : Theme.primaryColor
+                    }
+                }
+            }
+
+            Separator {
+                width: parent.width
+                color: Theme.primaryColor
+            }
         }
 
         footer: LoadingFooter {

@@ -121,6 +121,18 @@
         <source>Scaled</source>
         <translation>Skalert</translation>
     </message>
+    <message>
+        <source>Subscribed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Local</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>GoToCommunityDialog</name>
@@ -504,6 +516,10 @@
     <message>
         <source>Blur thumbnails of posts marked NSFW</source>
         <translation>Gjør miniatyrbilder uskarpe på innlegg merket som NSFW</translation>
+    </message>
+    <message>
+        <source>Default home listing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
