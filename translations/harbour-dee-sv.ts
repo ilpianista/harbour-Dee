@@ -123,15 +123,15 @@
     </message>
     <message>
         <source>Subscribed</source>
-        <translation type="unfinished"></translation>
+        <translation>Prenumererad</translation>
     </message>
     <message>
         <source>Local</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokal</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Alla</translation>
     </message>
 </context>
 <context>
@@ -519,7 +519,7 @@
     </message>
     <message>
         <source>Default home listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard hemlistning</translation>
     </message>
 </context>
 <context>
