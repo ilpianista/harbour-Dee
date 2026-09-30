@@ -27,14 +27,25 @@ import Sailfish.Share 1.0
 import Sailfish.WebView 1.0
 
 WebViewPage {
+    id: page
+
     property string postUrl
     property string postTitle
+    property bool _loadStarted: false
 
     allowedOrientations: Orientation.All
 
+    onStatusChanged: {
+        if (status === PageStatus.Active && !_loadStarted && postUrl) {
+            _loadStarted = true;
+            webView.url = postUrl;
+        }
+    }
+
     WebView {
+        id: webView
+
         anchors.fill: parent
-        url: postUrl
         privateMode: true
     }
 

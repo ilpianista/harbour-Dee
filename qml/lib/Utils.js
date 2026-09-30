@@ -1,5 +1,46 @@
 .pragma library
 
+function escapeHtml(text) {
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}
+
+function linkify(text, linkColor) {
+    if (!text)
+        return "";
+
+    var escaped = escapeHtml(text);
+    var pattern = /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|&lt;(https?:\/\/[^\s&]+)&gt;|(https?:\/\/[^\s<)]+)/g;
+    var linked = false;
+
+    var result = escaped.replace(pattern, function (match, markdownLabel, markdownUrl, autolinkUrl, bareUrl) {
+        linked = true;
+
+        if (markdownUrl)
+            return '<a href="' + markdownUrl + '">' + markdownLabel + '</a>';
+
+        if (autolinkUrl)
+            return '<a href="' + autolinkUrl + '">' + autolinkUrl + '</a>';
+
+        var url = bareUrl;
+        var trailing = "";
+        var trailingMatch = url.match(/[.,;:!?]+$/);
+        if (trailingMatch) {
+            trailing = trailingMatch[0];
+            url = url.substring(0, url.length - trailing.length);
+        }
+        return '<a href="' + url + '">' + url + '</a>' + trailing;
+    }).replace(/\n/g, "<br>");
+
+    if (linked && linkColor)
+        result = '<style>a:link{color:' + linkColor + ';}</style>' + result;
+
+    return result;
+}
+
 function resolveHandle(actorId, prefixChar) {
     if (!actorId)
         return "";

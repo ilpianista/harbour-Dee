@@ -176,6 +176,11 @@ Page {
                 width: parent.width
                 height: postContentColumn.height + (postVoteMenu.active ? postVoteMenu.height : 0)
 
+                MouseArea {
+                    anchors.fill: parent
+                    onPressAndHold: postVoteMenu.open(parent)
+                }
+
                 Column {
                     id: postContentColumn
                     width: parent.width
@@ -226,10 +231,12 @@ Page {
                         visible: postBody && postBody.length > 0
                         width: parent.width
                         topPadding: Theme.paddingMedium
-                        text: postBody || ""
+                        textFormat: Text.RichText
+                        text: Utils.linkify(postBody, Theme.highlightColor)
                         wrapMode: Text.Wrap
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.primaryColor
+                        onLinkActivated: Qt.openUrlExternally(link)
                     }
 
                     Row {
@@ -295,11 +302,6 @@ Page {
                         width: parent.width
                         horizontalAlignment: Text.AlignRight
                     }
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onPressAndHold: postVoteMenu.open(parent)
                 }
 
                 ContextMenu {
@@ -386,10 +388,12 @@ Page {
                             // Comment body
                             Label {
                                 width: parent.width
-                                text: commentData.content || ""
+                                textFormat: Text.RichText
+                                text: Utils.linkify(commentData.content || "", commentBg.highlighted ? Theme.primaryColor : Theme.highlightColor)
                                 color: commentBg.highlighted ? Theme.highlightColor : Theme.primaryColor
                                 font.pixelSize: Theme.fontSizeSmall
                                 wrapMode: Text.Wrap
+                                onLinkActivated: Qt.openUrlExternally(link)
                             }
 
                             Row {

@@ -76,6 +76,15 @@ Page {
                     return recipient.actor_id || "";
                 return creator.actor_id || "";
             }
+            property string previewText: {
+                if (notif.comment && notif.comment.content)
+                    return notif.comment.content;
+                if (notif.private_message && notif.private_message.content)
+                    return notif.private_message.content;
+                if (notif.post && notif.post.name)
+                    return notif.post.name;
+                return "";
+            }
 
             contentHeight: contentCol.height + 2 * Theme.paddingMedium
             onClicked: {
@@ -152,21 +161,16 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: {
-                        if (notif.comment && notif.comment.content)
-                            return notif.comment.content;
-                        if (notif.private_message && notif.private_message.content)
-                            return notif.private_message.content;
-                        if (notif.post && notif.post.name)
-                            return notif.post.name;
-                        return "";
-                    }
+                    textFormat: Text.StyledText
+                    linkColor: item.highlighted ? Theme.primaryColor : Theme.highlightColor
+                    text: Utils.linkify(previewText)
                     font.pixelSize: Theme.fontSizeExtraSmall
                     color: item.highlighted ? Theme.highlightColor : Theme.secondaryColor
                     wrapMode: Text.Wrap
                     maximumLineCount: 3
                     elide: Text.ElideRight
-                    visible: text.length > 0
+                    visible: previewText.length > 0
+                    onLinkActivated: Qt.openUrlExternally(link)
                 }
 
                 Row {
