@@ -13,6 +13,18 @@ Page {
         anchors.fill: parent
         contentHeight: column.height + Theme.paddingLarge
 
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Sign out")
+                onClicked: {
+                    remorseLogout.execute(qsTr("Logging out"), function () {
+                        api.logout();
+                        pageStack.replace(Qt.resolvedUrl("LoginPage.qml"));
+                    });
+                }
+            }
+        }
+
         RemorsePopup {
             id: remorseLogout
         }
@@ -129,28 +141,6 @@ Page {
                         text: qsTr("1 hour")
                     }
                 }
-            }
-
-            Item {
-                width: 1
-                height: Theme.paddingLarge
-            }
-
-            Button {
-                x: Theme.horizontalPageMargin
-                width: parent.width - 2 * Theme.horizontalPageMargin
-                text: qsTr("Sign out")
-                onClicked: {
-                    remorseLogout.execute(qsTr("Logging out"), function () {
-                        api.logout();
-                        pageStack.replace(Qt.resolvedUrl("LoginPage.qml"));
-                    });
-                }
-            }
-
-            Item {
-                width: 1
-                height: Theme.paddingLarge * 2
             }
         }
     }
