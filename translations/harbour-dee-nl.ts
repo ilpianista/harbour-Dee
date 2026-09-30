@@ -119,7 +119,7 @@
     </message>
     <message>
         <source>Scaled</source>
-        <translation type="unfinished"></translation>
+        <translation>Geschaald</translation>
     </message>
     <message>
         <source>Subscribed</source>
@@ -201,7 +201,7 @@
     </message>
     <message>
         <source>Sent private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Privébericht verstuurd</translation>
     </message>
 </context>
 <context>
@@ -312,7 +312,7 @@
     <name>NsfwOverlay</name>
     <message>
         <source>NSFW</source>
-        <translation type="unfinished"></translation>
+        <translation>NSFW</translation>
     </message>
 </context>
 <context>
@@ -385,31 +385,31 @@
     <name>PrivateMessagePage</name>
     <message>
         <source>Sent private message</source>
-        <translation type="unfinished"></translation>
+        <translation>Privébericht verstuurd</translation>
     </message>
     <message>
         <source>Private message</source>
-        <translation type="unfinished">Privébericht</translation>
+        <translation>Privébericht</translation>
     </message>
     <message>
         <source>To %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Aan %1</translation>
     </message>
     <message>
         <source>From %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Van %1</translation>
     </message>
     <message>
         <source>Write a reply…</source>
-        <translation type="unfinished"></translation>
+        <translation>Schrijf een antwoord…</translation>
     </message>
     <message>
         <source>Sending…</source>
-        <translation type="unfinished"></translation>
+        <translation>Wordt verstuurd…</translation>
     </message>
     <message>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Versturen</translation>
     </message>
 </context>
 <context>
@@ -499,23 +499,23 @@
     </message>
     <message>
         <source>Feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Feed</translation>
     </message>
     <message>
         <source>Full size media</source>
-        <translation type="unfinished"></translation>
+        <translation>Media op volledige schermbreedte</translation>
     </message>
     <message>
         <source>Show post images at full width instead of small thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Toon afbeeldingen in posts over de volledige schermbreedte, in plaats van in kleine miniatuurweergaven</translation>
     </message>
     <message>
         <source>No NSFW in feed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geen NSFW in feed</translation>
     </message>
     <message>
         <source>Blur thumbnails of posts marked NSFW</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniatuurweergaven van NSFW-posts vertroebelen</translation>
     </message>
     <message>
         <source>Default home listing</source>
