@@ -23,6 +23,7 @@ Page {
     readonly property var threadColors: [Theme.highlightColor, Theme.secondaryHighlightColor, Theme.primaryColor, Theme.secondaryColor]
     property var collapsedIds: ({})
     property var visibleComments: []
+    property int _scrollCommentId: 0
 
     function loadComments() {
         api.listComments(JSON.stringify({
@@ -85,6 +86,34 @@ Page {
         rebuildVisible();
     }
 
+    function scrollToComment(id) {
+        if (!id)
+            return true;
+
+        for (var i = 0; i < visibleComments.length; i++) {
+            if (visibleComments[i].commentData.id !== id)
+                continue;
+
+            var item = commentsRepeater.itemAt(i);
+            if (!item)
+                return false;
+
+            var pos = item.mapToItem(flickable.contentItem, 0, 0);
+            var viewTop = flickable.contentY;
+            var viewHeight = flickable.height;
+            var itemTop = pos.y;
+            var itemBottom = pos.y + item.height;
+
+            if (itemTop < viewTop || item.height > viewHeight) {
+                flickable.contentY = Math.max(0, itemTop - Theme.paddingLarge);
+            } else if (itemBottom > viewTop + viewHeight) {
+                flickable.contentY = Math.min(flickable.contentHeight - viewHeight, itemBottom - viewHeight + Theme.paddingLarge);
+            }
+            return true;
+        }
+        return false;
+    }
+
     Component.onCompleted: {
         appWindow.commentSort = api.commentSort;
         api.getPost(postId);
@@ -104,6 +133,8 @@ Page {
     }
 
     SilicaFlickable {
+        id: flickable
+
         anchors.fill: parent
         contentHeight: col.height + Theme.paddingLarge
 
@@ -338,6 +369,8 @@ Page {
             }
 
             Repeater {
+                id: commentsRepeater
+
                 model: visibleComments
 
                 delegate: Item {
@@ -500,7 +533,26 @@ Page {
             } else if (method === "likeComment") {
                 Utils.applyCommentViewResult(result, api);
             } else if (method === "createComment") {
+                var created = (result.comment_view || {}).comment || {};
+                page._scrollCommentId = created.id || 0;
                 refresh();
+                scrollTimer.restart();
+            }
+        }
+    }
+
+    Timer {
+        id: scrollTimer
+
+        interval: 100
+        repeat: true
+        property int attempts: 0
+
+        onTriggered: {
+            if (scrollToComment(page._scrollCommentId) || ++attempts >= 50) {
+                page._scrollCommentId = 0;
+                attempts = 0;
+                stop();
             }
         }
     }
