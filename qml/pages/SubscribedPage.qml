@@ -296,7 +296,6 @@ Page {
                         height: parent.height
                         fillMode: Image.PreserveAspectFit
                         imageUrl: post.thumbnail_url || ""
-                        onClicked: delegate.openPost()
                     }
 
                     NsfwOverlay {
@@ -420,7 +419,6 @@ Page {
                     verticalCenter: parent.verticalCenter
                     rightMargin: Theme.paddingMedium
                 }
-                onClicked: delegate.openPost()
             }
 
             NsfwOverlay {
