@@ -8,11 +8,12 @@ Name:       harbour-dee
 Summary:    A Lemmy client
 Version:    0.0.13
 Release:    1
-License:    LICENSE
+License:    MIT
 URL:        https://github.com/ilpianista/harbour-dee
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
 Requires:   sailfishsecretsdaemon-secretsplugins-default
+Requires:   sailfish-components-webview-qt5
 BuildRequires:  openssl-devel
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)

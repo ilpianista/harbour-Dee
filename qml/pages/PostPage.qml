@@ -7,6 +7,8 @@ import "../lib/Utils.js" as Utils
 Page {
     id: page
 
+    allowedOrientations: Orientation.All
+
     property var api
     property string community
     property int postId
