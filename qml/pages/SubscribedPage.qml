@@ -205,6 +205,12 @@ Page {
             property var community: postData.community || {}
             property var counts: postData.counts || {}
             property int myVote: postData.my_vote ? postData.my_vote : 0
+            // Do not read Item.visible for layout: it is the effective
+            // visibility and turns false while the page is covered on the
+            // stack, which collapses the row heights and shifts the scroll
+            // position.
+            readonly property bool showFullMedia: AppSettings.fullSizeMediaEnabled && !!post.thumbnail_url
+            readonly property bool showThumbnail: !!post.thumbnail_url && !AppSettings.fullSizeMediaEnabled
 
             menu: contextMenu
             contentHeight: contentColumn.height + 2 * Theme.paddingMedium
@@ -233,7 +239,7 @@ Page {
                 id: contentColumn
 
                 x: Theme.horizontalPageMargin
-                width: parent.width - 2 * Theme.horizontalPageMargin - (thumbnail.visible ? thumbnail.width + Theme.paddingMedium : 0)
+                width: parent.width - 2 * Theme.horizontalPageMargin - (delegate.showThumbnail ? thumbnail.width + Theme.paddingMedium : 0)
                 spacing: Theme.paddingSmall
 
                 Item {
@@ -280,9 +286,9 @@ Page {
 
                 Item {
                     id: fullMediaBox
-                    visible: AppSettings.fullSizeMediaEnabled && !!post.thumbnail_url
+                    visible: delegate.showFullMedia
                     width: parent.width
-                    height: visible ? width * 3 / 4 : 0
+                    height: delegate.showFullMedia ? width * 3 / 4 : 0
 
                     Rectangle {
                         anchors.fill: parent
@@ -414,7 +420,7 @@ Page {
             Thumbnail {
                 id: thumbnail
                 imageUrl: post.thumbnail_url || ""
-                visible: !!post.thumbnail_url && !AppSettings.fullSizeMediaEnabled
+                visible: delegate.showThumbnail
                 anchors {
                     right: parent.right
                     verticalCenter: parent.verticalCenter
@@ -425,7 +431,7 @@ Page {
 
             NsfwOverlay {
                 anchors.fill: thumbnail
-                visible: thumbnail.visible && !!post.nsfw && AppSettings.blurNsfwEnabled
+                visible: delegate.showThumbnail && !!post.nsfw && AppSettings.blurNsfwEnabled
             }
         }
     }
