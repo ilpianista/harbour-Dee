@@ -5,7 +5,6 @@ Image {
     id: thumbnail
 
     property url imageUrl
-    property bool interactive: true
 
     width: Theme.iconSizeLarge
     height: Theme.iconSizeLarge
@@ -28,12 +27,4 @@ Image {
         if (status === Image.Error)
             console.warn("Failed to load thumbnail:", imageUrl);
     }
-
-    MouseArea {
-        anchors.fill: parent
-        enabled: thumbnail.interactive && !!imageUrl
-        onClicked: thumbnail.clicked()
-    }
-
-    signal clicked
 }
