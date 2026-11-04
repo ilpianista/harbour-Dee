@@ -4,7 +4,9 @@ A [Lemmy](https://join-lemmy.org/) client for [Sailfish OS](https://sailfishos.o
 
 ## Install
 
-Install via Jolla Store or [OpenRepos](https://openrepos.net/content/ilpianista/dee).
+Install via Jolla Store or Harpoon:
+
+[![Add to Harpoon](add-to-harpoon.png)](https://github.com/JuhaniLehtimaeki/Harpoon)
 
 ## Translations
 
