@@ -1,3 +1,8 @@
+* Wed Nov 04 2026 Andrea Scarpino <andrea@scarpino.dev> 0.0.15-1
+- Allow to upvote/downvote item with full size media (thanks @sznowicki).
+- Fix X-HarbourBackup key path.
+- Translations update.
+
 * Thu Oct 01 2026 Andrea Scarpino <andrea@scarpino.dev> 0.0.13-1
 - Support Local and All feeds
 - Allow to open links in comments
