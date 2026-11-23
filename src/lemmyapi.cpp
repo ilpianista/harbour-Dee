@@ -17,6 +17,32 @@
 #include <functional>
 
 // ===================================================================
+// Content filtering helpers
+// ===================================================================
+
+namespace {
+
+// Returns true when the nested content object (e.g. "post" or "comment")
+// was deleted by its author or removed by a moderator/admin.
+bool isHiddenContent(const QJsonObject &item, const QString &key) {
+  const QJsonObject content = item.value(key).toObject();
+  return content.value(QStringLiteral("deleted")).toBool(false) ||
+         content.value(QStringLiteral("removed")).toBool(false);
+}
+
+QJsonArray filterHiddenContent(const QJsonArray &items, const QString &key) {
+  QJsonArray filtered;
+  for (const QJsonValue &value : items) {
+    const QJsonObject item = value.toObject();
+    if (!isHiddenContent(item, key))
+      filtered.append(item);
+  }
+  return filtered;
+}
+
+} // namespace
+
+// ===================================================================
 // LemmyWorker implementation
 // ===================================================================
 
@@ -976,7 +1002,8 @@ void LemmyAPI::onListPostsFinished(const QString &json) {
   if (!m_loadingMore && m_posts) {
     m_posts->clear();
   }
-  QJsonArray newPosts = obj.value(QStringLiteral("posts")).toArray();
+  QJsonArray newPosts = filterHiddenContent(
+      obj.value(QStringLiteral("posts")).toArray(), QStringLiteral("post"));
   if (m_posts) {
     m_posts->append(newPosts);
   }
@@ -1006,7 +1033,9 @@ void LemmyAPI::onListCommentsFinished(const QString &json) {
     emit requestFailed(QStringLiteral("listComments"), m_error);
     return;
   }
-  QJsonArray newComments = obj.value(QStringLiteral("comments")).toArray();
+  QJsonArray newComments =
+      filterHiddenContent(obj.value(QStringLiteral("comments")).toArray(),
+                          QStringLiteral("comment"));
 
   if (m_loadingMoreComments) {
     // Append new items to accumulated list
