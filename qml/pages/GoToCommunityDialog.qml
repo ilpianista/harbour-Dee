@@ -96,6 +96,7 @@ Page {
                 var cv = result.community_view;
                 if (cv && cv.community) {
                     pageStack.replace(Qt.resolvedUrl("SubscribedPage.qml"), {
+                        "api": api,
                         "communityId": cv.community.id,
                         "pageTitle": cv.community.title || cv.community.name
                     });

@@ -31,6 +31,10 @@
         <source>posts</source>
         <translation>inlägg</translation>
     </message>
+    <message>
+        <source>Inbox</source>
+        <translation type="unfinished">Inkorg</translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
@@ -202,6 +206,10 @@
     <message>
         <source>Sent private message</source>
         <translation>Skickat privata meddelanden</translation>
+    </message>
+    <message>
+        <source>Communities</source>
+        <translation type="unfinished">Gemenskaper</translation>
     </message>
 </context>
 <context>
@@ -524,10 +532,6 @@
 </context>
 <context>
     <name>SubscribedPage</name>
-    <message>
-        <source>Communities</source>
-        <translation>Gemenskaper</translation>
-    </message>
     <message>
         <source>Refresh</source>
         <translation>Uppdatera</translation>

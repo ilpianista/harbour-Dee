@@ -31,6 +31,10 @@
         <source>posts</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Inbox</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
@@ -201,6 +205,10 @@
     </message>
     <message>
         <source>Sent private message</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Communities</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -524,10 +532,6 @@
 </context>
 <context>
     <name>SubscribedPage</name>
-    <message>
-        <source>Communities</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Refresh</source>
         <translation type="unfinished"></translation>

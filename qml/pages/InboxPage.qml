@@ -22,6 +22,13 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: qsTr("Communities")
+                onClicked: pageStack.animatorPush(Qt.resolvedUrl("CommunitiesPage.qml"), {
+                    "api": api
+                })
+            }
+
+            MenuItem {
                 text: qsTr("Home")
                 onClicked: {
                     var home = pageStack.find(function (p) {
@@ -29,6 +36,10 @@ Page {
                     });
                     if (home && home !== page)
                         pageStack.pop(home);
+                    else if (!home)
+                        pageStack.animatorPush(Qt.resolvedUrl("SubscribedPage.qml"), {
+                            "api": api
+                        });
                 }
             }
 

@@ -6,6 +6,7 @@ import "../lib/Utils.js" as Utils
 Page {
     id: page
 
+    property var api
     property int communityId: 0
     property string pageTitle: ""
     property string listingType: ""
@@ -70,8 +71,6 @@ Page {
     PostsModel {
         id: posts
     }
-
-    property var api: appWindow.api
 
     Component.onCompleted: {
         api.setPostsModel(posts);
@@ -141,26 +140,6 @@ Page {
             MenuItem {
                 text: qsTr("Inbox") + (api.unreadCount > 0 ? " (" + api.unreadCount + ")" : "")
                 onClicked: pageStack.animatorPush(Qt.resolvedUrl("InboxPage.qml"), {
-                    "api": api
-                })
-                visible: communityId === 0
-            }
-
-            MenuItem {
-                text: qsTr("Home")
-                visible: communityId > 0
-                onClicked: {
-                    var home = pageStack.find(function (p) {
-                        return p.communityId === 0;
-                    });
-                    if (home && home !== page)
-                        pageStack.pop(home);
-                }
-            }
-
-            MenuItem {
-                text: qsTr("Communities")
-                onClicked: pageStack.animatorPush(Qt.resolvedUrl("CommunitiesPage.qml"), {
                     "api": api
                 })
                 visible: communityId === 0

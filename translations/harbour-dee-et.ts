@@ -31,6 +31,10 @@
         <source>posts</source>
         <translation>postitust</translation>
     </message>
+    <message>
+        <source>Inbox</source>
+        <translation type="unfinished">Sisendkaust</translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
@@ -202,6 +206,10 @@
     <message>
         <source>Sent private message</source>
         <translation>Saada privaatne sõnum</translation>
+    </message>
+    <message>
+        <source>Communities</source>
+        <translation type="unfinished">Kogukonnad</translation>
     </message>
 </context>
 <context>
@@ -524,10 +532,6 @@
 </context>
 <context>
     <name>SubscribedPage</name>
-    <message>
-        <source>Communities</source>
-        <translation>Kogukonnad</translation>
-    </message>
     <message>
         <source>Refresh</source>
         <translation>Laadi uuesti</translation>

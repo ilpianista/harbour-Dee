@@ -5,9 +5,10 @@ import harbour.dee 1.0
 Page {
     id: page
 
-    property var api
+    property var api: appWindow.api
+    property bool redirectToHome: false
 
-    function showHome(listingType) {
+    function showHome(listingType, immediate) {
         var home = pageStack.find(function (p) {
             return p.communityId === 0;
         });
@@ -16,18 +17,48 @@ Page {
             home.refresh();
             pageStack.pop(home);
         } else {
-            pageStack.animatorPush(Qt.resolvedUrl("SubscribedPage.qml"), {
+            var properties = {
+                "api": api,
                 "listingType": listingType
-            });
+            };
+            if (immediate)
+                pageStack.push(Qt.resolvedUrl("SubscribedPage.qml"), properties, PageStackAction.Immediate);
+            else
+                pageStack.animatorPush(Qt.resolvedUrl("SubscribedPage.qml"), properties);
         }
     }
 
-    allowedOrientations: Orientation.All
-    Component.onCompleted: {
+    function refreshCommunities() {
         api.listCommunities(JSON.stringify({
             "type_": "Subscribed",
             "limit": 50
         }));
+    }
+
+    allowedOrientations: Orientation.All
+    onStatusChanged: {
+        if (status === PageStatus.Active && redirectToHome) {
+            redirectToHome = false;
+            homeRedirectTimer.start();
+        }
+    }
+
+    Timer {
+        id: homeRedirectTimer
+
+        interval: 0
+        repeat: false
+        onTriggered: {
+            // Go Home first so the posts request is queued ahead of the
+            // communities one (the native worker handles requests serially).
+            page.showHome(AppSettings.defaultListingType, true);
+            page.refreshCommunities();
+        }
+    }
+
+    Component.onCompleted: {
+        if (!redirectToHome)
+            refreshCommunities();
     }
 
     SilicaListView {
@@ -43,6 +74,13 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: qsTr("Inbox") + (api.unreadCount > 0 ? " (" + api.unreadCount + ")" : "")
+                onClicked: pageStack.animatorPush(Qt.resolvedUrl("InboxPage.qml"), {
+                    "api": api
+                })
+            }
+
+            MenuItem {
                 text: qsTr("Go to community")
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("GoToCommunityDialog.qml"), {
@@ -53,10 +91,7 @@ Page {
 
             MenuItem {
                 text: qsTr("Refresh")
-                onClicked: api.listCommunities(JSON.stringify({
-                    "type_": "Subscribed",
-                    "limit": 50
-                }))
+                onClicked: page.refreshCommunities()
             }
         }
 
@@ -122,6 +157,7 @@ Page {
             onClicked: {
                 var community = modelData.community || {};
                 pageStack.animatorPush(Qt.resolvedUrl("SubscribedPage.qml"), {
+                    "api": api,
                     "communityId": community.id,
                     "pageTitle": community.title || community.name
                 });

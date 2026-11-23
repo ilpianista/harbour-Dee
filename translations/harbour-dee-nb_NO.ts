@@ -31,6 +31,10 @@
         <source>posts</source>
         <translation>innlegg</translation>
     </message>
+    <message>
+        <source>Inbox</source>
+        <translation type="unfinished">Innboks</translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
@@ -202,6 +206,10 @@
     <message>
         <source>Sent private message</source>
         <translation>Sendt privat melding</translation>
+    </message>
+    <message>
+        <source>Communities</source>
+        <translation type="unfinished">Nettfellesskap</translation>
     </message>
 </context>
 <context>
@@ -524,10 +532,6 @@
 </context>
 <context>
     <name>SubscribedPage</name>
-    <message>
-        <source>Communities</source>
-        <translation>Nettsamfunn</translation>
-    </message>
     <message>
         <source>Refresh</source>
         <translation>Last på nytt</translation>

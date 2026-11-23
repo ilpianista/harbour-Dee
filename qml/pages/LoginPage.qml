@@ -19,7 +19,9 @@ Page {
         id: replaceTimer
 
         interval: 0
-        onTriggered: pageStack.replace(Qt.resolvedUrl("SubscribedPage.qml"))
+        onTriggered: pageStack.replace(Qt.resolvedUrl("CommunitiesPage.qml"), {
+            "redirectToHome": true
+        })
         repeat: false
     }
 
@@ -149,7 +151,9 @@ Page {
 
     Connections {
         target: appWindow.api
-        onLoginSuccess: pageStack.replace(Qt.resolvedUrl("SubscribedPage.qml"))
+        onLoginSuccess: pageStack.replace(Qt.resolvedUrl("CommunitiesPage.qml"), {
+            "redirectToHome": true
+        })
         onLoginFailed: {}
     }
 }
