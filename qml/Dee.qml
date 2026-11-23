@@ -141,7 +141,7 @@ ApplicationWindow {
         ]
         onClicked: {
             appWindow.activate();
-            pageStack.animatorPush(Qt.resolvedUrl("InboxPage.qml"), {
+            pageStack.animatorPush(Qt.resolvedUrl("pages/InboxPage.qml"), {
                 "api": api
             });
         }
