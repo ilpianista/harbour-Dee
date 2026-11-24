@@ -33,7 +33,7 @@
     </message>
     <message>
         <source>Inbox</source>
-        <translation type="unfinished">Innboks</translation>
+        <translation>Innboks</translation>
     </message>
 </context>
 <context>
@@ -209,7 +209,7 @@
     </message>
     <message>
         <source>Communities</source>
-        <translation type="unfinished">Nettfellesskap</translation>
+        <translation>Nettfellesskap</translation>
     </message>
 </context>
 <context>
