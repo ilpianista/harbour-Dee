@@ -33,7 +33,7 @@
     </message>
     <message>
         <source>Inbox</source>
-        <translation type="unfinished">Sisendkaust</translation>
+        <translation>Sisendkaust</translation>
     </message>
 </context>
 <context>
@@ -209,7 +209,7 @@
     </message>
     <message>
         <source>Communities</source>
-        <translation type="unfinished">Kogukonnad</translation>
+        <translation>Kogukonnad</translation>
     </message>
 </context>
 <context>
